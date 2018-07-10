@@ -1,0 +1,28 @@
+<!--pages/index/index.wxml-->
+<view class='wrapper'>
+  <image class='movie-image' mode='aspectFill' src='{{movieDetail.image}}'></image>
+
+  <view class='polygon-wrapper'>
+    <image class='btn-add-comment' src='../../image/add_comment.svg' bindtap='onTapNavigator' data-type='addComment'></image>
+    <view class='movie-score'>{{movieDetail.score}}</view>
+    <view class='movie-detail'>
+      <view class='movie-name'>{{movieDetail.title}}</view>
+      <view class='user-wrapper'>
+        <image class='user-image' src='{{commentDetail.userImage}}'></image>
+        <view class='user-text'>{{commentDetail.userName}}给你推荐了一部电影</view>
+      </view>
+    </view>
+  </view>
+
+  <view class='navigator-bar flex-center'>
+    <view class='btn-navigator flex-center' bindtap='onTapNavigator' data-type='hotMovie'>
+      <image class='icon-navigator' src='../../image/hot.svg'></image>
+      <view class='text-navigator'>热门</view>
+    </view>
+    <view class='btn-navigator flex-center' bindtap='onTapNavigator' data-type='me'>
+      <image class='icon-navigator' src='../../image/me.svg'></image>
+      <view class='text-navigator'>我的</view>
+    </view>
+  </view>
+</view>
+

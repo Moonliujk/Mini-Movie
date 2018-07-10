@@ -1,0 +1,148 @@
+/* pages/movie_comment/movie_comment.wxss */
+.comment-list {
+  width: 700rpx;
+  margin: 0 auto;
+}
+
+.blur {
+  filter: blur(3px);
+}
+
+.comment-wrapper {
+  box-sizing: border-box;
+  width: 95%;
+  height: 180rpx;
+  border-radius: 90rpx;
+  box-shadow: 0 4rpx 15rpx rgba(52, 33, 88, 0.5);
+  padding: 15rpx 35rpx;
+  margin: 30rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.user-info {
+  width: 350rpx;
+  height: 120rpx;
+}
+
+.user-image {
+  box-sizing: border-box;
+  border: 5rpx solid #342158;
+  padding: 15rpx;
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+
+.user-name {
+  width: 100%;
+  color: #342158;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  margin-bottom: 15rpx;
+}
+
+.user-comment {
+  font-size: 40rpx;
+  color: #342158;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.btn-comment-collection {
+  width: 70rpx;
+  height: 70rpx;
+  padding: 15rpx;
+  opacity: 0.6;
+}
+
+/* 弹出框样式设计 */
+
+.modal-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  width: 600rpx;
+  border-radius: 50rpx;
+  background-color: white;
+  box-shadow: 0 4rpx 15rpx 0 rgba(0, 0, 0, 0.6);
+}
+
+.movie-name {
+  font-size: 40rpx;
+  text-align: left;
+  line-height: 80rpx;
+  padding: 15rpx 0;
+  padding-left: 30rpx;
+  margin: 0 30rpx 10rpx;
+  border-bottom: 1px solid red;
+}
+
+.comment-detail-wrapper {
+  margin-top: 20rpx;
+  padding: 0 30rpx;
+  position: relative;
+}
+
+.comment-detail-user {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.comment-detail-image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-left: 30rpx;
+}
+
+.comment-detail-name {
+  margin-left: 20rpx;
+  color: #342158;
+}
+
+.comment-detail-text-wrapper {
+  height: 400rpx;
+  margin-top: 20rpx;
+  font-size: 40rpx;
+  color: #342158;
+  text-indent: 80rpx;
+}
+
+.comment-detail-text {
+  position: relative;
+  padding-top: 20rpx;
+}
+
+.comment-detail-text::before {
+  content: '“';
+  font-size: 150rpx;
+  width: 150rpx;
+  height: 150rpx;
+  line-height: 150rpx;
+  text-indent: 0;
+  font-family: '黑体';
+  position: absolute;
+  left: 0rpx;
+  top: 10rpx;
+}
+
+.like-icon {
+  display: block;
+  margin: 10rpx auto 20rpx;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}

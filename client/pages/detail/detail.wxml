@@ -1,0 +1,23 @@
+<!--pages/detail/detail.wxml-->
+<view class='header-wrapper'>
+  <image src='{{movieDetail.image}}' class='header-image' mode='aspectFill'></image>
+  <image src='{{movieDetail.thumbnail}}' class='header-thumbnail' mode='aspectFill'></image>
+</view>
+
+<view class='movie-detail-wrapper'>
+  <view class='movie-info'>
+    <text class='movie-title {{movieDetail.title.length>9 ? "text-small" : ""}}'>{{movieDetail.title}}</text>
+    <text class='movie-score'>{{movieDetail.score}}</text>
+  </view>
+  <view class='movie-detail'>{{movieDetail.year}}  ·  {{movieDetail.category}}</view>
+</view>
+
+<view class='movie-description-wrapper'>
+  <view class='movie-description {{isShowAll ? "show-all" : ""}}'>{{movieDetail.description}}</view>
+  <view class='btn-movie-detail {{isShowAll ? "btn-show" : ""}}' bindtap='onTapShowDetail'>{{isShowAll ? "收" : "展"}}</view>
+</view>
+
+<view class='btn-group'>
+  <view class='btn-see-comment btn' bindtap='onTapHandleComment' data-type='showComment'>查看影评</view>
+  <view class='btn-add-comment btn' bindtap='onTapHandleComment' data-type='addComment'>添加影评</view>
+</view>

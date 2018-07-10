@@ -1,0 +1,20 @@
+<!--pages/hot_movie/hot_movie.wxml-->
+<view class='movie-list-wrapper'>
+  <view x-scroll='false' class="movie-list" style='transform: translateX( {{movieDistance}}rpx)' bindtouchstart="touchStart" bindtouchend="touchEnd">
+
+    <view class="nav-item {{classArray[index] ? classArray[index] : ''}}" wx:for="{{movieData}}" data-index="{{index}}">
+      <image class='movie-image' src='{{item.image}}' mode='aspectFill'></image>
+      <view class='movie-info'>
+        <view class='movie-title {{item.title.length>9 ? "text-small" : ""}}'>{{item.title}}</view>
+        <view class='movie-type'>{{item.category}}</view>
+      </view>
+      <view class='movie-detail' catchtap='onTapNavigateTo' data-id='{{item.id}}'>电影详情</view>
+    </view>
+  </view>
+</view>
+
+
+<view class='movie-description-wrapper'>
+  <view class='item-title'>电影简介</view>
+  <text class='movie-desciprtion'>{{currentMovie.description}}</text>
+</view>

@@ -1,0 +1,130 @@
+/* pages/detail/detail.wxss */
+.header-wrapper {
+  position: relative;
+  width: 750rpx;
+}
+
+.header-image {
+  display: block;
+  width: 750rpx;
+  height: 400rpx;
+  filter: blur(3rpx) contrast(0.8) brightness(0.8);
+}
+
+.header-thumbnail {
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300rpx;
+  height: 300rpx;
+  border: 12rpx solid white;
+  border-radius: 50%;
+}
+
+.movie-detail-wrapper {
+  margin: 170rpx 100rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #342158;
+  font-weight: bold;
+}
+
+.movie-title {
+  margin-right: 20rpx;
+  font-size: 50rpx;
+}
+
+.movie-title.text-small {
+  font-size: 35rpx;
+}
+
+.movie-score {
+  padding: 0 20rpx;
+  border-radius: 8rpx;
+  font-size: 35rpx;
+  /*background-color: #fcd451;*/
+  background-color: #fb2d2d;
+  color: white;
+}
+
+.movie-detail {
+  margin-top: 5rpx;
+  white-space: pre;
+  text-align: center;
+  font-size: 20rpx;
+  color: #342158;
+  opacity: 0.7;
+}
+
+.movie-description-wrapper {
+  margin: 20rpx 70rpx 0;
+
+}
+
+.movie-description {
+  font-size: 28rpx;
+  line-height: 2;
+  color: #342158;
+  -webkit-line-clamp: 5; /* 设置超出多少行隐藏 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* 设置 display 为 -webkit-box 或者 -webkit-inline-box 时为隐藏状态 */
+  display: -webkit-inline-box;
+}
+
+.movie-description.show-all {
+  display: block;
+}
+
+.btn-movie-detail {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 5rpx 0;
+  margin: auto;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  height: 54rpx;
+  width: 54rpx;
+  color: #fb2d2d;
+  background-color: white;
+  border: 2px solid #fb2d2d;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.btn-movie-detail.btn-show {
+  border-color: transparent;
+}
+
+.btn-group {
+  margin-top: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 100rpx;
+}
+
+.btn-group .btn {
+  box-sizing: border-box;
+  color: #342158;
+  line-height: 66rpx;
+  height: 70rpx;
+  width: 280rpx;
+  font-size: 35rpx;
+  text-align: center;
+  border: 2rpx solid #342158;
+  border-radius: 35rpx;
+}
+
+.btn-group .btn:first-child {
+  margin-right: 40rpx;
+}
