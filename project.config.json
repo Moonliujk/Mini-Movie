@@ -23,7 +23,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
@@ -47,6 +47,12 @@
 					"id": -1,
 					"name": "电影列表展示",
 					"pathName": "pages/hot_movie/hot_movie",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑评论",
+					"pathName": "pages/edit_comment/edit_comment",
 					"query": ""
 				}
 			]

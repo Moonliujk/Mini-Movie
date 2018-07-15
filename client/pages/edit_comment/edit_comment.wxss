@@ -1,1 +1,341 @@
 /* pages/edit_comment/edit_comment.wxss */
+.movie-image {
+  width: 750rpx;
+  height: 450rpx;
+}
+
+/*评论编辑区样式---开始*/
+
+.comment-edit-wrapper {
+  width: 750rpx;
+}
+
+.comment-edit-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 85%;
+  height: 850rpx;
+  border-radius: 50rpx;
+  box-shadow: 3rpx 3rpx 15rpx 3rpx rgba(0, 0, 0, 0.1);
+  margin: -180rpx auto 0;
+  color: #342158;
+}
+
+.comment-placeholder {
+  color: rgba(29, 29, 38, 0.4);
+}
+
+.hide-text {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.comment-movie-title {
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 65rpx;
+  font-weight: bold;
+  margin: 15rpx auto;
+}
+
+.comment-edit {
+  position: relative;
+  flex-grow: 1;
+  width: 85%;
+}
+
+.audio-comment {
+  position: absolute;
+  top: 60%; left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.animation-bg {
+  position: relative;
+  margin: 30rpx auto;
+  width: 230rpx;
+  height: 230rpx;
+  border-radius: 50%;
+  background: #ffd251;
+}
+
+.animation-bg.recording {
+  background-image: linear-gradient(to right, transparent 50%, #342158 0);
+}
+
+.recording::before {
+  content: "";
+  position: absolute;
+  margin-left: 50%;
+  height: 100%; 
+  width: 50%;
+  background-color: inherit;
+  border-radius: 0 100% 100% 0/50%;
+  transform-origin: left;
+  animation: rotating 30s 2 linear,
+             bg 60s 1 step-end;
+}
+
+@keyframes rotating {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+
+@keyframes bg {
+  50% {
+    background: #342158;
+  }
+}
+
+.icon-taping {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 50%;
+  display: block;
+  width: 160rpx;
+  height: 160rpx;
+  padding: 20rpx;
+}
+
+.play-record-info {
+  text-align: center;
+  font-size: 35rpx;
+  margin-top: 30rp;
+  width: 300rpx;
+  line-height: 50rpx;
+  height: 50rpx;
+}
+
+.play-record-text {
+  width: 400rpx;
+  height: 100rpx;
+  font-size: 35rpx;
+  text-align: center;
+}
+
+.text-small {
+  font-size: 30rpx;
+}
+
+.showOver {
+  animation: flash 0.75s 2 ease-in-out;
+}
+
+@keyframes flash {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1
+  }
+}
+
+.btn-change-edit-way {
+  box-sizing: border-box;
+  font-size: 40rpx;
+  text-align: center;
+  width: 400rpx;
+  line-height: 76rpx;
+  height: 80rpx;
+  padding: 0 20rpx;
+  border: 2px solid #342158;
+  border-radius: 40rpx;
+  margin: 40rpx auto;
+}
+
+/*评论编辑区样式---结束*/
+
+/*底部按钮区样式---开始*/
+
+.btn-groups {
+  margin-top: 70rpx;
+  width: 750rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-groups .btn {
+  color: white;
+  text-align: center;
+  box-sizing: border-box;
+  width: 300rpx;
+  font-size: 35rpx;
+  line-height: 70rpx;
+  height: 70rpx;
+  background-color: #342158;
+  border-radius: 35rpx;
+  padding: 0 20rpx;
+}
+
+.btn-groups .btn:first-child {
+  margin-right: 50rpx;
+}
+
+/*底部按钮区样式---结束*/
+
+/*弹出框样式---开始*/
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  border-radius: 50rpx;
+  background-color: white;
+  box-shadow: 0 4rpx 15rpx 0 rgba(0, 0, 0, 0.6);
+  color: #342158;
+}
+
+.modal-title {
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 65rpx;
+  font-weight: bold;
+  margin: 15rpx auto;
+}
+
+.comment-detail-wrapper {
+  margin-top: 20rpx;
+  padding: 0 30rpx;
+  position: relative;
+}
+
+.comment-detail-user {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.user-image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-left: 30rpx;
+}
+
+.user-name {
+  margin-left: 20rpx;
+}
+
+.comment-detail-wrapper {
+  height: 400rpx;
+  margin-top: 20rpx;
+}
+
+.comment-detail-text-wrapper {
+  height: 100%;
+  font-size: 40rpx;
+  text-indent: 80rpx;
+}
+
+.comment-detail-audio-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.audio-bar {
+  position: relative;
+  margin-top: 70rpx;
+  width: 400rpx;
+  height: 100rpx;
+  border-left: 50rpx solid #ffd251;
+  border-right: 50rpx solid #ffd251;
+  border-radius: 50rpx;
+  background-color: #ffd251;
+}
+
+.audio-progress {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+}
+
+.btn-audio-control {
+  position: absolute;
+  width: 70rpx;
+  height: 70rpx;
+  top: 50%;
+}
+
+.btn-audio-close {
+  left: 0rpx;
+  transform: translate(-50%, -50%);
+}
+
+.btn-audio-pause,
+.btn-audio-play {
+  right: 0rpx;
+  transform: translate(50%, -50%);
+}
+
+.btn-audio-pause {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.comment-detail-text {
+  position: relative;
+  padding-top: 20rpx;
+}
+
+.comment-detail-text::before {
+  content: '“';
+  font-size: 150rpx;
+  width: 150rpx;
+  height: 150rpx;
+  line-height: 150rpx;
+  text-indent: 0;
+  font-family: '黑体';
+  position: absolute;
+  left: 0rpx;
+  top: 10rpx;
+}
+
+.modal-btn-group {
+  margin: 50rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn {
+  box-sizing: border-box;
+  font-size: 35rpx;
+  height: 60rpx;
+  line-height: 56rpx;
+  padding: 0 50rpx;
+  border: 2rpx solid #342158;
+  border-radius: 30rpx;
+}
+
+.modal-btn:first-child {
+  margin-right: 50rpx;
+}

@@ -64,7 +64,7 @@
 .modal-wrapper {
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 45%;
   transform: translate(-50%, -50%);
   width: 600rpx;
   border-radius: 50rpx;

@@ -149,6 +149,9 @@ Page({
         break
     }
 
+    wx.navigateTo({
+      url: `${pages}?movieid=${movieId}`,
+    })
     
   }
 })

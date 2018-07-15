@@ -1,2 +1,82 @@
 <!--pages/edit_comment/edit_comment.wxml-->
-<text>pages/edit_comment/edit_comment.wxml</text>
+<!--未登录，会出现登录授权界面-->
+
+<view wx:if="{{!userInfo}}">
+  <button open-type='getUserInfo'  bindgetuserinfo='onTapLogin'>登录</button>
+  <view bindtap='onTapBackTo'>返回</view>
+</view>
+<!--编辑页面-->
+<view wx:else>
+  <image src="{{movieDetail.image}}" mode='aspectFill' class='movie-image'></image>
+  <view class='comment-edit-wrapper'>
+    <view class='comment-edit-panel'>
+      <!--编辑面板-->
+      <view class='comment-movie-title'>{{movieDetail.title}}</view>
+      <view class='comment-edit'>
+        <!--文字评论-->
+        <view class='text-comment' wx:if="{{isEnterEdit}}">
+        <!--？？？？   添加条件判断是为了解决文字穿透问题，问题原因未知    ？？？？-->
+          <textarea wx:if="{{!isShowModal}}" class="comment" placeholder-class='comment-placeholder' placeholder='快来写出你的评价吧！' auto-focus maxlength='255' bindinput='onInput' value="{{userComment}}"></textarea>
+        </view>
+        <!--语音评论-->
+        <view class='audio-comment' bindtouchstart='onTapStartTaping' bindtouchend='onTapStopTaping' wx:else>
+          <view class="play-record-info {{isRecorderOver ? 'showOver' : ''}}">
+            {{recordInfo}}
+          </view>
+          <view class="animation-bg  {{isRecording ? 'recording' : '' }}">
+            <image src='../../image/taping.svg' class='icon-taping'></image>
+          </view>
+          <view>
+            <view class="play-record-text {{recordTxt.length>10 ? 'text-small' : '' }}">{{recordTxt}}</view>
+          </view>
+        </view>
+      </view>
+      <view class='btn-change-edit-way' bindtap='onTapChangeCommentWay'>
+        {{isEnterEdit? '转换为语音评论' : '转换为文字评论'}}
+      </view>
+    </view>
+    <!--编辑面板结束-->
+  </view>
+
+  <view class='btn-groups'>
+    <view class='btn-back btn' bindtap='onTapBackTo'>返回</view>
+    <view class='btn-preview btn' bindtap='onTapPreviewComment'>预览评论</view>
+  </view>
+
+</view>
+
+<!--背景遮罩-->
+<view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
+<!--评论预览弹出框-->
+<view class='modal-wrapper' wx:if='{{isShowModal}}'>
+  <view class='modal-title'>评论预览</view> 
+  <view class='comment-detail-wrapper'>
+    <view class='comment-detail-user'>
+      <image class='user-image' src='{{userInfo.avatarUrl}}'></image>
+      <view class='user-name'>{{userInfo.nickName}}</view>
+    </view>
+    <view class='comment-detail-wrapper'>
+      <!--文字评论-->
+      <scroll-view scroll-y="true" wx:if="{{isEnterEdit}}" class='comment-detail-text-wrapper'>
+        <view class='comment-detail-text'>{{userComment}}</view>
+      </scroll-view>
+      <!--语音评论-->
+      <view wx:else class='comment-detail-audio-wrapper'>
+        <view class='audio-bar'>
+          <progress class='audio-progress' 
+            stroke-width='6' 
+            percent="{{audioProgress}}" 
+            activeColor='#342158' backgroundColor='rgba(52, 33, 88, 0.3)' />
+          <image class='btn-audio-control btn-audio-close' src='../../image/close.svg'></image>
+          <image wx:if="{{isReplaying}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
+          <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='modal-btn-group'>
+    <view class='modal-btn'>重新编辑</view>
+    <view class='modal-btn'>发布评论</view>
+  </view>
+</view>
+
