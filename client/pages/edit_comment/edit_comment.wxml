@@ -81,7 +81,7 @@
   </view>
   <view class='modal-btn-group'>
     <view class='modal-btn' bindtap='onTapReedit'>重新编辑</view>
-    <view class='modal-btn'>发布评论</view>
+    <view class='modal-btn' bindtap='onTapSubmitComment'>发布评论</view>
   </view>
 </view>
 

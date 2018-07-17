@@ -8,7 +8,7 @@ let userInfo
  * ---修改编辑评论页的UI
  * ---
  * needToDo:
- * ---添加评论数据表，关联电影以及评论这两张表(!!!今晚完成)
+ * ---添加上传音频的命令
  * ---
  * ---添加预告片以及主题曲
  */
@@ -500,5 +500,49 @@ Page({
       willReplayingPause: false,  // 回访录音结束
       willReplayingOver: false, 
     })
-  }
+  },
+  /**
+   * 提交评论
+   */
+  onTapSubmitComment() {
+    let content = this.data.userComment
+    if (!content) return
+
+    qcloud.request({
+      url: config.service.addComment,
+      login: true,
+      method: 'PUT',
+      data: {
+        movie_id: this.data.movieDetail.id,
+        content: content,
+      },
+      success: res => {
+        wx.hideLoading()
+
+        let data = res.data
+
+        if (!data.code) {
+          wx.showToast({
+            title: '添加评论成功',
+          })
+          setTimeout(() => {
+            wx.navigateBack()
+          }, 1500)
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '添加评论失败',
+          })
+        }
+      },
+      fail: res => {
+        wx.hideLoading()
+        console.log(res)
+        wx.showToast({
+          icon: 'none',
+          title: '发表评论失败',
+        })
+      }
+    })
+  },
 })

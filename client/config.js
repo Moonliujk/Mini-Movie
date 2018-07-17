@@ -28,6 +28,9 @@ var config = {
 
         // 获取电影的详细信息
         movieDetail: `${host}/weapp/movie/`,
+
+        // 添加评论
+        addComment: `${host}/weapp/comment`,
     }
 };
 
