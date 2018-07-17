@@ -33,12 +33,19 @@
   visibility: hidden;
 }
 
-.comment-movie-title {
+.comment-edit-title {
   text-align: center;
   line-height: 100rpx;
   font-size: 65rpx;
   font-weight: bold;
   margin: 15rpx auto;
+}
+
+.movie-title {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+  font-weight: normal;
 }
 
 .comment-edit {
@@ -49,10 +56,8 @@
 
 .audio-comment {
   position: absolute;
-  top: 60%; left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +66,6 @@
 
 .animation-bg {
   position: relative;
-  margin: 30rpx auto;
   width: 230rpx;
   height: 230rpx;
   border-radius: 50%;
@@ -112,7 +116,7 @@
 .play-record-info {
   text-align: center;
   font-size: 35rpx;
-  margin-top: 30rp;
+  margin-bottom: 50rpx;
   width: 300rpx;
   line-height: 50rpx;
   height: 50rpx;
@@ -121,6 +125,7 @@
 .play-record-text {
   width: 400rpx;
   height: 100rpx;
+  margin-top: 50rpx;
   font-size: 35rpx;
   text-align: center;
 }
@@ -220,7 +225,7 @@
   margin: 15rpx auto;
 }
 
-.comment-detail-wrapper {
+.comment-wrapper {
   margin-top: 20rpx;
   padding: 0 30rpx;
   position: relative;
@@ -247,10 +252,17 @@
   margin-top: 20rpx;
 }
 
+.no-comment-info {
+  float: left;
+  color: rgba(29, 29, 38, 0.4);
+}
+
 .comment-detail-text-wrapper {
+  box-sizing: border-box;
   height: 100%;
   font-size: 40rpx;
   text-indent: 80rpx;
+  padding: 0 40rpx;
 }
 
 .comment-detail-audio-wrapper {
@@ -329,11 +341,11 @@
 .modal-btn {
   box-sizing: border-box;
   font-size: 35rpx;
-  height: 60rpx;
-  line-height: 56rpx;
-  padding: 0 50rpx;
-  border: 2rpx solid #342158;
-  border-radius: 30rpx;
+  height: 70rpx;
+  line-height: 64rpx;
+  padding: 0rpx 50rpx;
+  border: 3rpx solid #342158;
+  border-radius: 40rpx;
 }
 
 .modal-btn:first-child {

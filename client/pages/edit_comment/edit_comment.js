@@ -4,13 +4,12 @@ let userInfo
 /**
  * TODOlist
  * problem：
- * ---进度条在重新播放的时候会有闪烁（从100%回到当前位置）
- * ---退出后再次进入音频预览界面无法正常播放
- * ---从弹出框界面退回到评论编辑页面（音频），录音时间文字依旧闪烁，也需要重弄新更新文字
- *    信息
+ * ---进度条在继续播放时出现闪现
+ * ---修改编辑评论页的UI
+ * ---
  * needToDo:
- * ---添加评论数据表，关联电影以及评论这两张表
- * ---完成电影评论的显示
+ * ---添加评论数据表，关联电影以及评论这两张表(!!!今晚完成)
+ * ---
  * ---添加预告片以及主题曲
  */
 
@@ -29,26 +28,24 @@ Page({
   data: {
     userInfo: null,
     isLogin: false,
-    isEnterEdit: false,
+    isEnterEdit: false, // 选择文字评论
     isAudioSuccess: false,
     timeFlag: null,
-    currentTime: -1,
+    currentTime: -1, // 录音计时
     isRecording: false,
     isRecorderOver: false,
     isShowModal: false,  // 弹出框显示标记
     recordInfo: '点击图标开始录音',
     recordTxt: '未录音',
-    audioSrc: null,  // 音频文件
+    audioSrc: '',  // 音频文件
     userComment: '',  // 文字评论
     audioProgress: 0,  // 音频进度条显示
-    isReplaying: false,
-    isReplayingOver: false,  // 回访录音结束
+    willReplayingStart: true, // 音频回放初始状态
+    willReplay: false,
+    willReplayingPause: false,  // 回访录音结束
+    willReplayingOver: false, 
     audioDuration: 0,  // 录音总时长
-    movieDetail: {
-      id: 0,
-      title: '壁花少年',
-      image: 'https://movie-1256948132.cos.ap-beijing.myqcloud.com/p1874816818.jpg',
-    },
+    movieDetail: {},
   },
 
   /**
@@ -253,20 +250,51 @@ Page({
    * 录音结束
    */
   onTapStopTaping() {
+    let self = this
     recorderManager.stop()
 
     recorderManager.onStop((res) => {
       console.log('recorder stop', res)
-      const { tempFilePath } = res
+      let duration = res.duration
+      if (duration > 3000) {  // 判断录音时长是否满足要求
+        let { tempFilePath } = res
 
-      this.setData({
-        audioSrc: tempFilePath,
-        isAudioSuccess: true,
-        isRecording: false,
-        isRecorderOver: true,
-        // recordInfo: `重新录制`,
-        recordTxt: '录音结束，点击预览评论可查看已录制音频',
-      })
+        this.setData({
+          audioSrc: tempFilePath,
+          isAudioSuccess: true,
+          isRecording: false,
+          isRecorderOver: true,
+          recordTxt: '录音结束，点击预览评论可查看已录制音频',
+        })
+
+        setTimeout(() => {
+          self.setData({
+            recordInfo: '重新录制',
+            isRecorderOver: false,
+          })
+        }, 1800)
+      } else {
+        wx.showToast({
+          title: '录音时长过短',
+          icon: 'none',
+        })
+
+        this.setData({
+          isAudioSuccess: true,
+          isRecording: false,
+          isRecorderOver: true,
+          recordTxt: '未录音',
+        })
+
+        setTimeout(() => {
+          self.setData({
+            recordInfo: '点击图标开始录音',
+            isRecorderOver: false,
+          })
+        }, 1800)
+
+      }
+      
     })
   },
   /**
@@ -280,7 +308,7 @@ Page({
     if (method === 'taping') {  // 录音截止
       isTimerOver = this.data.isRecorderOver
     } else if (method === 'replay') {  // 回放录音截止
-      isTimerOver = this.data.isReplayingOver
+      isTimerOver = this.data.willReplayingPause || this.data.willReplayingOver
     }
 
     if (timeFlag) {
@@ -337,21 +365,39 @@ Page({
   onTapPlayRecord() {
     let audioSrc = this.data.audioSrc
     let self = this
+    let audioProgress = this.data.audioProgress
 
-    if (audioSrc && this.data.audioDuration === 0) {
+    if (audioSrc && this.data.willReplayingStart) {
+      console.log('1')
       innerAudioContext.src = this.data.audioSrc
       innerAudioContext.startTime = 0
       innerAudioContext.play() // 开始播放
       console.log('开始播放', '总时长：'+innerAudioContext.duration)
       // 播放开始
       this.setData({
-        isReplaying: true,
-        audioProgress: 0,
+        willReplayingStart: false,
+        willReplay: true,
+        willReplayingPause: false,
+        willReplayingOver: false,
       })
 
       // 音频结束时调用的事件
       innerAudioContext.onEnded(() => {
-        self.onTapPauseRecord()
+        // self.onTapPauseRecord()
+        console.log('音频播放结束')
+        self.setData({
+          audioProgress: 100,
+          willReplayingOver: true,
+          willReplayingStart: true,
+        })
+        // 音频图标转换，准备第二次播放
+        setTimeout(() => {
+          innerAudioContext.offEnded()
+          self.setData({
+            audioProgress: 0,
+            willReplay: false,
+          })
+        }, 300)
       })
       // 更新音频duration
       innerAudioContext.onTimeUpdate(() => {
@@ -373,8 +419,8 @@ Page({
       innerAudioContext.play()
 
       this.setData({
-        isReplaying: true,
-        isReplayingOver: false,
+        willReplay: true,
+        willReplayingPause: false,
       })
 
       // 执行进度条计算
@@ -389,20 +435,26 @@ Page({
     innerAudioContext.pause()
     console.log('录音暂停', '总时长：' + innerAudioContext.duration, '当前时长：' +innerAudioContext.currentTime)
     this.setData({
-      isReplaying: false,
-      isReplayingOver: true,
-      audioProgress: 100,
+      willReplay: false,
+      willReplayingPause: true,
     })
   },
   /**
    * 回放录音进度条计算
    */
   audioProgress() {
-    let audioProgress = (innerAudioContext.currentTime / this.data.audioDuration) * 100
+    let audioDuration = this.data.audioDuration
+    audioDuration = audioDuration === 0 ? 1 : audioDuration
+
+    let audioProgress = (innerAudioContext.currentTime / audioDuration) * 100
     console.log(audioProgress)
+    /* Problem: 由于timer函数在结束开关打开后会默认多执行一步功能函数，
+     * 导致在重新开始后，进度条会出现100%闪现
+    */
     this.setData({
       audioProgress,
     })
+
   },
   /**
    * 输入评论
@@ -421,11 +473,32 @@ Page({
     })
   },
   /**
+   * 重新编辑评论
+   */
+  onTapReedit() {
+    // 如果重新编辑音频，则原音频文件销毁
+    if (!this.data.isEnterEdit) {
+      this.setData({
+        // 音频相关信息初始化
+        audioSrc: '',
+        recordInfo: '点击图标开始录音',
+        recordTxt: '未录音',
+      })
+    }
+
+    this.onTapHiddenModal() 
+  },
+  /**
    * 隐藏弹出层
    */
   onTapHiddenModal() {
     this.setData({
       isShowModal: false,
+      // 回放音频部分参数初始化
+      willReplayingStart: true, // 音频回放初始状态
+      willReplay: false,
+      willReplayingPause: false,  // 回访录音结束
+      willReplayingOver: false, 
     })
   }
 })

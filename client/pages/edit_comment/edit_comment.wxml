@@ -11,19 +11,22 @@
   <view class='comment-edit-wrapper'>
     <view class='comment-edit-panel'>
       <!--编辑面板-->
-      <view class='comment-movie-title'>{{movieDetail.title}}</view>
+      <view class='comment-edit-title'>
+        <view>编辑评论</view>
+        <view class='movie-title'>{{movieDetail.title}}</view>
+      </view>
       <view class='comment-edit'>
         <!--文字评论-->
         <view class='text-comment' wx:if="{{isEnterEdit}}">
-        <!--？？？？   添加条件判断是为了解决文字穿透问题，问题原因未知    ？？？？-->
           <textarea wx:if="{{!isShowModal}}" class="comment" placeholder-class='comment-placeholder' placeholder='快来写出你的评价吧！' auto-focus maxlength='255' bindinput='onInput' value="{{userComment}}"></textarea>
         </view>
         <!--语音评论-->
-        <view class='audio-comment' bindtouchstart='onTapStartTaping' bindtouchend='onTapStopTaping' wx:else>
+        <view class='audio-comment'wx:else>
           <view class="play-record-info {{isRecorderOver ? 'showOver' : ''}}">
             {{recordInfo}}
           </view>
-          <view class="animation-bg  {{isRecording ? 'recording' : '' }}">
+          <view class="animation-bg  {{isRecording ? 'recording' : '' }}"
+           bindtouchstart='onTapStartTaping' bindtouchend='onTapStopTaping' >
             <image src='../../image/taping.svg' class='icon-taping'></image>
           </view>
           <view>
@@ -50,7 +53,7 @@
 <!--评论预览弹出框-->
 <view class='modal-wrapper' wx:if='{{isShowModal}}'>
   <view class='modal-title'>评论预览</view> 
-  <view class='comment-detail-wrapper'>
+  <view class='comment-wrapper'>
     <view class='comment-detail-user'>
       <image class='user-image' src='{{userInfo.avatarUrl}}'></image>
       <view class='user-name'>{{userInfo.nickName}}</view>
@@ -58,24 +61,26 @@
     <view class='comment-detail-wrapper'>
       <!--文字评论-->
       <scroll-view scroll-y="true" wx:if="{{isEnterEdit}}" class='comment-detail-text-wrapper'>
-        <view class='comment-detail-text'>{{userComment}}</view>
+        <view wx:if="{{!userComment}}" class='no-comment-info'>快去添加文字评论吧！</view>
+        <view class='comment-detail-text' wx:else>{{userComment}}</view>
       </scroll-view>
       <!--语音评论-->
       <view wx:else class='comment-detail-audio-wrapper'>
-        <view class='audio-bar'>
+        <view wx:if="{{!audioSrc}}" class='no-comment-info'>快去添加语音评论吧！</view>
+        <view class='audio-bar' wx:else>
           <progress class='audio-progress' 
             stroke-width='6' 
             percent="{{audioProgress}}" 
             activeColor='#342158' backgroundColor='rgba(52, 33, 88, 0.3)' />
           <image class='btn-audio-control btn-audio-close' src='../../image/close.svg'></image>
-          <image wx:if="{{isReplaying}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
+          <image wx:if="{{willReplay}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
           <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord'></image>
         </view>
       </view>
     </view>
   </view>
   <view class='modal-btn-group'>
-    <view class='modal-btn'>重新编辑</view>
+    <view class='modal-btn' bindtap='onTapReedit'>重新编辑</view>
     <view class='modal-btn'>发布评论</view>
   </view>
 </view>
