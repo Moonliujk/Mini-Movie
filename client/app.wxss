@@ -11,3 +11,22 @@ page {
   align-items: center;
   box-sizing: border-box;
 } 
+
+.header {
+  height: 150rpx;
+  background-color: white;
+}
+
+.icon-back-to {
+  float: left;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.page-name {
+  margin: auto;
+  text-align: center;
+  color: black;
+  font-size: 30rpx;
+  line-height: 150rpx;
+}

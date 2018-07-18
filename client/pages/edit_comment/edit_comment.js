@@ -6,10 +6,11 @@ let userInfo
  * problem：
  * ---进度条在继续播放时出现闪现
  * ---修改编辑评论页的UI
- * ---
+ * ---用户名字中带有emoji，会报错
+ * ---电影详情页，模糊图片的边缘要清晰化
  * needToDo:
- * ---添加上传音频的命令
- * ---
+ * ---在文字评论中，可以添加表情
+ * ---在录音页面可以添加时间信息
  * ---添加预告片以及主题曲
  */
 
@@ -100,8 +101,6 @@ Page({
   
   },
   getMovieInfo(movieId) {
-    movieId = 2
-
     wx.showLoading({
       title: '加载电影信息...',
     })
@@ -505,8 +504,24 @@ Page({
    * 提交评论
    */
   onTapSubmitComment() {
-    let content = this.data.userComment
-    if (!content) return
+    let content
+
+    if (this.data.isEnterEdit) {
+      content = this.data.userComment    // 上传文字评论
+    } else {
+      content = this.data.audioSrc    // 上传语音评论
+    }
+
+    if (!content) {
+      wx.showModal({
+        title: '错误',
+        content: '请先编辑评论，然后再提交',
+      })
+    }    // 没有评论，不进行处理
+
+    wx.showLoading({
+      title: '评论上传中...',
+    })
 
     qcloud.request({
       url: config.service.addComment,
@@ -544,5 +559,26 @@ Page({
         })
       }
     })
+
+     /* wx.uploadFile({
+        url: config.service.uploadUrl,
+        filePath: this.data.audioSrc,
+        name: 'file',
+        success: res => {
+          let data = JSON.parse(res.data)
+          length--
+
+          if (!data.code) {
+            images.push(data.data.imgUrl)
+          }
+
+          if (length <= 0) {
+            cb && cb(images)
+          }
+        },
+        fail: () => {
+          length--
+        }
+      })*/ 
   },
 })

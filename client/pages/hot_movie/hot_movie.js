@@ -82,7 +82,7 @@ Page({
   // 开始滑动
   touchStart(e) {
     console.log(e)
-    //e.preventDefault()
+    // e.preventDefault()
     touch[0] = e.touches[0].clientX
   },
   touchEnd(e) {

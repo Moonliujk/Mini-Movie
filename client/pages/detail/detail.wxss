@@ -7,7 +7,7 @@
 .header-image {
   display: block;
   width: 750rpx;
-  height: 400rpx;
+  height: 450rpx;
   filter: blur(3rpx) contrast(0.8) brightness(0.8);
 }
 

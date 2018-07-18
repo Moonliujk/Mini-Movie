@@ -7,7 +7,7 @@ module.exports = {
    */
   add: async ctx => {
     let user = ctx.state.$wxInfo.userinfo.openId
-    let username = '112'
+    let username = ctx.state.$wxInfo.userinfo.nickName
     let avatar = ctx.state.$wxInfo.userinfo.avatarUrl
 
     let movieId = +ctx.request.body.movie_id

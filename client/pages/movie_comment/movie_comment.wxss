@@ -13,7 +13,7 @@
   width: 95%;
   height: 180rpx;
   border-radius: 90rpx;
-  box-shadow: 0 4rpx 15rpx rgba(52, 33, 88, 0.5);
+  box-shadow: 0 5rpx 20rpx 0rpx rgba(0, 0, 0, 0.3);
   padding: 15rpx 35rpx;
   margin: 30rpx auto;
   display: flex;

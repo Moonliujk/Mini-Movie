@@ -1,4 +1,9 @@
 <!--pages/movie_comment/movie_comment.wxml-->
+<view class='header'>
+  <image class='icon-back-to'></image>
+  <view class='page-name'>热门电影</view>
+</view>
+
 <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}'>
   <view wx:for='{{commentList}}' wx:for-item='user' class='comment-wrapper' bindtap='onTapShowComment'>
     <image src='{{user.image}}' class='user-image'></image>

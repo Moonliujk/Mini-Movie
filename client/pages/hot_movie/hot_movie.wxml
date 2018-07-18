@@ -1,4 +1,9 @@
 <!--pages/hot_movie/hot_movie.wxml-->
+<view class='header'>
+  <image class='icon-back-to'></image>
+  <view class='page-name'>热门电影</view>
+</view>
+
 <view class='movie-list-wrapper'>
   <view x-scroll='false' class="movie-list" style='transform: translateX( {{movieDistance}}rpx)' bindtouchstart="touchStart" bindtouchend="touchEnd">
 
