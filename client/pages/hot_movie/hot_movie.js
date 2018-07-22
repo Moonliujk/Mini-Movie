@@ -19,7 +19,7 @@ Page({
     testCurrentNav: 0,
     currentIndex: 0,
     currentMovie: {},
-    movieAnimationData: '',
+    // movieAnimationData: '',
     movieDistance: 0,
     classArray: ['active', 'next'], // 定义class数组，存放样式class，
   },
@@ -80,62 +80,49 @@ Page({
   
   },
   // 开始滑动
-  touchStart(e) {
+  onTouchStart(e) {
     console.log(e)
-    // e.preventDefault()
+
     touch[0] = e.touches[0].clientX
   },
-  touchEnd(e) {
+  // 结束滑动
+  onTouchEnd(e) {
     touch[1] = e.changedTouches[0].clientX;
     if (touch[0] - touch[1] > 5) {
-      this.swipNext();
+      this.addClassName('left');
     } else if (touch[1] - touch[0] > 5) {
-      this.swipPrev();
+      this.addClassName('right');
     }
   },
-  // 向左滑动
-  swipNext() {
+  addClassName(direction) {
     let currentIndex = this.data.currentIndex
     let currentMovie = {}
     let movieData = this.data.movieData
     let length = movieData.length
-    if (++currentIndex >= length) return
+    let classArray = new Array(length)
 
-    let classArray = new Array(length);
+    if (direction === 'left') {  // 向左滑动
+      if (++currentIndex >= length) return
 
-    classArray[currentIndex] = 'active';
-    classArray[currentIndex-1] = 'prev';
-    if (currentIndex + 1 < length) {
-      classArray[currentIndex + 1] = 'next';
-    }
-    currentMovie = movieData[currentIndex]
-
-    this.move('left')
-
-    this.setData({
-      currentIndex,
-      classArray,
-      currentMovie,
-    })
-  },
-  // 向右滑动
-  swipPrev() {
-    let currentIndex = this.data.currentIndex
-    let currentMovie = {}
-    let movieData = this.data.movieData
-    let length = movieData.length
-    if (--currentIndex < 0) return
-
-    let classArray = new Array(length);
-
-    if (currentIndex - 1 >= 0) {
+      classArray[currentIndex] = 'active';
       classArray[currentIndex - 1] = 'prev';
-    }
-    classArray[currentIndex] = 'active';
-    classArray[currentIndex + 1] = 'next';
-    currentMovie = movieData[currentIndex]
+      if (currentIndex + 1 < length) {
+        classArray[currentIndex + 1] = 'next';
+      }
 
-    this.move('right')
+    } else if (direction === 'right') {  // 向右滑动
+      if (--currentIndex < 0) return
+
+      if (currentIndex - 1 >= 0) {
+        classArray[currentIndex - 1] = 'prev';
+      }
+      classArray[currentIndex] = 'active';
+      classArray[currentIndex + 1] = 'next';
+
+    }
+
+    currentMovie = movieData[currentIndex]
+    this.moveCard(direction)
 
     this.setData({
       currentIndex,
@@ -144,11 +131,7 @@ Page({
     })
   },
   // 创建平移动画
-  move(direction) {
-    let animation = wx.createAnimation({
-      duration: 500,
-      timingFunction: 'ease',
-    })
+  moveCard(direction) {
     let currentIndex = this.data.currentIndex + 1
     let movieDistance = this.data.movieDistance
 
@@ -158,12 +141,7 @@ Page({
       movieDistance += 549
     }
 
-    //let movie = movieDistance + 'rpx'
-
-    animation.left(movieDistance + 'rpx').step()
-
     this.setData({
-      movieAnimationData: animation.export(),
       movieDistance
     })
   },

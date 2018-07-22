@@ -142,7 +142,7 @@ Page({
 
     switch(type) {
       case 'showComment':
-        pages += 'moive_comment/moive_comment'
+        pages += 'movie_comment/movie_comment'
         break
       case 'addComment':
         pages += 'edit_comment/edit_comment'

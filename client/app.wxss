@@ -13,7 +13,9 @@ page {
 } 
 
 .header {
-  height: 150rpx;
+  position: fixed;
+  width: 750rpx;
+  height: 120rpx;
   background-color: white;
 }
 
@@ -24,9 +26,11 @@ page {
 }
 
 .page-name {
+  position: absolute;
+  left: 50%; bottom: 25rpx;
+  transform: translateX(-50%);
   margin: auto;
   text-align: center;
   color: black;
   font-size: 30rpx;
-  line-height: 150rpx;
 }

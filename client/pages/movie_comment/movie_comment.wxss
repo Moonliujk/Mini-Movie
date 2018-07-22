@@ -1,7 +1,19 @@
 /* pages/movie_comment/movie_comment.wxss */
+.bg-color {
+  z-index: 100;
+  background-color: #342158;
+}
+
+.bg-color .page-name {
+  color: #fff;
+}
+
 .comment-list {
+  position: absolute;
+  top: 120rpx;
+  left: 50%;
+  transform: translateX(-50%);
   width: 700rpx;
-  margin: 0 auto;
 }
 
 .blur {
@@ -10,53 +22,109 @@
 
 .comment-wrapper {
   box-sizing: border-box;
-  width: 95%;
-  height: 180rpx;
-  border-radius: 90rpx;
-  box-shadow: 0 5rpx 20rpx 0rpx rgba(0, 0, 0, 0.3);
-  padding: 15rpx 35rpx;
-  margin: 30rpx auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  height: 250rpx;
+  padding: 0 35rpx;
 }
 
 .user-info {
-  width: 350rpx;
-  height: 120rpx;
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
 }
 
 .user-image {
   box-sizing: border-box;
-  border: 5rpx solid #342158;
-  padding: 15rpx;
-  width: 120rpx;
-  height: 120rpx;
+  width: 60rpx;
+  height: 60rpx;
   margin-right: 20rpx;
   border-radius: 50%;
 }
 
 .user-name {
-  width: 100%;
+  flex-grow: 1;
   color: #342158;
   font-size: 28rpx;
   line-height: 40rpx;
-  margin-bottom: 15rpx;
-}
-
-.user-comment {
-  font-size: 40rpx;
-  color: #342158;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .btn-comment-collection {
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.6;
+}
+
+.user-comment {
+  margin-left: 80rpx;
+  margin-right: 30rpx;
+}
+
+.user-comment-text {
+  min-height: 100rpx;
+  width: 100%;
+  font-size: 30rpx;
+  color: #342158;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 3; /* 设置超出多少行隐藏 */
+  -webkit-box-orient: vertical;
+  /* 设置 display 为 -webkit-box 或者 -webkit-inline-box 时为隐藏状态 */
+  display: -webkit-inline-box;
+}
+
+/*语音评论样式设计*/
+.audio-bar {
+  position: relative;
+  margin-top: 15rpx;
+  width: 400rpx;
+  height: 100rpx;
+  border-left: 50rpx solid #ffd251;
+  border-right: 50rpx solid #ffd251;
+  border-radius: 50rpx;
+  background-color: #ffd251;
+}
+
+.audio-progress {
+  position: absolute;
+  top: 50%; right: 0;
+  transform: translateY(-50%);
+  width: 87%;
+}
+
+.btn-audio-control {
+  position: absolute;
   width: 70rpx;
   height: 70rpx;
-  padding: 15rpx;
-  opacity: 0.6;
+  top: 50%;
+}
+
+.btn-audio-pause,
+.btn-audio-play {
+  left: 0rpx;
+  transform: translate(-50%, -50%);
+}
+
+.btn-audio-pause {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+/* 语音评论样式设计结束 */
+
+.btn-write-comment {
+  box-sizing: border-box;
+  position: fixed;
+  left: 50%; bottom: 80rpx;
+  transform: translateX(-50%);
+  color: #342158;
+  width: 300rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #fff;
+  border-radius: 40rpx;
+  margin: 10rpx;
+  text-align: center;
+  box-shadow: 5rpx 8rpx 20rpx 5rpx rgba(0, 0, 0, 0.3);
 }
 
 /* 弹出框样式设计 */

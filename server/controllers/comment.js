@@ -26,7 +26,7 @@ module.exports = {
     let movietId = +ctx.request.query.movie_id
 
     if (!isNaN(movietId)) {
-      ctx.state.data = await DB.query('select * from comment where comment.movie_id = ?', [movietId])
+      ctx.state.data = await DB.query('select * from movie_comment where movie_comment.movie_id = ?', movietId)
     } else {
       ctx.state.data = []
     }

@@ -1,31 +1,48 @@
 <!--pages/movie_comment/movie_comment.wxml-->
-<view class='header'>
+<view class='header bg-color'>
   <image class='icon-back-to'></image>
-  <view class='page-name'>热门电影</view>
+  <view class='page-name'>{{movieDetail.title}}</view>
 </view>
 
-<scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}'>
-  <view wx:for='{{commentList}}' wx:for-item='user' class='comment-wrapper' bindtap='onTapShowComment'>
-    <image src='{{user.image}}' class='user-image'></image>
-    <view class='user-info'>     
-      <view class='user-name'>{{user.name}}</view>
-      <view class='user-comment'>{{user.comment}}</view>
+
+  <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}'>
+    <view wx:for='{{commentList}}' wx:for-item='comment' class='comment-wrapper'>
+      <view class='user-info'>   
+        <image src='{{comment.avatar}}' class='user-image'></image>  
+        <view class='user-name'>{{comment.username}}</view>
+        <image class='btn-comment-collection' src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}'></image>
+      </view>
+
+      <view class='user-comment'>
+        <!--文字评论显示-->
+        <view class='user-comment-text' wx:if="{{comment.isTxt}}" bindtap='onTapShowComment'>{{comment.content}}</view>
+        <!--语音评论显示-->
+        <view wx:else class='audio-bar'>
+          <progress class='audio-progress' 
+            stroke-width='6' 
+            percent="{{audioProgress}}" 
+            activeColor='#342158' backgroundColor='rgba(52, 33, 88, 0.3)' />
+          <image wx:if="{{willReplay}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
+          <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord' data-index="{{index}}"></image>
+        </view>
+      </view>
+
     </view>
-    <image class='btn-comment-collection' src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}'></image>
-  </view>
-</scroll-view>
+  </scroll-view>
+
+<view class='btn-write-comment'>发表评论</view>
 
 <!--弹出层；电影评论详情-->
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
 <view class='modal-wrapper' wx:if='{{isShowModal}}'>
-  <view class='movie-name'>{{movieName}}</view> 
+  <view class='movie-name'>评论</view> 
   <view class='comment-detail-wrapper'>
     <view class='comment-detail-user'>
-      <image class='comment-detail-image' src='{{commentList[0].image}}'></image>
-      <view class='comment-detail-name'>{{commentList[0].name}}</view>
+      <image class='comment-detail-image' src='{{commentList[comment_id].avatar}}'></image>
+      <view class='comment-detail-name'>{{commentList[comment_id].name}}</view>
     </view>
     <scroll-view scroll-y="true" class='comment-detail-text-wrapper'>
-      <view class='comment-detail-text'>{{commentList[0].comment}}</view>
+      <view class='comment-detail-text'>{{commentList[comment_id].content}}</view>
     </scroll-view>
   </view>
   <image src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}' class='like-icon'></image>

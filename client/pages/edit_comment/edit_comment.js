@@ -9,9 +9,17 @@ let userInfo
  * ---用户名字中带有emoji，会报错
  * ---电影详情页，模糊图片的边缘要清晰化
  * needToDo:
+ * -------7.21-------------
+ * ---建立收藏评论表（包含id, collected_user, comment_id及create_time)
+ * ---玩成对与评论表以及收藏表的引用
+ * ---完善小程序内部各个按钮事件
+ * ------------------------
+ * ---语音评论无法打开弹窗，文字评论可以
  * ---在文字评论中，可以添加表情
  * ---在录音页面可以添加时间信息
- * ---添加预告片以及主题曲
+ * ---添加预告片（无法添加视频）以及主题曲
+ * ---可以添加收藏评论人数的展示，并进行排序
+ * ---评论列表可以添加楼中楼的评论
  */
 
 // 定义录音全局变量
@@ -53,7 +61,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let movieId = options.movieid
+    let movieId = options.movieid ? options.movieid : 2
 
     this.getMovieInfo(movieId)
   },
@@ -220,11 +228,11 @@ Page({
    */
   onTapStartTaping() {
     const options = {
-      duration: 60000,
+      duration: 60000,  // 最长录制一分钟
       sampleRate: 44100,
       numberOfChannels: 1,
       encodeBitRate: 192000,
-      format: 'aac',
+      format: 'mp3',
       frameSize: 50
     }
 
@@ -513,7 +521,7 @@ Page({
     }
 
     if (!content) {
-      wx.showModal({
+      return wx.showModal({
         title: '错误',
         content: '请先编辑评论，然后再提交',
       })
@@ -523,62 +531,111 @@ Page({
       title: '评论上传中...',
     })
 
-    qcloud.request({
-      url: config.service.addComment,
-      login: true,
-      method: 'PUT',
-      data: {
-        movie_id: this.data.movieDetail.id,
-        content: content,
-      },
-      success: res => {
-        wx.hideLoading()
-
-        let data = res.data
-
-        if (!data.code) {
-          wx.showToast({
-            title: '添加评论成功',
-          })
-          setTimeout(() => {
-            wx.navigateBack()
-          }, 1500)
-        } else {
-          wx.showToast({
-            icon: 'none',
-            title: '添加评论失败',
-          })
-        }
-      },
-      fail: res => {
-        wx.hideLoading()
-        console.log(res)
-        wx.showToast({
-          icon: 'none',
-          title: '发表评论失败',
-        })
-      }
-    })
-
-     /* wx.uploadFile({
-        url: config.service.uploadUrl,
-        filePath: this.data.audioSrc,
-        name: 'file',
+    if (this.data.isEnterEdit) {  // 提交文字评论
+      qcloud.request({
+        url: config.service.addComment,
+        login: true,
+        method: 'PUT',
+        data: {
+          movie_id: this.data.movieDetail.id,
+          content: content,
+        },
         success: res => {
-          let data = JSON.parse(res.data)
-          length--
+          wx.hideLoading()
+
+          let data = res.data
 
           if (!data.code) {
-            images.push(data.data.imgUrl)
-          }
-
-          if (length <= 0) {
-            cb && cb(images)
+            wx.showToast({
+              title: '添加评论成功',
+            })
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1500)
+          } else {
+            wx.showToast({
+              icon: 'none',
+              title: '添加评论失败',
+            })
           }
         },
-        fail: () => {
-          length--
+        fail: res => {
+          wx.hideLoading()
+          console.log(res)
+          wx.showToast({
+            icon: 'none',
+            title: '发表评论失败',
+          })
         }
-      })*/ 
+      })
+    } else {      // 提交语音评论
+      console.log('voice')
+      let audioPath = this.data.audioSrc
+      console.log(audioPath)
+      // 上传音频至存储桶
+      wx.uploadFile({
+        url: config.service.uploadUrl,
+        filePath: audioPath,
+        name: 'file',
+        header: {
+          'content-type': 'multipart/form-data'
+        },
+        success: res => {
+          console.log(res)
+          let data = JSON.parse(res.data)
+          console.log('data', data)
+
+          if (!data.code) {
+            qcloud.request({
+              url: config.service.addComment,
+              login: true,
+              method: 'PUT',
+              data: {
+                movie_id: this.data.movieDetail.id,
+                content: data,
+              },
+              success: res => {
+                wx.hideLoading()
+
+                let data = res.data
+
+                if (!data.code) {
+                  wx.showToast({
+                    title: '添加评论成功',
+                  })
+                  setTimeout(() => {
+                    wx.navigateBack()
+                  }, 1500)
+                } else {
+                  wx.showToast({
+                    icon: 'none',
+                    title: '添加评论失败',
+                  })
+                }
+              },
+              fail: res => {
+                wx.hideLoading()
+                console.log(res)
+                wx.showToast({
+                  icon: 'none',
+                  title: '发表评论失败',
+                })
+              }
+            })
+          } else {
+            wx.showToast({
+              icon: 'none',
+              title: '上传失败',
+            })
+          }
+        },
+        fail: res => {
+          wx.showToast({
+            title: '上传失败，请检查网络连接情况',
+          })
+          console.log(res)
+        }
+      }) 
+    }
   },
 })

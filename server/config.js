@@ -22,7 +22,7 @@ const CONF = {
         user: 'root',
         db: 'cAuth',
         pass: 'wxfcb93865ba163ec4',
-        char: 'utf8mb4'
+        char: 'utf8mb4_unicode_ci'
     },
 
     cos: {
@@ -34,7 +34,8 @@ const CONF = {
         // Bucket 名称
         fileBucket: 'movie-1256948132',
         // 文件夹
-        uploadFolder: 'recorder'
+        uploadFolder: 'recorder',
+        mimetypes: ['audio/x-aac', 'audio/mpeg', 'video/webm', 'audio/mpeg', 'audio/mp3', 'audio/m4a']
     },
 
     // 微信登录态有效期
