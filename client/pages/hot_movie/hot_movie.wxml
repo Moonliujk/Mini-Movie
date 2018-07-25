@@ -1,5 +1,5 @@
 <!--pages/hot_movie/hot_movie.wxml-->
-<view class='header'>
+<view class='header relative'>
   <image class='icon-back-to'></image>
   <view class='page-name'>热门电影</view>
 </view>

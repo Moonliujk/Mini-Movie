@@ -14,9 +14,9 @@ Page({
    */
   data: {
     movieDetail: {
-      id: 0,
+      /*id: 1,
       title: '壁花少年',
-      image: 'https://movie-1256948132.cos.ap-beijing.myqcloud.com/p1874816818.jpg',
+      image: 'https://movie-1256948132.cos.ap-beijing.myqcloud.com/p1874816818.jpg',*/
     },
     commentList: [
       /*{
@@ -40,8 +40,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options.movieid)
     let movieid = options.movieid ? options.movieid : 2
     this.getCommentList(movieid)
+    this.getMovieInfo(movieid)
   },
 
   /**
@@ -95,7 +97,7 @@ Page({
   /**
    * 获取评论列表
    */
-  getCommentList(movie_id) {
+  getCommentList(movieId) {
     wx.showLoading({
       title: '加载评论列表...',
     })
@@ -103,7 +105,7 @@ Page({
     qcloud.request({
       url: config.service.commentList,
       data: {
-        movie_id
+        movieId
       },
       success: res => {
         wx.hideLoading()
@@ -111,15 +113,18 @@ Page({
         let data = res.data;
 
         if (!data.code) {
+          let commentList = []
           // 数据处理，对于音频文件与非音频文件加以区分
-          let commentList = (data.data).map((item, index) => {
-            if (/^http:\/\/tmp/.test(item.content)) {
-              return {...item, isTxt: false}
-            } else {
-              return { ...item, isTxt: true}
-            }
-          })
-
+          if (data.data.length > 0) {
+            commentList = (data.data).map((item, index) => {
+              if (/^http:\/\/tmp/.test(item.content)) {
+                return { ...item, isTxt: false }
+              } else {
+                return { ...item, isTxt: true }
+              }
+            })
+          }
+          console.log('comment', commentList)
           this.setData({
             commentList
           })
@@ -289,4 +294,69 @@ Page({
       audioProgress,
     })
   },
+  /**
+   * 发表影评
+   */
+  onTapWriteComment() {
+    let movieId = this.data.movieDetail.id
+
+    wx.navigateTo({
+      url: `/pages/edit_comment/edit_comment?movieid=${movieId}`,
+    })
+  },
+  /**
+   * 获得电影详情
+   */
+  getMovieInfo(movieId) {
+    console.log(movieId)
+
+    wx.showLoading({
+      title: '加载电影信息...',
+    })
+
+    qcloud.request({
+      url: config.service.movieDetail + movieId,
+      success: res => {
+        wx.hideLoading()
+
+        let data = res.data
+        console.log(data)
+        if (!data.code) {
+          wx.showToast({
+            title: '加载成功'
+          })
+
+          this.setData({
+            movieDetail: data.data,
+            movieId
+          })
+        } else {
+          wx.showToast({
+            title: '加载失败',
+          })
+
+          setTimeout(() => {
+            wx.navigateTo({
+              url: '/pages/hot_movie/hot_movie',
+            })
+          }, 2000)
+        }
+      },
+      fail: res => {
+        wx.hideLoading()
+
+        console.log(res)
+
+        wx.showToast({
+          title: '加载失败',
+        })
+
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/hot_movie/hot_movie',
+          })
+        }, 2000)
+      }
+    })
+  }
 })

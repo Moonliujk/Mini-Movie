@@ -14,6 +14,7 @@ page {
 
 .header {
   position: fixed;
+  top: 0; left: 0;
   width: 750rpx;
   height: 120rpx;
   background-color: white;

@@ -23,7 +23,7 @@
 }
 
 .movie-detail-wrapper {
-  margin: 170rpx 100rpx 0;
+  margin: 200rpx 100rpx 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +57,7 @@
 }
 
 .movie-detail {
-  margin-top: 5rpx;
+  margin-top: 10rpx;
   white-space: pre;
   text-align: center;
   font-size: 20rpx;
@@ -66,7 +66,7 @@
 }
 
 .movie-description-wrapper {
-  margin: 20rpx 70rpx 0;
+  margin: 40rpx 70rpx 0;
 
 }
 

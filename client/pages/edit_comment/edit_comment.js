@@ -61,8 +61,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options.movieid)
     let movieId = options.movieid ? options.movieid : 2
-
+    console.log(movieId)
     this.getMovieInfo(movieId)
   },
   /**
@@ -229,9 +230,9 @@ Page({
   onTapStartTaping() {
     const options = {
       duration: 60000,  // 最长录制一分钟
-      sampleRate: 44100,
+      sampleRate: 8000,
       numberOfChannels: 1,
-      encodeBitRate: 192000,
+      encodeBitRate: 16000,
       format: 'mp3',
       frameSize: 50
     }
@@ -263,7 +264,7 @@ Page({
     recorderManager.onStop((res) => {
       console.log('recorder stop', res)
       let duration = res.duration
-      if (duration > 3000) {  // 判断录音时长是否满足要求
+      if (duration > 500) {  // 判断录音时长是否满足要求
         let { tempFilePath } = res
 
         this.setData({
@@ -587,11 +588,13 @@ Page({
    */
   uploadAudio() {
     let self = this
+    let audioSrc = this.data.audioSrc
+    console.log(audioSrc)
     console.log('voice')
 
     wx.uploadFile({
       url: config.service.uploadUrl,
-      filePath: this.data.audioSrc,
+      filePath: audioSrc,
       name: 'file',
       header: {
         'content-type': 'multipart/form-data'
@@ -604,7 +607,7 @@ Page({
 
         console.log('content', content)
 
-        if (!data.code && data.code !== -1) {   
+        if (!data.code) {   
           self.commentSubmitRequest(content)
         } else {
           wx.showToast({

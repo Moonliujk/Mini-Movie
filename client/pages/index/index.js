@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    movieId: 0,
+    movieId: 1,
     movieDetail: {},
     commentDetail: {
       userName: 'Leslie',
@@ -142,51 +142,21 @@ Page({
       case 'me':
         pages += 'me/me'
         break;
-      case 'coment':
-        pages += 'comment/comment'
-        break;
     }
 
-    if (type === 'comment') {
-      let movieId = this.data.movieId
+    // 重定向到相应页面
+    wx.navigateTo({
+      url: pages,
+    })
+  },
+  /**
+   * 跳转至评论页面
+   */
+  onTapCommentList() {
+    let movieId = this.data.movieId
 
-      wx.showLoading({
-        title: '正在跳转...',
-      })
-
-      wx.request({
-        url: pages,
-        data: {
-          id: movieId
-        },
-        success: res => {
-          wx.hideLoading()
-          let data = res.data
-
-          if (!data.code) {
-            wx.showToast({
-              title: '跳转成功',
-            })
-          } else {
-            wx.showToast({
-              title: '跳转失败',
-            })
-          }
-        },
-        fail: res => {
-          wx.hideLoading()
-
-          wx.showToast({
-            title: '跳转失败',
-          })
-          console.log(res)
-        }
-      })
-    } else {
-      // 重定向到相应页面
-      wx.navigateTo({
-        url: pages,
-      })
-    }
+    wx.navigateTo({
+      url: `/pages/movie_comment/movie_comment?movieid=${movieId}`,
+    })
   }
 })

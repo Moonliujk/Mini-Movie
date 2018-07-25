@@ -3,7 +3,7 @@
   <image class='movie-image' mode='aspectFill' src='{{movieDetail.image}}'></image>
 
   <view class='polygon-wrapper'>
-    <image class='btn-add-comment' src='../../image/add_comment.svg' bindtap='onTapNavigator' data-type='addComment'></image>
+    <image class='btn-add-comment' src='../../image/add_comment.svg' bindtap='onTapCommentList'></image>
     <view class='movie-score'>{{movieDetail.score}}</view>
     <view class='movie-detail'>
       <view class='movie-name'>{{movieDetail.title}}</view>

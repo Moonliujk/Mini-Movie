@@ -8,6 +8,18 @@
   color: #fff;
 }
 
+.no-comment {
+  color: gray;
+  font-style: italic;
+  font-size: 40rpx;
+  text-align: center;
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; 
+  height: 100%;
+  line-height: 100vh;
+}
+
 .comment-list {
   position: absolute;
   top: 120rpx;
