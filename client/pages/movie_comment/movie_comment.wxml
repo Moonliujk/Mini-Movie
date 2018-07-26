@@ -20,9 +20,10 @@
       <view wx:else class='audio-bar'>
         <progress class='audio-progress' 
           stroke-width='6' 
-          percent="{{audioProgress}}" 
-          activeColor='#342158' backgroundColor='rgba(52, 33, 88, 0.3)' />
-        <image wx:if="{{willReplay}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
+          percent="{{index === audioIndex ? audioProgress : 0}}" 
+          activeColor='#342158' 
+          backgroundColor='rgba(52, 33, 88, 0.3)' />
+        <image wx:if="{{willReplay && (index === audioIndex)}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
         <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord' data-index="{{index}}"></image>
       </view>
     </view>

@@ -23,7 +23,7 @@ module.exports = {
   * 获取评论列表
   */
   list: async ctx => {
-    let movietId = +ctx.request.query.movie_id
+    let movietId = +ctx.request.query.movieId
 
     if (!isNaN(movietId)) {
       ctx.state.data = await DB.query('select * from movie_comment where movie_comment.movie_id = ?', movietId)

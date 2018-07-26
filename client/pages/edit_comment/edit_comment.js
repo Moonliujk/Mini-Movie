@@ -8,6 +8,8 @@ let userInfo
  * ---修改编辑评论页的UI
  * ---用户名字中带有emoji，会报错
  * ---电影详情页，模糊图片的边缘要清晰化
+ * ---当上传音频按钮单击过快时，音频可能就会上传多次，需要解决
+ * ---在评论列表页，需要记录正在播放音频的编号，否则所有音频动画将重复播放
  * needToDo:
  * -------7.21-------------
  * ---建立收藏评论表（包含id, collected_user, comment_id及create_time)
@@ -264,7 +266,7 @@ Page({
     recorderManager.onStop((res) => {
       console.log('recorder stop', res)
       let duration = res.duration
-      if (duration > 500) {  // 判断录音时长是否满足要求
+      if (duration > 1500) {  // 判断录音时长是否满足要求
         let { tempFilePath } = res
 
         this.setData({

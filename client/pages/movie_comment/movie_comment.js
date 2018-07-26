@@ -28,6 +28,7 @@ Page({
     comment_id: 0,
     isShowModal: false,
     // 音频相关参数
+    audioSrc: null,
     audioProgress: 0,  // 音频进度条显示
     willReplayingStart: true, // 音频回放初始状态
     willReplay: false,
@@ -41,7 +42,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options.movieid)
-    let movieid = options.movieid ? options.movieid : 2
+    let movieid = options.movieid
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
   },
@@ -57,7 +58,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getCommentList(2)
+    // let movieId = this.data.movieDetail ? this.data.movieDetail.id : 1
+
+    // this.getCommentList(movieId)
   },
 
   /**
@@ -98,6 +101,7 @@ Page({
    * 获取评论列表
    */
   getCommentList(movieId) {
+    console.log('movieId', movieId)
     wx.showLoading({
       title: '加载评论列表...',
     })
@@ -114,10 +118,11 @@ Page({
 
         if (!data.code) {
           let commentList = []
+          console.log("data.data", data.data)
           // 数据处理，对于音频文件与非音频文件加以区分
           if (data.data.length > 0) {
             commentList = (data.data).map((item, index) => {
-              if (/^http:\/\/tmp/.test(item.content)) {
+              if (/^https:\/\/movie/.test(item.content)) {
                 return { ...item, isTxt: false }
               } else {
                 return { ...item, isTxt: true }
@@ -202,18 +207,21 @@ Page({
   onTapPlayRecord(e) {
     console.log(e)
     let audioIndex = e.currentTarget.dataset.index
-    let audioSrc = this.data.commentList[audioIndex].content
     let self = this
     let audioProgress = this.data.audioProgress
 
-    if (audioSrc && this.data.willReplayingStart) {
+    if (this.data.willReplayingStart) {
       console.log('1')
-      innerAudioContext.src = this.data.audioSrc
+      let audioSrc = this.data.commentList[audioIndex].content
+      console.log('audio src', audioSrc)
+      innerAudioContext.src = audioSrc
       innerAudioContext.startTime = 0
       innerAudioContext.play() // 开始播放
       console.log('开始播放', '总时长：' + innerAudioContext.duration)
       // 播放开始
       this.setData({
+        audioSrc,
+        audioIndex,
         willReplayingStart: false,
         willReplay: true,
         willReplayingPause: false,
