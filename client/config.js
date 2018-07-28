@@ -34,6 +34,15 @@ var config = {
 
         // 获取评论列表
         commentList: `${host}/weapp/comment`,
+
+        // 收藏评论
+        addCollected: `${host}/weapp/collect`,
+
+        // 获取收藏评论列表
+        collectedList: `${host}/weapp/collect`,
+
+        // 删除收藏评论
+        deleteCollected: `${host}/weapp/collect`,
     }
 };
 

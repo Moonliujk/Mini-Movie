@@ -10,12 +10,17 @@
     <view class='user-info'>   
       <image src='{{comment.avatar}}' class='user-image'></image>  
       <view class='user-name'>{{comment.username}}</view>
-      <image class='btn-comment-collection' src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}'></image>
+      <image 
+        class='btn-comment-collection' 
+        src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}'
+        bindtap='onTapCollectComment'
+        data-index="{{index}}"
+        wx:if="{{!commentList[index].isSelfComment}}"></image>
     </view>
 
     <view class='user-comment'>
       <!--文字评论显示-->
-      <view class='user-comment-text' wx:if="{{comment.isTxt}}" bindtap='onTapShowComment'>{{comment.content}}</view>
+      <view class='user-comment-text' wx:if="{{comment.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.content}}</view>
       <!--语音评论显示-->
       <view wx:else class='audio-bar'>
         <progress class='audio-progress' 
@@ -38,15 +43,17 @@
 <!--弹出层；电影评论详情-->
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
 <view class='modal-wrapper' wx:if='{{isShowModal}}'>
-  <view class='movie-name'>评论</view> 
+  <view class='modal-title'>评论</view> 
   <view class='comment-detail-wrapper'>
     <view class='comment-detail-user'>
-      <image class='comment-detail-image' src='{{commentList[comment_id].avatar}}'></image>
-      <view class='comment-detail-name'>{{commentList[comment_id].name}}</view>
+      <image class='comment-detail-image' src='{{commentList[commentId].avatar}}'></image>
+      <view class='comment-detail-name'>{{commentList[commentId].username}}</view>
     </view>
     <scroll-view scroll-y="true" class='comment-detail-text-wrapper'>
-      <view class='comment-detail-text'>{{commentList[comment_id].content}}</view>
+      <view class='comment-detail-text'>{{commentList[commentId].content}}</view>
     </scroll-view>
   </view>
-  <image src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}' class='like-icon'></image>
+  <view class='modal-btn-group'>
+    <view class='modal-btn' bindtap='onTapCollectComment'>收藏评论</view>
+  </view>
 </view>

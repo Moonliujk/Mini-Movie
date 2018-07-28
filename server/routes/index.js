@@ -43,6 +43,15 @@ router.get('/movie/:id', controllers.movie.detail)
 router.post('/comment', validationMiddleware, controllers.comment.add)
 
 // 获取评论列表
-router.get('/comment', controllers.comment.list)
+router.get('/comment', validationMiddleware, controllers.comment.list)
+
+// POST 添加收藏
+router.post('/collect', validationMiddleware, controllers.collect.add)
+
+// GET 获取收藏列表
+router.get('/collect', validationMiddleware, controllers.collect.list)
+
+// DELETE 删除收藏评论
+router.delete('/collect', validationMiddleware, controllers.collect.remove)
 
 module.exports = router

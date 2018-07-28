@@ -34,7 +34,7 @@
 
 .comment-wrapper {
   box-sizing: border-box;
-  height: 250rpx;
+  height: 220rpx;
   padding: 0 35rpx;
 }
 
@@ -78,7 +78,7 @@
   color: #342158;
   text-overflow: ellipsis;
   overflow: hidden;
-  -webkit-line-clamp: 3; /* 设置超出多少行隐藏 */
+  -webkit-line-clamp: 2; /* 设置超出2行隐藏 */
   -webkit-box-orient: vertical;
   /* 设置 display 为 -webkit-box 或者 -webkit-inline-box 时为隐藏状态 */
   display: -webkit-inline-box;
@@ -87,7 +87,6 @@
 /*语音评论样式设计*/
 .audio-bar {
   position: relative;
-  margin-top: 15rpx;
   width: 400rpx;
   height: 100rpx;
   border-left: 50rpx solid #ffd251;
@@ -142,24 +141,22 @@
 /* 弹出框样式设计 */
 
 .modal-wrapper {
+  color: #342158;
   position: absolute;
-  left: 50%;
-  top: 45%;
+  left: 50%; top: 45%;
   transform: translate(-50%, -50%);
-  width: 600rpx;
+  width: 80%;
   border-radius: 50rpx;
   background-color: white;
   box-shadow: 0 4rpx 15rpx 0 rgba(0, 0, 0, 0.6);
 }
 
-.movie-name {
-  font-size: 40rpx;
-  text-align: left;
-  line-height: 80rpx;
-  padding: 15rpx 0;
-  padding-left: 30rpx;
-  margin: 0 30rpx 10rpx;
-  border-bottom: 1px solid red;
+.modal-title {
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 65rpx;
+  font-weight: bold;
+  margin: 15rpx auto;
 }
 
 .comment-detail-wrapper {
@@ -182,11 +179,10 @@
 
 .comment-detail-name {
   margin-left: 20rpx;
-  color: #342158;
 }
 
 .comment-detail-text-wrapper {
-  height: 400rpx;
+  height: 420rpx;
   margin-top: 20rpx;
   font-size: 40rpx;
   color: #342158;
@@ -211,11 +207,21 @@
   top: 10rpx;
 }
 
-.like-icon {
-  display: block;
-  margin: 10rpx auto 20rpx;
-  width: 100rpx;
-  height: 100rpx;
+.modal-btn-group {
+  margin: 30rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn {
+  box-sizing: border-box;
+  font-size: 40rpx;
+  height: 80rpx;
+  line-height: 74rpx;
+  padding: 0rpx 70rpx;
+  border: 3rpx solid #342158;
+  border-radius: 40rpx;
 }
 
 .overlay {

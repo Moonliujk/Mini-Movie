@@ -25,7 +25,8 @@ Page({
         comment: '真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！',
       }*/
     ],
-    comment_id: 0,
+    collectComment: [],
+    commentId: 0,
     isShowModal: false,
     // 音频相关参数
     audioSrc: null,
@@ -117,18 +118,8 @@ Page({
         let data = res.data;
 
         if (!data.code) {
-          let commentList = []
+          let commentList = data.data
           console.log("data.data", data.data)
-          // 数据处理，对于音频文件与非音频文件加以区分
-          if (data.data.length > 0) {
-            commentList = (data.data).map((item, index) => {
-              if (/^https:\/\/movie/.test(item.content)) {
-                return { ...item, isTxt: false }
-              } else {
-                return { ...item, isTxt: true }
-              }
-            })
-          }
           console.log('comment', commentList)
           this.setData({
             commentList
@@ -158,11 +149,11 @@ Page({
    */
   onTapShowComment(e) {
     let isShowModal = !this.data.isShowModal
-    let comment_id = e.currentTarget.dataset.index
+    let commentId = e.currentTarget.dataset.index
 
     this.setData({
       isShowModal,
-      comment_id
+      commentId
     })
   },
   /**
@@ -366,5 +357,81 @@ Page({
         }, 2000)
       }
     })
+  },
+  /**
+   * 收藏评论：post请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
+   */
+  onTapCollectComment(e) {
+    let index = e.currentTarget.dataset.index
+    let self = this
+    console.log(this.data.commentList, index)
+    // 是否收藏评论
+    /*let commentCollected = collectComment.some((item) => {
+      return item[comment_id] === commentList[index]
+    })*/
+    qcloud.request({
+      url: config.service.addCollected,
+      method: 'POST',
+      data: {
+        commentId: this.data.commentList[index].id
+      },
+      success: (res) => {
+        let data = res.data
+        if (!data.code) {
+          wx.showToast({
+            title: '收藏成功',
+          })
+          console.log(data.data)
+        } else {
+          wx.showToast({
+            title: '收藏失败',
+          })
+        }
+      },
+      fail: (res) => {
+        console.log(res)
+        wx.showToast({
+          title: '网络问题，请重试',
+        })
+      }
+    })
+    // 处理不同评论事件
+    /*if (commentCollected) {
+      qcloud.request({
+        url: config.service.deletelCollected,
+        method: 'DELETE',
+        data: {
+          commentId: index
+        },
+        success: () => {
+          wx.showToast({
+            title: '取消收藏',
+          })
+        },
+        fail: () => {
+          wx.showToast({
+            title: '网络错误，请重试',
+          })
+        }
+      })
+    } else {
+      qcloud.request({
+        url: config.service.collectComment,
+        method: 'POST',
+        data: {
+          commentId: index  
+        },
+        success: () => {
+          wx.showToast({
+            title: '收藏成功',
+          })
+        },
+        fail: () => {
+          wx.showToast({
+            title: '网络问题，请重试',
+          })
+        }
+      })
+    }*/
   }
 })

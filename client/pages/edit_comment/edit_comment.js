@@ -527,7 +527,7 @@ Page({
         })
       }
 
-      return this.commentSubmitRequest(content) // 提交文字评论
+      return this.commentSubmitRequest(content, 'text') // 提交文字评论
     } else {
       content = this.data.audioSrc   // 上传语音评论
 
@@ -543,11 +543,7 @@ Page({
 
     
   },
-  commentSubmitRequest(content) {
-    wx.showLoading({
-      title: '评论上传中...',
-    })
-
+  commentSubmitRequest(content, contentType) {
     qcloud.request({
       url: config.service.addComment,
       login: true,
@@ -555,6 +551,7 @@ Page({
       data: {
         movie_id: this.data.movieDetail.id,
         content: content,
+        type: contentType
       },
       success: res => {
         wx.hideLoading()
@@ -580,7 +577,7 @@ Page({
         console.log(res)
         wx.showToast({
           icon: 'none',
-          title: '发表评论失败',
+          title: '添加评论失败',
         })
       }
     })
@@ -593,6 +590,9 @@ Page({
     let audioSrc = this.data.audioSrc
     console.log(audioSrc)
     console.log('voice')
+    wx.showLoading({
+      title: '上传音频中...',
+    })
 
     wx.uploadFile({
       url: config.service.uploadUrl,
@@ -602,15 +602,16 @@ Page({
         'content-type': 'multipart/form-data'
       },
       success: res => {
-        console.log('res', res)
+        wx.hideLoading()
+        // console.log('res', res)
         let data = JSON.parse(res.data)
-        console.log('data', data)
+        // console.log('data', data)
         let content = data.data.imgUrl
 
-        console.log('content', content)
+        // console.log('content', content)
 
         if (!data.code) {   
-          self.commentSubmitRequest(content)
+          self.commentSubmitRequest(content, 'audio')
         } else {
           wx.showToast({
             icon: 'none',
@@ -619,7 +620,9 @@ Page({
         }
       },
       fail: res => {
+        wx.hideLoading();
         wx.showToast({
+          icon: 'none',
           title: '上传失败',
         })
         console.log(res)

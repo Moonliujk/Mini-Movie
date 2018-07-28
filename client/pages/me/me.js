@@ -1,4 +1,8 @@
 // pages/me/me.js
+const qcloud = require('../../vendor/wafer2-client-sdk/index.js')
+const config = require('../../config.js')
+const _ = require('../../utils/util')
+
 Page({
 
   /**
@@ -12,7 +16,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.getCollectedCommentList() 
   },
 
   /**
@@ -62,5 +66,39 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+  /**
+   * 获得用户搜藏评论列表
+   */
+  getCollectedCommentList() {
+    wx.showLoading({
+      title: '加载收藏列表...',
+    })
+
+    qcloud.request({
+      url: config.service.collectedList,
+      success: (res) => {
+        wx.hideLoading()
+        let data = res.data
+
+        if (!data.code) {
+          wx.showToast({
+            title: '',
+          })
+          console.log(data.data)
+        } else {
+          wx.showToast({
+            title: '收藏失败',
+          })
+        }
+      },
+      fail: (res) => {
+        wx.hideLoading()
+        console.log(res)
+        wx.showToast({
+          title: '网络问题，请重试',
+        })
+      }
+    })
   }
 })
