@@ -7,9 +7,12 @@
     <view class='movie-score'>{{movieDetail.score}}</view>
     <view class='movie-detail'>
       <view class='movie-name'>{{movieDetail.title}}</view>
-      <view class='user-wrapper'>
-        <image class='user-image' src='{{commentDetail.userImage}}'></image>
-        <view class='user-text'>{{commentDetail.userName}}给你推荐了一部电影</view>
+      <view class='comment-wrapper'>
+        <view class='user-comment' wx:if="{{commentDetail !== null}}">
+          <image class='user-image' src='{{commentDetail.useravatar}}'></image>
+          <view class='user-text'>{{commentDetail.content}}</view>
+        </view>
+        <view class='custom-info' wx:else>因为一首音乐而爱上一部电影</view>
       </view>
     </view>
   </view>

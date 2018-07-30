@@ -13,7 +13,8 @@ function initMysqlPool() {
     host: config.host,
     port: config.port,
     user: config.user,
-    password: config.pass
+    password: config.pass,
+    charset: config.char
   });
 }
 

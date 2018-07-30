@@ -11,17 +11,14 @@ Page({
   data: {
     movieId: 1,
     movieDetail: {},
-    commentDetail: {
-      userName: 'Leslie',
-      userImage: '../../image/user.jpg',
-    },
+    commentDetail: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getMovieInfo();
+    this.getMovieInfo()
   },
 
   /**
@@ -73,7 +70,7 @@ Page({
   
   },
   /**
-   * 获得电影信息以及电影随机的一条影评
+   * 获得随机电影信息
    */
   getMovieInfo() {
     let movieId = Math.floor(Math.random() * (15 - 1) + 1)
@@ -94,7 +91,7 @@ Page({
           wx.showToast({
             title: '加载成功'
           })
-
+          this.getMovieComment(movieId)
           this.setData({
             movieDetail: data.data,
             movieId
@@ -125,6 +122,47 @@ Page({
             url: '/pages/hot_movie/hot_movie',
           })
         }, 2000)
+      }
+    })
+  },
+  /**
+   * 获得随机影评
+   */
+  getMovieComment(movieId) {
+    qcloud.request({
+      url: config.service.recommendCommentUnlogin,
+      data: {
+        movieId
+      },
+      success: res => {
+        let data = res.data
+        console.log('res', res)
+
+        if (!data.code) {
+          wx.showToast({
+            title: '加载影评成功',
+          })
+          // console.log(data.data)
+          let comment = data.data
+          if (comment.length > 0) {
+            this.setData({
+              commentDetail: data.data[0]
+            })
+          }
+          
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '加载影评失败',
+          })
+        }
+      },
+      fail: res => {
+        console.log(res)
+        wx.showToast({
+          icon: 'none',
+          title: '加载影评失败',
+        })
       }
     })
   },

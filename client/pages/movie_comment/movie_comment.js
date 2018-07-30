@@ -43,7 +43,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options.movieid)
-    let movieid = options.movieid
+    let movieid = options.movieid 
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
   },
@@ -364,74 +364,51 @@ Page({
   onTapCollectComment(e) {
     let index = e.currentTarget.dataset.index
     let self = this
-    console.log(this.data.commentList, index)
-    // 是否收藏评论
-    /*let commentCollected = collectComment.some((item) => {
-      return item[comment_id] === commentList[index]
-    })*/
+    let commentList = this.data.commentList
+    let comment = commentList[index]
+    let url,
+        method;
+    
+    if (!comment.isCollected) {
+      console.log('收藏评论')
+      url = config.service.addCollected
+      method = 'POST'
+    } else {
+      console.log('删除收藏')
+      url = config.service.deleteCollected
+      method = 'DELETE'
+    }
+
     qcloud.request({
-      url: config.service.addCollected,
-      method: 'POST',
+      url,
+      method,
       data: {
-        commentId: this.data.commentList[index].id
+        commentId: comment.id
       },
       success: (res) => {
         let data = res.data
         if (!data.code) {
           wx.showToast({
-            title: '收藏成功',
+            title: '操作成功',
           })
-          console.log(data.data)
+
+          commentList[index].isCollected = !commentList[index].isCollected
+
+          this.setData({
+            commentList
+          })
         } else {
           wx.showToast({
-            title: '收藏失败',
+            title: '操作失败',
           })
         }
       },
       fail: (res) => {
         console.log(res)
         wx.showToast({
-          title: '网络问题，请重试',
+          title: '操作失败',
         })
       }
     })
-    // 处理不同评论事件
-    /*if (commentCollected) {
-      qcloud.request({
-        url: config.service.deletelCollected,
-        method: 'DELETE',
-        data: {
-          commentId: index
-        },
-        success: () => {
-          wx.showToast({
-            title: '取消收藏',
-          })
-        },
-        fail: () => {
-          wx.showToast({
-            title: '网络错误，请重试',
-          })
-        }
-      })
-    } else {
-      qcloud.request({
-        url: config.service.collectComment,
-        method: 'POST',
-        data: {
-          commentId: index  
-        },
-        success: () => {
-          wx.showToast({
-            title: '收藏成功',
-          })
-        },
-        fail: () => {
-          wx.showToast({
-            title: '网络问题，请重试',
-          })
-        }
-      })
-    }*/
   }
 })

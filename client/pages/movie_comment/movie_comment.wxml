@@ -8,11 +8,11 @@
 <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{commentList.length > 0}}">
   <view wx:for='{{commentList}}' wx:for-item='comment' class='comment-wrapper'>
     <view class='user-info'>   
-      <image src='{{comment.avatar}}' class='user-image'></image>  
+      <image src='{{comment.useravatar}}' class='user-image'></image>  
       <view class='user-name'>{{comment.username}}</view>
       <image 
         class='btn-comment-collection' 
-        src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}'
+        src='{{comment.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
         bindtap='onTapCollectComment'
         data-index="{{index}}"
         wx:if="{{!commentList[index].isSelfComment}}"></image>

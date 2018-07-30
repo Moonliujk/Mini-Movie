@@ -42,8 +42,14 @@ router.get('/movie/:id', controllers.movie.detail)
 // POST 添加评论
 router.post('/comment', validationMiddleware, controllers.comment.add)
 
-// 获取评论列表
+// GET 获取评论列表
 router.get('/comment', validationMiddleware, controllers.comment.list)
+
+// GET 获取评论列表(用户未登录)
+router.get('/comment/unlogin/recommend', controllers.comment.getOneCommentNotlogin)
+
+// GET 获取评论列表(用户已登录)
+router.get('/comment/login/recommend', controllers.comment.getOneCommentLogin)
 
 // POST 添加收藏
 router.post('/collect', validationMiddleware, controllers.collect.add)

@@ -65,7 +65,11 @@
   color: #342158;
 }
 
-.user-wrapper {
+.comment-wrapper {
+  margin-top: 10rpx;
+}
+
+.user-comment {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,6 +83,15 @@
 }
 
 .user-text {
+  max-width: 400rpx;  /* 超出文本，用冒号显示 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 35rpx;
+  color: rgba(52, 33, 88, 0.8);
+}
+
+.custom-info {
   font-size: 35rpx;
   color: rgba(52, 33, 88, 0.8);
 }

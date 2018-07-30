@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    collectedCommentList: [],
   },
 
   /**
@@ -86,6 +86,12 @@ Page({
             title: '',
           })
           console.log(data.data)
+          let collectedCommentList = data.data
+          console.log(collectedCommentList)
+
+          this.setData({
+            collectedCommentList
+          })
         } else {
           wx.showToast({
             title: '收藏失败',
