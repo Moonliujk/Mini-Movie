@@ -1,6 +1,8 @@
 const qcloud = require('../../vendor/wafer2-client-sdk/index.js')
 const config = require('../../config.js')
-let userInfo
+// let userInfo
+var app = getApp()
+
 /**
  * TODOlist
  * problem：
@@ -10,11 +12,24 @@ let userInfo
  * ---电影详情页，模糊图片的边缘要清晰化
  * ---当上传音频按钮单击过快时，音频可能就会上传多次，需要解决
  * ---在评论列表页，需要记录正在播放音频的编号，否则所有音频动画将重复播放
+ * ---textarea无法在评论中添加空格、回车
  * needToDo:
- * -------7.21-------------
+ * -------7.21 todoList-------------
  * ---建立收藏评论表（包含id, collected_user, comment_id及create_time)
  * ---玩成对与评论表以及收藏表的引用
  * ---完善小程序内部各个按钮事件
+ * -------8.1 todoList-------------
+ * ---为音频加上时间显示
+ * ---将登陆功能函数添加到app.js全局文件中 √
+ * ---优化edit_comment.js中的相关函数
+ * ---在个人收藏影评页面添加语音、弹出框
+ * ---编写readme
+ * -------8.2 todoList-------------
+ * ---将语音播放添加为component
+ * ---将登陆功能函数添加到app.js全局文件中 √
+ * ---优化edit_comment.js中的相关函数
+ * ---在个人收藏影评页面添加语音、弹出框
+ * ---编写readme
  * ------------------------
  * ---语音评论无法打开弹窗，文字评论可以
  * ---在文字评论中，可以添加表情
@@ -22,6 +37,8 @@ let userInfo
  * ---添加预告片（无法添加视频）以及主题曲
  * ---可以添加收藏评论人数的展示，并进行排序
  * ---评论列表可以添加楼中楼的评论
+ * ---评论发表后，页面自动跳转到电影的评论页面
+ * ---预览并提交评论的按钮交互逻辑比较模糊，需要更改文字内容使功能更明确
  */
 
 // 定义录音全局变量
@@ -46,6 +63,7 @@ Page({
     isRecording: false,
     isRecorderOver: false,
     isShowModal: false,  // 弹出框显示标记
+    isUplaodingComment: false,  // 是否正在上传影评
     recordInfo: '点击图标开始录音',
     recordTxt: '未录音',
     audioSrc: '',  // 音频文件
@@ -72,8 +90,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.checkSession()
-    console.log(userInfo)
+    // console.log(app)
+    app.checkSession({
+      success: userInfo => {
+        console.log(userInfo)
+        this.setData({
+          userInfo,
+          isLogin: true
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '会话超期',
+        })
+      }
+    })
+    // console.log(userInfo)
   },
 
   /**
@@ -165,6 +198,7 @@ Page({
    * 未登录状态下，点击登录，获取用户信息
    */
   onTapLogin(e) {
+    app.onTapLogin(e)
     let userInfo = e.detail.userInfo
     let isLogin = true
 
@@ -464,14 +498,22 @@ Page({
     this.setData({
       audioProgress,
     })
-
+  },
+  /**
+   * 删除语音
+   */
+  onTapDeleteAudio() {
+    wx.showModal({
+      title: '',
+      content: '',
+    })
   },
   /**
    * 输入评论
    */
   onInput(e) {
     this.setData({
-      userComment: e.detail.value.trim(),
+      userComment: e.detail.value.trimLeft(),
     })
   },
   /**
@@ -480,6 +522,7 @@ Page({
   onTapPreviewComment() {
     this.setData({
       isShowModal: true,
+      userComment: this.data.isEnterEdit ? this.data.userComment.trim() : this.data.userComment
     })
   },
   /**
@@ -515,7 +558,12 @@ Page({
    * 提交评论
    */
   onTapSubmitComment() {
+    if (this.data.isUplaodingComment) return;
     let content
+
+    this.setData({
+      isUplaodingComment: true
+    })
 
     if (this.data.isEnterEdit) {
       content = this.data.userComment
@@ -556,6 +604,10 @@ Page({
       success: res => {
         wx.hideLoading()
 
+        this.setData({
+          isUplaodingComment: false
+        })
+
         let data = res.data
 
         if (!data.code) {
@@ -575,6 +627,11 @@ Page({
       fail: res => {
         wx.hideLoading()
         console.log(res)
+
+        this.setData({
+          isUplaodingComment: false
+        })
+
         wx.showToast({
           icon: 'none',
           title: '添加评论失败',

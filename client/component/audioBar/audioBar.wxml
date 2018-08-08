@@ -1,0 +1,17 @@
+<!--component/audioBar/audioBar.wxml-->
+<view class='audio-bar'>
+  <progress class='audio-progress' 
+    stroke-width='6' 
+    percent="{{audioProgress}}" 
+    activeColor='#342158' backgroundColor='rgba(52, 33, 88, 0.3)' />
+  <image 
+    wx:if="{{willReplay}}" 
+    class='btn-audio-control btn-audio-pause' 
+    src='../../image/pause.svg' 
+    bindtap='onTapPauseRecord'></image>
+  <image 
+    wx:else 
+    class='btn-audio-control btn-audio-play' 
+    src='../../image/play.svg' 
+    bindtap='onTapPlayRecord'></image>
+</view>

@@ -285,9 +285,9 @@
 
 .audio-progress {
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%; left: 55%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  width: 85%;
 }
 
 .btn-audio-control {
@@ -297,15 +297,10 @@
   top: 50%;
 }
 
-.btn-audio-close {
-  left: 0rpx;
-  transform: translate(-50%, -50%);
-}
-
 .btn-audio-pause,
 .btn-audio-play {
-  right: 0rpx;
-  transform: translate(50%, -50%);
+  left: 0rpx;
+  transform: translate(-50%, -50%);
 }
 
 .btn-audio-pause {

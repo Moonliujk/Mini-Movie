@@ -6,17 +6,20 @@
 
 
 <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{collectedCommentList.length > 0}}">
-  <view wx:for='{{collectedCommentList}}' wx:for-item='comment' class='comment-wrapper'>
+  <view 
+    wx:for='{{collectedCommentList}}' 
+    wx:for-item='comment' 
+    class='comment-wrapper' 
+    data-index="{{index}}">
     <view class='user-info'>   
       <image src='{{comment.item.comment_avatar}}' class='user-image'></image>
       <view class='user-name'>{{comment.item.comment_username}}</view>
       <view class='comment-movie'>对 <text class='bold'>{{comment.item.movie_title}}</text> 的评价</view>
       <image 
         class='btn-comment-collection' 
-        src='{{isCollected ? "../../image/unlike.svg" : "../../image/like.svg"}}'
+        src='{{comment.item.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
         bindtap='onTapCollectComment'
-        data-index="{{index}}"
-        wx:if="{{!commentList[index].isSelfComment}}"></image>
+        data-index="{{index}}"></image>
     </view>
 
     <view class='user-comment'>

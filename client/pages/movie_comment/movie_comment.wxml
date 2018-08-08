@@ -22,7 +22,11 @@
       <!--文字评论显示-->
       <view class='user-comment-text' wx:if="{{comment.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.content}}</view>
       <!--语音评论显示-->
-      <view wx:else class='audio-bar'>
+      <audioBar 
+        audioSrc="{{comment.content}}"
+        audioBarIndex="{{index}}" 
+        wx:else></audioBar>
+      <!--<view wx:else class='audio-bar'>
         <progress class='audio-progress' 
           stroke-width='6' 
           percent="{{index === audioIndex ? audioProgress : 0}}" 
@@ -30,7 +34,7 @@
           backgroundColor='rgba(52, 33, 88, 0.3)' />
         <image wx:if="{{willReplay && (index === audioIndex)}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
         <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord' data-index="{{index}}"></image>
-      </view>
+      </view>-->
     </view>
 
   </view>
@@ -46,7 +50,7 @@
   <view class='modal-title'>评论</view> 
   <view class='comment-detail-wrapper'>
     <view class='comment-detail-user'>
-      <image class='comment-detail-image' src='{{commentList[commentId].avatar}}'></image>
+      <image class='comment-detail-image' src='{{commentList[commentId].useravatar}}'></image>
       <view class='comment-detail-name'>{{commentList[commentId].username}}</view>
     </view>
     <scroll-view scroll-y="true" class='comment-detail-text-wrapper'>

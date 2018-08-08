@@ -1,9 +1,17 @@
 <!--pages/edit_comment/edit_comment.wxml-->
 <!--未登录，会出现登录授权界面-->
-
-<view wx:if="{{!userInfo}}">
-  <button open-type='getUserInfo'  bindgetuserinfo='onTapLogin'>登录</button>
-  <view bindtap='onTapBackTo'>返回</view>
+<view class='unlogin' wx:if="{{!userInfo}}">
+  <view class="unlogin-card">
+    <view class="unlogin-head"></view>
+    <view class="unlogin-info">
+      <view class="unlogin-text">未登录</view>
+      <view class="unlogin-tips">点击微信登录后即可发表评论</view>
+    </view>
+  </view>
+  <view class='btn-group-login'>
+    <view class='btn-backto btn' bindtap='onTapBackTo'>返 回</view>
+    <button class='btn-login btn' open-type='getUserInfo'  bindgetuserinfo='onTapLogin'>登 录</button>
+  </view>
 </view>
 <!--编辑页面-->
 <view wx:else>
@@ -67,15 +75,24 @@
       <!--语音评论-->
       <view wx:else class='comment-detail-audio-wrapper'>
         <view wx:if="{{!audioSrc}}" class='no-comment-info'>快去添加语音评论吧！</view>
-        <view class='audio-bar' wx:else>
+        <!-- 语音播放条自定义组件 -->
+        <audioBar audioSrc="{{audioSrc}}" wx:if="{{audioSrc}}"></audioBar>
+        <!-- <view class='audio-bar' wx:else>
           <progress class='audio-progress' 
             stroke-width='6' 
             percent="{{audioProgress}}" 
             activeColor='#342158' backgroundColor='rgba(52, 33, 88, 0.3)' />
-          <image class='btn-audio-control btn-audio-close' src='../../image/close.svg'></image>
-          <image wx:if="{{willReplay}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
-          <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord'></image>
-        </view>
+          <image 
+            wx:if="{{willReplay}}" 
+            class='btn-audio-control btn-audio-pause' 
+            src='../../image/pause.svg' 
+            bindtap='onTapPauseRecord'></image>
+          <image 
+            wx:else 
+            class='btn-audio-control btn-audio-play' 
+            src='../../image/play.svg' 
+            bindtap='onTapPlayRecord'></image>
+        </view>-->
       </view>
     </view>
   </view>

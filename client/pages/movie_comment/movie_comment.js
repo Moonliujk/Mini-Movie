@@ -43,7 +43,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options.movieid)
-    let movieid = options.movieid 
+    let movieid = options.movieid || 4
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
   },

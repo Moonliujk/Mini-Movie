@@ -1,0 +1,36 @@
+/* component/audioBar/audioBar.wxss */
+.audio-bar {
+  position: relative;
+  /*margin-top: 70rpx;*/
+  width: 400rpx;
+  height: 100rpx;
+  border-left: 50rpx solid #ffd251;
+  border-right: 50rpx solid #ffd251;
+  border-radius: 50rpx;
+  background-color: #ffd251;
+}
+
+.audio-progress {
+  position: absolute;
+  top: 50%; left: 55%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+}
+
+.btn-audio-control {
+  position: absolute;
+  width: 70rpx;
+  height: 70rpx;
+  top: 50%;
+}
+
+.btn-audio-pause,
+.btn-audio-play {
+  left: 0rpx;
+  transform: translate(-50%, -50%);
+}
+
+.btn-audio-pause {
+  width: 80rpx;
+  height: 80rpx;
+}

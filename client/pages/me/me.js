@@ -106,5 +106,61 @@ Page({
         })
       }
     })
+  },
+  /**
+   * 取消及添加收藏
+   */
+  /**
+   * 收藏评论：post请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
+   */
+  onTapCollectComment(e) {
+    let index = e.currentTarget.dataset.index
+    let self = this
+    let collectedCommentList = this.data.collectedCommentList
+    let comment = collectedCommentList[index]
+    let url,
+        method;
+
+    if (!comment.item.isCollected) {
+      console.log('收藏评论')
+      url = config.service.addCollected
+      method = 'POST'
+    } else {
+      console.log('删除收藏')
+      url = config.service.deleteCollected
+      method = 'DELETE'
+    }
+
+    qcloud.request({
+      url,
+      method,
+      data: {
+        commentId: comment.item.id
+      },
+      success: (res) => {
+        let data = res.data
+        if (!data.code) {
+          wx.showToast({
+            title: '操作成功',
+          })
+
+          collectedCommentList[index].item.isCollected = !collectedCommentList[index].item.isCollected
+
+          this.setData({
+            collectedCommentList
+          })
+        } else {
+          wx.showToast({
+            title: '操作失败',
+          })
+        }
+      },
+      fail: (res) => {
+        console.log(res)
+        wx.showToast({
+          title: '操作失败',
+        })
+      }
+    })
   }
 })

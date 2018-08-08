@@ -71,7 +71,7 @@
 }
 
 .user-comment-text {
-  min-height: 100rpx;
+  max-height: 80rpx;
   width: 100%;
   font-size: 30rpx;
   color: #342158;
