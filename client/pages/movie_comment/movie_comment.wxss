@@ -139,7 +139,7 @@
 
 /* 弹出框样式设计 */
 
-.modal-wrapper {
+/*.modal-wrapper {
   color: #342158;
   position: absolute;
   left: 50%; top: 45%;
@@ -221,13 +221,4 @@
   padding: 0rpx 70rpx;
   border: 3rpx solid #342158;
   border-radius: 40rpx;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
+}*/

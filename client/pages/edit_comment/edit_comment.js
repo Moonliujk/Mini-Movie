@@ -9,10 +9,6 @@ var app = getApp()
  * ---进度条在继续播放时出现闪现
  * ---修改编辑评论页的UI
  * ---用户名字中带有emoji，会报错
- * ---电影详情页，模糊图片的边缘要清晰化
- * ---当上传音频按钮单击过快时，音频可能就会上传多次，需要解决
- * ---在评论列表页，需要记录正在播放音频的编号，否则所有音频动画将重复播放
- * ---textarea无法在评论中添加空格、回车
  * needToDo:
  * -------7.21 todoList-------------
  * ---建立收藏评论表（包含id, collected_user, comment_id及create_time)
@@ -31,8 +27,6 @@ var app = getApp()
  * ---在个人收藏影评页面添加语音、弹出框
  * ---编写readme
  * ------------------------
- * ---语音评论无法打开弹窗，文字评论可以
- * ---在文字评论中，可以添加表情
  * ---在录音页面可以添加时间信息
  * ---添加预告片（无法添加视频）以及主题曲
  * ---可以添加收藏评论人数的展示，并进行排序
@@ -558,6 +552,7 @@ Page({
    * 提交评论
    */
   onTapSubmitComment() {
+    // 防止用户单击过快多次提交相同评论
     if (this.data.isUplaodingComment) return;
     let content
 
@@ -587,9 +582,7 @@ Page({
       }
 
       return this.uploadAudio()
-    }
-
-    
+    }   
   },
   commentSubmitRequest(content, contentType) {
     qcloud.request({

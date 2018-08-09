@@ -58,11 +58,15 @@
   justify-content: center;
 }
 
-.movie-name {
+.movie-title {
   margin-top: 60rpx;
   font-size: 55rpx;
   font-weight: bold;
   color: #342158;
+}
+
+.text-small {
+  font-size: 45rpx
 }
 
 .comment-wrapper {

@@ -1,13 +1,13 @@
 <!--component/dialog/dialog.wxml-->
-<view class='modal-wrapper' wx:if='{{isShowModal}}'>
-  <view class='modal-title'>{{modalTitle}}</view> 
+<view class='modal-wrapper'>
+  <view class='modal-title'>{{title}}</view> 
   <view class='comment-detail-wrapper'>
     <view class='comment-detail-user'>
-      <image class='comment-detail-image' src='{{commentList[commentId].useravatar}}'></image>
-      <view class='comment-detail-name'>{{commentList[commentId].username}}</view>
+      <image class='comment-detail-image' src='{{useravatar}}'></image>
+      <view class='comment-detail-name'>{{username}}</view>
     </view>
     <scroll-view scroll-y="true" class='comment-detail-text-wrapper'>
-      <view class='comment-detail-text'>{{commentList[commentId].content}}</view>
+      <view class='comment-detail-text'>{{content}}</view>
     </scroll-view>
   </view>
   <view class='modal-btn-group'>

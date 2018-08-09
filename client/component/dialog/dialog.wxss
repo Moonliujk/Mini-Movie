@@ -1,1 +1,85 @@
 /* component/dialog/dialog.wxss */
+/* 弹出框样式设计 */
+.modal-wrapper {
+  color: #342158;
+  position: absolute;
+  left: 50%; top: 45%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  border-radius: 50rpx;
+  background-color: white;
+  box-shadow: 0 4rpx 15rpx 0 rgba(0, 0, 0, 0.6);
+}
+
+.modal-title {
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 65rpx;
+  font-weight: bold;
+  margin: 15rpx auto;
+}
+
+.comment-detail-wrapper {
+  margin-top: 20rpx;
+  padding: 0 30rpx;
+  position: relative;
+}
+
+.comment-detail-user {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.comment-detail-image {
+  width: 60rpx;
+  height: 60rpx;
+  margin-left: 30rpx;
+}
+
+.comment-detail-name {
+  margin-left: 20rpx;
+}
+
+.comment-detail-text-wrapper {
+  height: 420rpx;
+  margin-top: 20rpx;
+  font-size: 40rpx;
+  color: #342158;
+  text-indent: 80rpx;
+}
+
+.comment-detail-text {
+  position: relative;
+  padding-top: 20rpx;
+}
+
+.comment-detail-text::before {
+  content: '“';
+  font-size: 150rpx;
+  width: 150rpx;
+  height: 150rpx;
+  line-height: 150rpx;
+  text-indent: 0;
+  font-family: '黑体';
+  position: absolute;
+  left: 0rpx;
+  top: 10rpx;
+}
+
+.modal-btn-group {
+  margin: 30rpx auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn {
+  box-sizing: border-box;
+  font-size: 40rpx;
+  height: 80rpx;
+  line-height: 74rpx;
+  padding: 0rpx 70rpx;
+  border: 3rpx solid #342158;
+  border-radius: 40rpx;
+}

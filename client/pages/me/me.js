@@ -10,6 +10,8 @@ Page({
    */
   data: {
     collectedCommentList: [],
+    commentId: 0,
+    isShowModal: false,
   },
 
   /**
@@ -108,8 +110,16 @@ Page({
     })
   },
   /**
-   * 取消及添加收藏
+   * 在对话框中修改收藏影评触发的事件
    */
+  commentCollectChange(e) {
+    console.log(e.detail)
+    let commentList = e.detail
+
+    this.setData({
+      commentList
+    })
+  },
   /**
    * 收藏评论：post请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
    */
@@ -162,5 +172,27 @@ Page({
         })
       }
     })
-  }
+  },
+  /**
+   * 显示弹出层
+   */
+  onTapShowComment(e) {
+    let isShowModal = true
+    let commentId = e.currentTarget.dataset.index
+
+    this.setData({
+      isShowModal,
+      commentId
+    })
+  },
+  /**
+   * 隐藏弹出层
+   */
+  onTapHiddenModal() {
+    let isShowModal = false
+
+    this.setData({
+      isShowModal
+    })
+  },
 })

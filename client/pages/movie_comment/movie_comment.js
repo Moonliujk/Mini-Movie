@@ -28,14 +28,6 @@ Page({
     collectComment: [],
     commentId: 0,
     isShowModal: false,
-    // 音频相关参数
-    audioSrc: null,
-    audioProgress: 0,  // 音频进度条显示
-    willReplayingStart: true, // 音频回放初始状态
-    willReplay: false,
-    willReplayingPause: false,  // 回访录音结束
-    willReplayingOver: false,
-    audioDuration: 0,  // 录音总时长
   },
 
   /**
@@ -59,9 +51,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // let movieId = this.data.movieDetail ? this.data.movieDetail.id : 1
+    // 添加评论后能够及时显示
+    if (this.data.movieDetail) {
+      let movieId = this.data.movieDetail.id
 
-    // this.getCommentList(movieId)
+      this.getCommentList(movieId)
+    }
   },
 
   /**
@@ -148,7 +143,7 @@ Page({
    * 显示弹出层
    */
   onTapShowComment(e) {
-    let isShowModal = !this.data.isShowModal
+    let isShowModal = true
     let commentId = e.currentTarget.dataset.index
 
     this.setData({
@@ -167,134 +162,7 @@ Page({
     })
   },
   /**
-   * 计时器函数
-   */
-  timer(method, interval, fn) {
-    let timeFlag = this.data.timeFlag
-    let self = this
-    let isTimerOver
-
-    isTimerOver = this.data.willReplayingPause || this.data.willReplayingOver
-
-    if (timeFlag) {
-      clearTimeout(self.timer, interval)
-    }
-
-    console.log(isTimerOver)
-
-    if (!isTimerOver) {
-      timeFlag = setTimeout(self.timer.bind(self, method, interval, fn), interval)
-    }
-
-    this.setData({
-      timeFlag,
-    })
-
-    fn && fn()  // 存在功能函数，则执行
-  },
-  /**
-   * 播放录音
-   */
-  onTapPlayRecord(e) {
-    console.log(e)
-    let audioIndex = e.currentTarget.dataset.index
-    let self = this
-    let audioProgress = this.data.audioProgress
-
-    if (this.data.willReplayingStart) {
-      console.log('1')
-      let audioSrc = this.data.commentList[audioIndex].content
-      console.log('audio src', audioSrc)
-      innerAudioContext.src = audioSrc
-      innerAudioContext.startTime = 0
-      innerAudioContext.play() // 开始播放
-      console.log('开始播放', '总时长：' + innerAudioContext.duration)
-      // 播放开始
-      this.setData({
-        audioSrc,
-        audioIndex,
-        willReplayingStart: false,
-        willReplay: true,
-        willReplayingPause: false,
-        willReplayingOver: false,
-      })
-
-      // 音频结束时调用的事件
-      innerAudioContext.onEnded(() => {
-        // self.onTapPauseRecord()
-        console.log('音频播放结束')
-        self.setData({
-          audioProgress: 100,
-          willReplayingOver: true,
-          willReplayingStart: true,
-        })
-        // 音频图标转换，准备第二次播放
-        setTimeout(() => {
-          innerAudioContext.offEnded()
-          self.setData({
-            audioProgress: 0,
-            willReplay: false,
-          })
-        }, 300)
-      })
-      // 更新音频duration
-      innerAudioContext.onTimeUpdate(() => {
-        this.setData({
-          audioDuration: innerAudioContext.duration,
-        })
-      })
-      // 执行进度条计算
-      this.timer('replay', 60, this.audioProgress)
-      // 播放出错处理
-      innerAudioContext.onError((res) => {
-        console.log(res.errMsg)
-        console.log(res.errCode)
-      })
-    } else {
-      // 恢复播放时所需执行的事件
-      innerAudioContext.startTime = innerAudioContext.currentTime
-      console.log(innerAudioContext.startTime)
-      innerAudioContext.play()
-
-      this.setData({
-        willReplay: true,
-        willReplayingPause: false,
-      })
-
-      // 执行进度条计算
-      this.timer('replay', 60, this.audioProgress)
-      console.log('录音恢复', '当前时长：' + innerAudioContext.currentTime)
-    }
-  },
-  /**
-   * 暂停播放录音
-   */
-  onTapPauseRecord() {
-    innerAudioContext.pause()
-    console.log('录音暂停', '总时长：' + innerAudioContext.duration, '当前时长：' + innerAudioContext.currentTime)
-    this.setData({
-      willReplay: false,
-      willReplayingPause: true,
-    })
-  },
-  /**
-   * 回放录音进度条计算
-   */
-  audioProgress() {
-    let audioDuration = this.data.audioDuration
-    audioDuration = audioDuration === 0 ? 1 : audioDuration
-
-    let audioProgress = (innerAudioContext.currentTime / audioDuration) * 100
-    console.log(audioProgress)
-    /* Problem: 由于timer函数在结束开关打开后会默认多执行一步功能函数，
-     * 导致在重新开始后，进度条会出现100%闪现
-    */
-    this.setData({
-      audioProgress,
-    })
-  },
-  /**
-   * 发表影评
+   * 跳转到发表影评页面
    */
   onTapWriteComment() {
     let movieId = this.data.movieDetail.id
@@ -409,6 +277,17 @@ Page({
           title: '操作失败',
         })
       }
+    })
+  },
+  /**
+   * 在对话框中修改收藏影评触发的事件
+   */
+  commentCollectChange(e) {
+    console.log(e.detail)
+    let commentList = e.detail
+
+    this.setData({
+      commentList
     })
   }
 })

@@ -1,1 +1,6 @@
-{}
+{
+  "usingComponents": {
+    "audioBar": "../../component/audioBar/audioBar",
+    "dialog": "../../component/dialog/dialog"
+  }
+}

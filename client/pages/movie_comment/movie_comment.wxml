@@ -46,7 +46,15 @@
 
 <!--弹出层；电影评论详情-->
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
-<view class='modal-wrapper' wx:if='{{isShowModal}}'>
+<dialog
+  wx:if='{{isShowModal}}'
+  commentId="{{commentId}}"
+  commentList="{{commentList}}"
+  useravatar="{{commentList[commentId].useravatar}}"
+  username="{{commentList[commentId].username}}"
+  content="{{commentList[commentId].content}}"
+  bindcommentCollectChange="commentCollectChange"></dialog>
+<!--<view class='modal-wrapper' wx:if='{{isShowModal}}'>
   <view class='modal-title'>评论</view> 
   <view class='comment-detail-wrapper'>
     <view class='comment-detail-user'>
@@ -60,4 +68,4 @@
   <view class='modal-btn-group'>
     <view class='modal-btn' bindtap='onTapCollectComment'>收藏评论</view>
   </view>
-</view>
+</view>-->

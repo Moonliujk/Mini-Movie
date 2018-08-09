@@ -5,7 +5,8 @@
   "navigationBarTitleText": "壁花少年",
   "navigationBarTextStyle": "white",
   "usingComponents": {
-    "audioBar": "../../component/audioBar/audioBar"
+    "audioBar": "../../component/audioBar/audioBar",
+    "dialog": "../../component/dialog/dialog"
   }
 
 }

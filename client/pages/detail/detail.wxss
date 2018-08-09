@@ -4,22 +4,44 @@
   width: 750rpx;
 }
 
+.blur {
+  filter: blur(5px);
+}
+
+.header-image-wrapper {
+  overflow: hidden;
+  height: 450rpx;
+}
+
 .header-image {
   display: block;
   width: 750rpx;
-  height: 450rpx;
   filter: blur(3rpx) contrast(0.8) brightness(0.8);
+  transform: scale(1.2);
+}
+
+.poster-wrapper {
+  position: absolute;
+  left: 50%;
+  width: 300rpx;
+  height: 300rpx;
+  transform: translate(-50%, -50%);
+  border: 12rpx solid white;
+  border-radius: 50%;
 }
 
 .header-thumbnail {
-  display: block;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 300rpx;
   height: 300rpx;
-  border: 12rpx solid white;
   border-radius: 50%;
+}
+
+.btn-play-video {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-40%, -50%);
+  width: 120rpx;
+  height: 120rpx;
 }
 
 .movie-detail-wrapper {
@@ -79,10 +101,13 @@
   overflow: hidden;
   /* 设置 display 为 -webkit-box 或者 -webkit-inline-box 时为隐藏状态 */
   display: -webkit-inline-box;
+  transition: height 0.5s ease;
 }
 
 .movie-description.show-all {
-  display: block;
+  /*display不能设置为block，否则在真机展现时，动画效果不会出现*/
+  -webkit-line-clamp: 100; /* 这里设置较大的数是为了避免出现内容省略号 */
+  transition: height 0.5s ease;
 }
 
 .btn-movie-detail {
@@ -127,4 +152,70 @@
 
 .btn-group .btn:first-child {
   margin-right: 40rpx;
+}
+
+/*遮罩层*/
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/*视频组件样式*/
+.video {
+  position: absolute;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+/*弹窗层*/
+.multimedia-choose-container {
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.multimedia-choose-wrapper {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 -5rpx 30rpx rgba(0, 0, 0, 0.3);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  color: #342158;
+  transition: bottom 0.3s ease-in-out;
+}
+
+.multimedia-choose-wrapper.hidden {
+  bottom: -500rpx;
+}
+
+.multimedia-choose-wrapper.show {
+  bottom: 0rpx;
+}
+
+.multimedia-choose-text {
+  text-align: center;
+  margin: 25rpx auto;
+}
+
+.btn {
+  width: 95%;
+  color: #342158;
+  border: none;
+}
+
+.btn-video {
+  background-color: white;
+}
+
+.btn-cancel {
+  background-color: #fb2d2d;
+  color: white;
+  margin: 25rpx auto 50rpx;
 }

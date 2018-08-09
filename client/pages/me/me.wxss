@@ -65,8 +65,13 @@
   color: rgba(0, 0, 0, 0.3);
 }
 
-.bold {
+.navigator {
+  display: inline-block;
   font-weight: bold;
+}
+
+.navigator-hover {
+	color: #342158;
 }
 
 .btn-comment-collection {
@@ -90,57 +95,4 @@
   -webkit-box-orient: vertical;
   /* 设置 display 为 -webkit-box 或者 -webkit-inline-box 时为隐藏状态 */
   display: -webkit-inline-box;
-}
-
-/*语音评论样式设计*/
-.audio-bar {
-  position: relative;
-  width: 400rpx;
-  height: 100rpx;
-  border-left: 50rpx solid #ffd251;
-  border-right: 50rpx solid #ffd251;
-  border-radius: 50rpx;
-  background-color: #ffd251;
-}
-
-.audio-progress {
-  position: absolute;
-  top: 50%; right: 0;
-  transform: translateY(-50%);
-  width: 87%;
-}
-
-.btn-audio-control {
-  position: absolute;
-  width: 70rpx;
-  height: 70rpx;
-  top: 50%;
-}
-
-.btn-audio-pause,
-.btn-audio-play {
-  left: 0rpx;
-  transform: translate(-50%, -50%);
-}
-
-.btn-audio-pause {
-  width: 80rpx;
-  height: 80rpx;
-}
-
-/* 语音评论样式设计结束 */
-.btn-write-comment {
-  box-sizing: border-box;
-  position: fixed;
-  left: 50%; bottom: 80rpx;
-  transform: translateX(-50%);
-  color: #342158;
-  width: 300rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  background-color: #fff;
-  border-radius: 40rpx;
-  margin: 10rpx;
-  text-align: center;
-  box-shadow: 5rpx 8rpx 20rpx 5rpx rgba(0, 0, 0, 0.3);
 }

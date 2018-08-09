@@ -15,18 +15,30 @@ Page({
       title: '壁花少年',
       image: 'https://movie-1256948132.cos.ap-beijing.myqcloud.com/p1874816818.jpg',
       thumbnail: 'https://movie-1256948132.cos.ap-beijing.myqcloud.com/p1874816818.jpg',
+      video: '',
       description: '查理（罗根·勒曼 Logan Lerman 饰）是个害羞和孤独的高中新生，拥有超越年龄的敏感和泪腺，总是默默观察身边的家人和朋友，是个典型的「壁花少年」。他的青春期充满各种挫折，先后经历了阿姨为给他买生日礼物去世、最好朋友自杀、受同侪排挤欺负、单恋没有回应等各种事情。然而查理还不是最惨的，因为和他一样被生活逼入墙角罚站的人实在太多。他幸运的拥有一个开明的老师和两个高年级的好友：叛逆娇俏的少女珊（艾玛·沃森 Emma Watson 饰）和自信满满的同志男生帕特里克（埃兹拉·米勒 Ezra Miller 饰），他们让查理明白了有时候不能永远旁观，必须要参与进来才能拥有属于自己的精彩。 ',
       category: '青春 / 成长 / 美国 / 爱情',
     },
     movieId: 1,
-    isShowAll: false
+    isShowAll: false,
+    isVideoShow: false,
+    isMediaChooseModalShow: false,
+    isScroll: true,
+    contentHeight: 280,
+    characterNum: 21.5 // 每一行文字数量
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getMovieDetail(options.id)
+
+    this.getMovieDetail(options.id=4)
+    if (options.id === 4) {
+      this.setData({
+        characterNum: 20.8
+      })
+    }
   },
 
   /**
@@ -125,11 +137,20 @@ Page({
     })
   },
   // 显示/隐藏 更多内容
-  onTapShowDetail() {
-    let isShowAll = this.data.isShowAll
-
+  onTapDetail() {
+    let isShowAll = !this.data.isShowAll
+    let contentHeight
+    // 计算电影简介占据的高度
+    if (isShowAll) {
+      let content = this.data.movieDetail.description.length
+      contentHeight = Math.floor((content / this.data.characterNum) * 56) 
+    } else {
+      contentHeight = 280 
+    }
+    
     this.setData({
-      isShowAll: !isShowAll
+      isShowAll,
+      contentHeight
     })
   },
   /**
@@ -153,5 +174,43 @@ Page({
       url: `${pages}?movieid=${movieId}`,
     })
     
+  },
+  /**
+   * 弹出媒体选择对话框
+   */
+  onTapShowMediaChooseModal() {
+    this.setData({
+      isMediaChooseModalShow: true,
+      isScroll: false,
+    })
+  },
+  /**
+   * 隐藏媒体选择对话框
+   */
+  onTapHiddenMediaChooseModal() {
+    this.setData({
+      isMediaChooseModalShow: false,
+      isScroll: true,
+    })
+  },
+  /**
+   * 播放视频
+   */
+  onTapPlayVideo() {
+    this.setData({
+      isVideoShow: true,
+      isMediaChooseModalShow: false, // 关闭媒体选择对话框
+      isScroll: false,
+    })
+  },
+  /**
+   * 关闭视频 || 关闭媒体选择对话框
+   */
+  onTapHidden() {
+    this.setData({
+      isVideoShow: false,
+      isMediaChooseModalShow: false,
+      isScroll: true,
+    })
   }
 })

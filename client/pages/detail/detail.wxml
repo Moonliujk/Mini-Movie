@@ -1,23 +1,46 @@
 <!--pages/detail/detail.wxml-->
-<view class='header-wrapper'>
-  <image src='{{movieDetail.image}}' class='header-image' mode='aspectFill'></image>
-  <image src='{{movieDetail.thumbnail}}' class='header-thumbnail' mode='aspectFill'></image>
-</view>
-
-<view class='movie-detail-wrapper'>
-  <view class='movie-info'>
-    <text class='movie-title {{movieDetail.title.length>9 ? "text-small" : ""}}'>{{movieDetail.title}}</text>
-    <text class='movie-score'>{{movieDetail.score}}</text>
+<!--阻止页面滚动-->
+<view style="{{isScroll ? 'height: auto' : 'height: 100%' }}; overflow: hidden ">
+  <view class="header-wrapper {{isVideoShow ? 'blur' : ''}}">
+    <!--为了保证使用高斯模糊后边缘依旧清晰，所以多增加了一层嵌套关系-->
+    <view class='header-image-wrapper'>
+      <image src='{{movieDetail.image}}' class='header-image' mode='aspectFill'></image>
+    </view>
+    <view class='poster-wrapper'>
+      <image src='{{movieDetail.thumbnail}}' class='header-thumbnail' mode='aspectFill'></image>
+      <image src='../../image/play_white.svg' class='btn-play-video' bindtap='onTapShowMediaChooseModal'></image>
+    </view>
   </view>
-  <view class='movie-detail'>{{movieDetail.year}}  ·  {{movieDetail.category}}</view>
+
+  <view class="movie-detail-wrapper {{isVideoShow ? 'blur' : ''}}">
+    <view class='movie-info'>
+      <text class='movie-title {{movieDetail.title.length>9 ? "text-small" : ""}}'>{{movieDetail.title}}</text>
+      <text class='movie-score'>{{movieDetail.score}}</text>
+    </view>
+    <view class='movie-detail'>{{movieDetail.year}}  ·  {{movieDetail.category}}</view>
+  </view>
+
+  <view class="movie-description-wrapper {{isVideoShow ? 'blur' : ''}}">
+    <view class='movie-description {{isShowAll ? "show-all" : ""}}' style="height: {{contentHeight}}rpx;">{{movieDetail.description}}</view>
+    <view class='btn-movie-detail {{isShowAll ? "btn-show" : ""}}' bindtap='onTapDetail'>{{isShowAll ? "收" : "展"}}</view>
+  </view>
+
+  <view class="btn-group {{isVideoShow ? 'blur' : ''}}">
+    <view class='btn-see-comment btn' bindtap='onTapHandleComment' data-type='showComment'>查看影评</view>
+    <view class='btn-add-comment btn' bindtap='onTapHandleComment' data-type='addComment'>添加影评</view>
+  </view>
 </view>
 
-<view class='movie-description-wrapper'>
-  <view class='movie-description {{isShowAll ? "show-all" : ""}}'>{{movieDetail.description}}</view>
-  <view class='btn-movie-detail {{isShowAll ? "btn-show" : ""}}' bindtap='onTapShowDetail'>{{isShowAll ? "收" : "展"}}</view>
-</view>
 
-<view class='btn-group'>
-  <view class='btn-see-comment btn' bindtap='onTapHandleComment' data-type='showComment'>查看影评</view>
-  <view class='btn-add-comment btn' bindtap='onTapHandleComment' data-type='addComment'>添加影评</view>
+<!--遮罩-->
+<view class='overlay' wx:if="{{isVideoShow || isMediaChooseModalShow}}" catchtap='onTapHidden'></view>
+<!--视频-->
+<video class='video' src="{{isVideoShow ? movieDetail.video : ''}}" controls hidden="{{!isVideoShow}}"></video>
+<!--底部弹窗组件-->
+<view class='multimedia-choose-container' style="{{isMediaChooseModalShow ? 'height: 400rpx;transition: height 0.05s' : 'height: 0rpx; transition: height 0.3s'}}">
+  <view class="multimedia-choose-wrapper {{isMediaChooseModalShow ? 'show' : 'hidden'}}">
+    <view class='multimedia-choose-text'>播放选择</view>
+    <button class='btn-video btn' bindtap='onTapPlayVideo'>视频</button>
+    <button class='btn-cancel btn' bindtap='onTapHiddenMediaChooseModal'>取消</button>
+  </view>
 </view>

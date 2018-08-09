@@ -6,7 +6,7 @@
     <image class='btn-add-comment' src='../../image/add_comment.svg' bindtap='onTapCommentList'></image>
     <view class='movie-score'>{{movieDetail.score}}</view>
     <view class='movie-detail'>
-      <view class='movie-name'>{{movieDetail.title}}</view>
+      <view class='movie-title {{movieDetail.title.length > 7 ? "text-small" : ""}}'>{{movieDetail.title}}</view>
       <view class='comment-wrapper'>
         <view class='user-comment' wx:if="{{commentDetail !== null}}">
           <image class='user-image' src='{{commentDetail.useravatar}}'></image>
