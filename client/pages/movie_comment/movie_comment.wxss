@@ -20,12 +20,64 @@
   line-height: 100vh;
 }
 
-.comment-list {
+.stage {
+  position: relative;
+  margin-top: 120rpx;
+  width: 100%;
+  height: calc(100% - 120rpx);
+  perspective: 600px;
+  transform-style: preserve-3d;
+}
+
+/*旋转开始*/
+.card-back.wrapper-roating {
+  transform: rotateY(0deg) translateZ(0rpx); 
+  transition: transform 1.2s linear;
+}
+
+.card-front.wrapper-roating {
+  /*真机有个小bug，虽然时间同步，但是旋转时，前后两个图片会交错显示，这里通过将前后两个图片错位1rpx，修复这个bug，在真机上保证旋转效果的正常显示*/
+  transform: rotateY(90deg) translateZ(1rpx); 
+  transition: transform 0.6s linear;
+}
+
+.card-back,
+.card-front {
+  transform-style: preserve-3d;
+}
+
+.card-front {
+  transform: rotateY(0deg) translateZ(1rpx); 
+}
+
+.card-back {
   position: absolute;
-  top: 120rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700rpx;
+  width: 100%;
+  height: 100%;
+  transform: rotateY(-180deg) translateZ(0rpx); 
+}
+
+.card-back-bg {
+  width: 100%;
+  height: 100%;
+}
+
+.comment-list {
+  background-color: white;
+  backface-visibility: hidden;
+}
+
+.comment-list {
+  width: 100%;
+  height: 100%;
+}
+
+.comment-list::after {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: red;
 }
 
 .blur {
@@ -35,7 +87,8 @@
 .comment-wrapper {
   box-sizing: border-box;
   height: 220rpx;
-  padding: 0 35rpx;
+  margin: auto;
+  padding: 0 50rpx;
 }
 
 .user-info {
@@ -83,48 +136,104 @@
   display: -webkit-inline-box;
 }
 
-/*语音评论样式设计*/
-.audio-bar {
-  position: relative;
-  width: 400rpx;
-  height: 100rpx;
-  border-left: 50rpx solid #ffd251;
-  border-right: 50rpx solid #ffd251;
-  border-radius: 50rpx;
-  background-color: #ffd251;
+/*弹幕区样式*/
+.barrage-list {
+  width: 100%;
+  height: 100%;
 }
 
-.audio-progress {
+.barrage-list-bg {
   position: absolute;
-  top: 50%; right: 0;
-  transform: translateY(-50%);
-  width: 87%;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
 }
 
-.btn-audio-control {
+.barrage-comment {
+  box-sizing: border-box;
   position: absolute;
-  width: 70rpx;
-  height: 70rpx;
-  top: 50%;
+  right: -550rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  min-height: 150rpx;
+  width: 550rpx;
+  max-height: 250rpx;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 30rpx;
 }
 
-.btn-audio-pause,
-.btn-audio-play {
-  left: 0rpx;
-  transform: translate(-50%, -50%);
+.slow {
+  animation: slow 10s linear;
+    /*屏幕宽度 + max-width*/
 }
 
-.btn-audio-pause {
-  width: 80rpx;
-  height: 80rpx;
+@keyframes slow {
+  to {
+    right: 1300rpx;
+  }
 }
 
-/* 语音评论样式设计结束 */
+.medium {
+  animation: slow 9s linear;
+}
+
+@keyframes medium {
+  to {
+      right: 1300rpx;  /*屏幕宽度 + max-width*/
+    }
+}
+
+.hight {
+  animation: slow 8s linear;
+}
+
+@keyframes hight {
+  to {
+      right: 1300rpx;
+    }
+}
+
+.barrage-user-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 5rpx;
+}
+
+.barrage-user-avator {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  margin: 0 20rpx 0 10rpx;
+}
+
+.barrage-user-name {
+  font-size: 28rpx;
+  color: white;
+}
+
+.barrage-comment-content {
+  width: 100%;
+  font-size: 30rpx;
+  color: white;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2; /* 设置超出2行隐藏 */
+  -webkit-box-orient: vertical;
+  /* 设置 display 为 -webkit-box 或者 -webkit-inline-box 时为隐藏状态 */
+  display: -webkit-inline-box;
+}
 
 .btn-write-comment {
   box-sizing: border-box;
   position: fixed;
   left: 50%; bottom: 80rpx;
+  z-index: 100;
   transform: translateX(-50%);
   color: #342158;
   width: 300rpx;
@@ -137,88 +246,3 @@
   box-shadow: 5rpx 8rpx 20rpx 5rpx rgba(0, 0, 0, 0.3);
 }
 
-/* 弹出框样式设计 */
-
-/*.modal-wrapper {
-  color: #342158;
-  position: absolute;
-  left: 50%; top: 45%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  border-radius: 50rpx;
-  background-color: white;
-  box-shadow: 0 4rpx 15rpx 0 rgba(0, 0, 0, 0.6);
-}
-
-.modal-title {
-  text-align: center;
-  line-height: 100rpx;
-  font-size: 65rpx;
-  font-weight: bold;
-  margin: 15rpx auto;
-}
-
-.comment-detail-wrapper {
-  margin-top: 20rpx;
-  padding: 0 30rpx;
-  position: relative;
-}
-
-.comment-detail-user {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.comment-detail-image {
-  width: 60rpx;
-  height: 60rpx;
-  margin-left: 30rpx;
-}
-
-.comment-detail-name {
-  margin-left: 20rpx;
-}
-
-.comment-detail-text-wrapper {
-  height: 420rpx;
-  margin-top: 20rpx;
-  font-size: 40rpx;
-  color: #342158;
-  text-indent: 80rpx;
-}
-
-.comment-detail-text {
-  position: relative;
-  padding-top: 20rpx;
-}
-
-.comment-detail-text::before {
-  content: '“';
-  font-size: 150rpx;
-  width: 150rpx;
-  height: 150rpx;
-  line-height: 150rpx;
-  text-indent: 0;
-  font-family: '黑体';
-  position: absolute;
-  left: 0rpx;
-  top: 10rpx;
-}
-
-.modal-btn-group {
-  margin: 30rpx auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-btn {
-  box-sizing: border-box;
-  font-size: 40rpx;
-  height: 80rpx;
-  line-height: 74rpx;
-  padding: 0rpx 70rpx;
-  border: 3rpx solid #342158;
-  border-radius: 40rpx;
-}*/

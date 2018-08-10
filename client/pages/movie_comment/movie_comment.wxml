@@ -4,41 +4,49 @@
   <view class='page-name'>{{movieDetail.title}}</view>
 </view>
 
-
-<scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{commentList.length > 0}}">
-  <view wx:for='{{commentList}}' wx:for-item='comment' class='comment-wrapper'>
-    <view class='user-info'>   
-      <image src='{{comment.useravatar}}' class='user-image'></image>  
-      <view class='user-name'>{{comment.username}}</view>
-      <image 
-        class='btn-comment-collection' 
-        src='{{comment.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
-        bindtap='onTapCollectComment'
-        data-index="{{index}}"
-        wx:if="{{!commentList[index].isSelfComment}}"></image>
+<view class='stage' wx:if="{{commentList.length > 0}}">
+    <!--评论列表模式-->
+    <view class="card-back {{isChangedCommentWay ? 'wrapper-roating' : ''}}" hidden="{{isFinishAnimation}}" bindtransitionend="finishAnimation">
+      <image src="{{movieDetail.image}}" class="card-back-bg"></image>
     </view>
 
-    <view class='user-comment'>
-      <!--文字评论显示-->
-      <view class='user-comment-text' wx:if="{{comment.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.content}}</view>
-      <!--语音评论显示-->
-      <audioBar 
-        audioSrc="{{comment.content}}"
-        audioBarIndex="{{index}}" 
-        wx:else></audioBar>
-      <!--<view wx:else class='audio-bar'>
-        <progress class='audio-progress' 
-          stroke-width='6' 
-          percent="{{index === audioIndex ? audioProgress : 0}}" 
-          activeColor='#342158' 
-          backgroundColor='rgba(52, 33, 88, 0.3)' />
-        <image wx:if="{{willReplay && (index === audioIndex)}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
-        <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord' data-index="{{index}}"></image>
-      </view>-->
-    </view>
+    <scroll-view scroll-y="true" class="comment-list card-front {{isShowModal ? 'blur' : ''}} {{isChangedCommentWay ? 'wrapper-roating' : ''}}" hidden="{{!isNormalList || isReachAngle}}" bindtransitionend="hiddenCommentList">
+      <view wx:for='{{commentList}}' wx:for-item='comment' class='comment-wrapper'>
+        <view class='user-info'>   
+          <image src='{{comment.useravatar}}' class='user-image'></image>  
+          <view class='user-name'>{{comment.username}}</view>
+          <image 
+            class='btn-comment-collection' 
+            src='{{comment.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
+            bindtap='onTapCollectComment'
+            data-index="{{index}}"
+            wx:if="{{!commentList[index].isSelfComment}}"></image>
+        </view>
 
-  </view>
-</scroll-view>
+        <view class='user-comment'>
+          <!--文字评论显示-->
+          <view class='user-comment-text' wx:if="{{comment.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.content}}</view>
+          <!--语音评论显示-->
+          <audioBar 
+            audioSrc="{{comment.content}}"
+            audioBarIndex="{{index}}" 
+            wx:else></audioBar>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!--弹幕模式-->
+    <view class="barrage-list" wx:if="{{!isNormalList && isFinishAnimation}}">
+      <image class="barrage-list-bg" src="{{movieDetail.image}}"></image>
+      <view class="barrage-comment {{comment.mode}}" style="top: {{comment.location}}rpx" wx:for="{{barrageComment}}"  wx:for-item='comment' data-index="{{index}}" bindanimationend="deleteBarrageComment">
+        <view class='barrage-user-info'>
+          <image src="{{comment.useravatar}}" class='barrage-user-avator'></image>
+          <view class='barrage-user-name'>{{comment.username}}</view>
+        </view>
+        <view class="barrage-comment-content">{{comment.content}}</view>
+      </view>
+    </view>
+</view>
 
 <view class="no-comment" wx:else>快来抢个沙发吧！</view>
 
@@ -54,18 +62,4 @@
   username="{{commentList[commentId].username}}"
   content="{{commentList[commentId].content}}"
   bindcommentCollectChange="commentCollectChange"></dialog>
-<!--<view class='modal-wrapper' wx:if='{{isShowModal}}'>
-  <view class='modal-title'>评论</view> 
-  <view class='comment-detail-wrapper'>
-    <view class='comment-detail-user'>
-      <image class='comment-detail-image' src='{{commentList[commentId].useravatar}}'></image>
-      <view class='comment-detail-name'>{{commentList[commentId].username}}</view>
-    </view>
-    <scroll-view scroll-y="true" class='comment-detail-text-wrapper'>
-      <view class='comment-detail-text'>{{commentList[commentId].content}}</view>
-    </scroll-view>
-  </view>
-  <view class='modal-btn-group'>
-    <view class='modal-btn' bindtap='onTapCollectComment'>收藏评论</view>
-  </view>
-</view>-->
+

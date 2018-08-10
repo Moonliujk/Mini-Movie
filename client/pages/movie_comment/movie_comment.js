@@ -25,9 +25,22 @@ Page({
         comment: '真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！',
       }*/
     ],
+    testComment: {
+        name: 'Lesile',
+        image: '../../image/user.jpg',
+        comment: '真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！真的很好看，强烈推荐！',
+      },
     collectComment: [],
+    textComment: [],  // 所有的文字评论，从中挑选置入 barrageComment 中 
+    barrageComment: [],  // 用于展示弹幕的评论列表
+    lastCommentNum: 0,  // 记录评论选取的数字号
     commentId: 0,
     isShowModal: false,
+    isNormalList: true,
+    isChangedCommentWay: false,  // 旋转动画开始
+    isReachAngle: false,  // 到达90°
+    isFinishAnimation: false,
+    
   },
 
   /**
@@ -38,6 +51,11 @@ Page({
     let movieid = options.movieid || 4
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
+    setTimeout(() => {
+      this.setData({
+        isChangedCommentWay: true,
+      })
+    }, 3000)
   },
 
   /**
@@ -116,6 +134,9 @@ Page({
           let commentList = data.data
           console.log("data.data", data.data)
           console.log('comment', commentList)
+
+          this.chooseTextComment(commentList)
+
           this.setData({
             commentList
           })
@@ -289,5 +310,92 @@ Page({
     this.setData({
       commentList
     })
+  },
+  /**
+   * 隐藏元素
+   */
+  hiddenCommentList() {
+    console.log('finishhalf')
+    this.setData({
+      isReachAngle: true,      
+    })
+  },
+  /**
+   * 完成动画 
+   */
+  finishAnimation() {
+    console.log('finishAnimation')
+    this.setData({
+      isFinishAnimation: true,
+      isNormalList: false,
+    })
+    
+    this.createBarrageComment()
+  },
+  /**
+   * 选取文字评论
+   */
+  chooseTextComment(commentList) {
+    let textComment = []
+
+    commentList.forEach(item => {
+      if (item.type === 'text') {
+        item.isChoosed = false  // 添加表示，用来判断评论是否曾经添加到弹幕列表中
+        textComment.push(item)
+      }
+    })
+
+    this.setData({
+      textComment
+    })
+  },
+  /**
+   * 生成弹幕
+   */
+  createBarrageComment() { 
+    let mode = ['slow', 'medium', 'hight']  // 定义评论运动模式
+    let location = [20, 250, 500, 750]     // 定义高度
+    let textComment = this.data.textComment
+    let length = textComment.length
+    if (length < 5) return  //文字评论数小于5，则不会展现
+
+    let temp 
+    let randomNum
+    let barrageComment = this.data.barrageComment
+    let lastCommentNum = this.data.lastCommentNum
+    lastCommentNum = lastCommentNum === length - 1 ? 0 : lastCommentNum
+
+    while (barrageComment.length < 5) {
+      temp = textComment[lastCommentNum]
+      randomNum = Math.floor(Math.random()*3)
+      temp.mode = mode[randomNum]
+      randomNum = Math.floor(Math.random() * 4)
+      temp.location = location[randomNum]
+
+      barrageComment.push(temp)
+      lastCommentNum = ++lastCommentNum === length - 1 ? 0 : lastCommentNum
+    }
+
+    this.setData({
+      barrageComment,
+      lastCommentNum,
+    })
+
+    // console.log('barrageComment:', barrageComment)
+  },
+  /**
+   * 删除已完成的弹幕
+   */
+  deleteBarrageComment(e) {
+    console.log('animationend')
+    let index = e.currentTarget.dataset.index
+
+    let barrageComment = this.data.barrageComment.splice(index, 1)
+
+    this.setData({
+      barrageComment
+    })
+
+    this.createBarrageComment()
   }
 })
