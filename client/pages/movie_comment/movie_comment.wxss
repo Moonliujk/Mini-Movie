@@ -21,7 +21,9 @@
 }
 
 .stage {
-  position: relative;
+  position: absolute;
+  /*当采用相对定位时，margin的高度也会算在page页面的总高度中，于是page的高度比之前多120rpx,
+  所以滑动barrage页面就会出现滚动条，且底部会出现白色未覆盖区域*/
   margin-top: 120rpx;
   width: 100%;
   height: calc(100% - 120rpx);
@@ -31,13 +33,14 @@
 
 /*旋转开始*/
 .card-back.wrapper-roating {
-  transform: rotateY(0deg) translateZ(0rpx); 
+  transform: rotateY(0deg) translateZ(1rpx); 
   transition: transform 1.2s linear;
 }
 
+
 .card-front.wrapper-roating {
   /*真机有个小bug，虽然时间同步，但是旋转时，前后两个图片会交错显示，这里通过将前后两个图片错位1rpx，修复这个bug，在真机上保证旋转效果的正常显示*/
-  transform: rotateY(90deg) translateZ(1rpx); 
+  transform: rotateY(90deg); 
   transition: transform 0.6s linear;
 }
 
@@ -47,14 +50,40 @@
 }
 
 .card-front {
-  transform: rotateY(0deg) translateZ(1rpx); 
+  transform: rotateY(0deg); 
 }
 
 .card-back {
   position: absolute;
   width: 100%;
   height: 100%;
-  transform: rotateY(-180deg) translateZ(0rpx); 
+  transform: rotateY(-180deg) translateZ(1rpx); 
+}
+
+.barrage-list.wrapper-roating-reverse {
+  animation: barrageReverse 0.6s linear forwards;
+}
+
+@keyframes barrageReverse {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(90deg);
+  }
+}
+
+.card-front.wrapper-roating-reverse {
+  animation: ListReverse 0.6s linear forwards;
+}
+
+@keyframes ListReverse {
+  from {
+    transform: rotateY(-90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
 }
 
 .card-back-bg {
@@ -138,6 +167,8 @@
 
 /*弹幕区样式*/
 .barrage-list {
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
 }
@@ -243,6 +274,23 @@
   border-radius: 40rpx;
   margin: 10rpx;
   text-align: center;
+  box-shadow: 5rpx 8rpx 20rpx 5rpx rgba(0, 0, 0, 0.3);
+}
+
+.btn-change-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  right: 10%; bottom: 80rpx;
+  z-index: 200;
+  width: 100rpx;
+  height: 100rpx;
+  color: #342158;
+  font-size: 25rpx;
+  background-color: white;
+  text-align: center;
+  border-radius: 50%;
   box-shadow: 5rpx 8rpx 20rpx 5rpx rgba(0, 0, 0, 0.3);
 }
 

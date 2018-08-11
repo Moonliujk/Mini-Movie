@@ -33,8 +33,8 @@ Page({
    */
   onLoad: function (options) {
 
-    this.getMovieDetail(options.id=4)
-    if (options.id === 4) {
+    this.getMovieDetail(options.id)
+    if (options.id) {
       this.setData({
         characterNum: 20.8
       })

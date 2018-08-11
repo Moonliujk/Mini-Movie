@@ -6,11 +6,16 @@
 
 <view class='stage' wx:if="{{commentList.length > 0}}">
     <!--评论列表模式-->
-    <view class="card-back {{isChangedCommentWay ? 'wrapper-roating' : ''}}" hidden="{{isFinishAnimation}}" bindtransitionend="finishAnimation">
+    <view class="card-back {{isRotatingListFull ? 'wrapper-roating' : ''}}" hidden="{{isHiddenImage}}" bindtransitionend="finishAnimation">
       <image src="{{movieDetail.image}}" class="card-back-bg"></image>
     </view>
 
-    <scroll-view scroll-y="true" class="comment-list card-front {{isShowModal ? 'blur' : ''}} {{isChangedCommentWay ? 'wrapper-roating' : ''}}" hidden="{{!isNormalList || isReachAngle}}" bindtransitionend="hiddenCommentList">
+    <scroll-view 
+      scroll-y="true" 
+      class="comment-list card-front {{isShowModal ? 'blur' : ''}} {{isRotatingListFull ? 'wrapper-roating' : ''}} {{isRotatingListReverse ? 'wrapper-roating-reverse' : ''}}" 
+      wx:if="{{isShowNormalList}}" 
+      bindtransitionend="hiddenCommentList"
+      bindanimationend="rotateListFinish">
       <view wx:for='{{commentList}}' wx:for-item='comment' class='comment-wrapper'>
         <view class='user-info'>   
           <image src='{{comment.useravatar}}' class='user-image'></image>  
@@ -36,21 +41,35 @@
     </scroll-view>
 
     <!--弹幕模式-->
-    <view class="barrage-list" wx:if="{{!isNormalList && isFinishAnimation}}">
+    <scroll-view 
+      y-scroll="false" 
+      x-scroll="false" 
+      class="barrage-list {{isRotatingBarrage ? 'wrapper-roating-reverse' : '' }}" 
+      wx:if="{{isShowBarrageList}}"
+      bindanimationend="rotateBarrageFinish">
       <image class="barrage-list-bg" src="{{movieDetail.image}}"></image>
-      <view class="barrage-comment {{comment.mode}}" style="top: {{comment.location}}rpx" wx:for="{{barrageComment}}"  wx:for-item='comment' data-index="{{index}}" bindanimationend="deleteBarrageComment">
+      <view 
+        wx:for="{{barrageComment}}"  
+        wx:for-item='comment' 
+        class="barrage-comment {{comment.isShowComment ? comment.mode : '' }}" 
+        style="top: {{comment.location}}rpx; {{isRotatingBarrage ? 'animation-play-state:paused;' : ''}}" 
+        data-index="{{index}}"
+        bindanimationend="hiddenBarrageComment">
         <view class='barrage-user-info'>
           <image src="{{comment.useravatar}}" class='barrage-user-avator'></image>
           <view class='barrage-user-name'>{{comment.username}}</view>
         </view>
         <view class="barrage-comment-content">{{comment.content}}</view>
       </view>
-    </view>
+    </scroll-view>
 </view>
 
 <view class="no-comment" wx:else>快来抢个沙发吧！</view>
 
-<view class='btn-write-comment' bindtap='onTapWriteComment'>发表评论</view>
+<view class='btn-write-comment' bindtap='onTapWriteComment' hidden="{{isAnimating}}">发表评论</view>
+<view class='btn-change-list' wx:if="{{barrageComment.length >= 5}}" bindtap='onTapBarrageComment' hidden="{{isAnimating}}">
+  <text class='btn-change-list-text'>{{isNormalList ? '弹幕\n列表' : '普通\n列表' }}</text>
+</view>
 
 <!--弹出层；电影评论详情-->
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
