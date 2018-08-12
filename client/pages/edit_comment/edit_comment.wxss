@@ -254,6 +254,7 @@
 
 .no-comment-info {
   float: left;
+  font-size: 35rpx;
   color: rgba(29, 29, 38, 0.4);
 }
 

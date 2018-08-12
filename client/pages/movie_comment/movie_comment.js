@@ -3,9 +3,10 @@ const qcloud = require('../../vendor/wafer2-client-sdk/index.js')
 const config = require('../../config.js')
 const _ = require('../../utils/util')
 // 定义录音全局变量
-const recorderManager = wx.getRecorderManager()
+// const recorderManager = wx.getRecorderManager()
 // 定义播放语音全局变量
-const innerAudioContext = wx.createInnerAudioContext()
+// const innerAudioContext = wx.createInnerAudioContext()
+let app = getApp()
 
 Page({
 
@@ -13,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userInfo: null,
     movieDetail: {
       /*id: 1,
       title: '壁花少年',
@@ -51,7 +53,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options.movieid)
-    let movieid = options.movieid || 4
+    let movieid = options.movieid
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
   },
@@ -73,6 +75,23 @@ Page({
 
       this.getCommentList(movieId)
     }
+    // 会话检查
+    app.checkSession({
+      success: userInfo => {
+        console.log(userInfo)
+        this.setData({
+          userInfo,
+          isLogin: true
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '会话超期',
+          image: '/image/error.svg'
+        })
+      }
+    })
   },
 
   /**
@@ -110,6 +129,16 @@ Page({
   
   },
   /**
+   * 用户登录
+   */
+  userLoginEvent(e) {
+    let userInfo = e.detail
+
+    this.setData({
+      userInfo,
+    })
+  },
+  /**
    * 获取评论列表
    */
   getCommentList(movieId) {
@@ -145,6 +174,7 @@ Page({
           wx.showToast({
             icon: 'none',
             title: '评论加载出错',
+            image: '../../image/error.svg'
           })
         }
       },
@@ -154,6 +184,7 @@ Page({
         wx.showToast({
           icon: 'none',
           title: '评论加载出错',
+          image: '../../image/error.svg'
         })
       }
     })
@@ -238,7 +269,9 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '加载失败',
+            image: '../../image/error.svg'
           })
 
           setTimeout(() => {
@@ -254,7 +287,9 @@ Page({
         console.log(res)
 
         wx.showToast({
+          icon: 'none',
           title: '加载失败',
+          image: '../../image/error.svg'
         })
 
         setTimeout(() => {
@@ -306,14 +341,18 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '操作失败',
+            image: '../../image/error.svg'
           })
         }
       },
       fail: (res) => {
         console.log(res)
         wx.showToast({
+          icon: 'none',
           title: '操作失败',
+          image: '../../image/error.svg'
         })
       }
     })

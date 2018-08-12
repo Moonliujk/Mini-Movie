@@ -1,49 +1,47 @@
 <!--pages/me/me.wxml-->
-<view class='header bg-color'>
-  <image class='icon-back-to'></image>
-  <view class='page-name'>我的收藏</view>
-</view>
+<userLogin 
+  wx:if="{{!userInfo}}" 
+  description="点击登录即可发表评论"
+  bindgetUserInfo="userLoginEvent"></userLogin>
 
-<scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{collectedCommentList.length > 0}}">
-  <view 
-    wx:for='{{collectedCommentList}}' 
-    wx:for-item='comment' 
-    class='comment-wrapper' 
-    data-index="{{index}}">
-    <view class='user-info'>   
-      <image src='{{comment.item.comment_avatar}}' class='user-image'></image>
-      <view class='user-name'>{{comment.item.comment_username}}</view>
-      <view class='comment-movie'>对 <navigator url="../movie_comment/movie_comment?movieid={{comment.item.movie_id}}" hover-class="navigator-hover" class='navigator'>{{comment.item.movie_title}}</navigator> 的评价</view>
-      <image 
-        class='btn-comment-collection' 
-        src='{{comment.item.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
-        bindtap='onTapCollectComment'
-        data-index="{{index}}"></image>
-    </view>
-
-    <view class='user-comment'>
-      <!--文字评论显示-->
-      <view class='user-comment-text' wx:if="{{comment.item.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.item.content}}</view>
-      <!--语音评论显示-->
-      <audioBar 
-        audioSrc="{{comment.content}}"
-        audioBarIndex="{{index}}" 
-        wx:else></audioBar>
-      <!--<view wx:else class='audio-bar'>
-        <progress class='audio-progress' 
-          stroke-width='6' 
-          percent="{{index === audioIndex ? audioProgress : 0}}" 
-          activeColor='#342158' 
-          backgroundColor='rgba(52, 33, 88, 0.3)' />
-        <image wx:if="{{willReplay && (index === audioIndex)}}" class='btn-audio-control btn-audio-pause' src='../../image/pause.svg' bindtap='onTapPauseRecord'></image>
-        <image wx:else class='btn-audio-control btn-audio-play' src='../../image/play.svg' bindtap='onTapPlayRecord' data-index="{{index}}"></image>
-      </view>-->
-    </view>
-
+<view wx:else>
+  <view class='header bg-color'>
+    <image class='icon-back-to'></image>
+    <view class='page-name'>我的收藏</view>
   </view>
-</scroll-view>
 
-<view class="no-comment" wx:else>还没有添加收藏的评论</view>
+  <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{collectedCommentList.length > 0}}">
+    <view 
+      wx:for='{{collectedCommentList}}' 
+      wx:for-item='comment' 
+      class='comment-wrapper' 
+      data-index="{{index}}">
+      <view class='user-info'>   
+        <image src='{{comment.item.comment_avatar}}' class='user-image'></image>
+        <view class='user-name'>{{comment.item.comment_username}}</view>
+        <view class='comment-movie'>对 <navigator url="../movie_comment/movie_comment?movieid={{comment.item.movie_id}}" hover-class="navigator-hover" class='navigator-text'>{{comment.item.movie_title}}</navigator> 的评价</view>
+        <image 
+          class='btn-comment-collection' 
+          src='{{comment.item.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
+          bindtap='onTapCollectComment'
+          data-index="{{index}}"></image>
+      </view>
+
+      <view class='user-comment'>
+        <!--文字评论显示-->
+        <view class='user-comment-text' wx:if="{{comment.item.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.item.content}}</view>
+        <!--语音评论显示-->
+        <audioBar 
+          audioSrc="{{comment.content}}"
+          audioBarIndex="{{index}}" 
+          wx:else></audioBar>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <view class="no-comment" wx:else>还没有添加收藏的评论</view>
+</view>
 
 <!--弹出层；电影评论详情-->
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>

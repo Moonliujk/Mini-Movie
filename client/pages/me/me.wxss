@@ -61,13 +61,19 @@
 
 .comment-movie {
   flex-grow: 1;
+  
   margin-left: 20rpx;
   color: rgba(0, 0, 0, 0.3);
 }
 
-.navigator {
+.navigator-text {
   display: inline-block;
+  vertical-align: bottom;
   font-weight: bold;
+  max-width: 230rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .navigator-hover {

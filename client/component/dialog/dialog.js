@@ -87,14 +87,18 @@ Component({
             
           } else {
             wx.showToast({
+              icon: 'none',
               title: '操作失败',
+              image: '../../image/error.svg'
             })
           }
         },
         fail: (res) => {
           console.log(res)
           wx.showToast({
+            icon: 'none',
             title: '操作失败',
+            image: '../../image/error.svg'
           })
         }
       })

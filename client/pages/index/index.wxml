@@ -4,7 +4,7 @@
 
   <view class='polygon-wrapper'>
     <image class='btn-add-comment' src='../../image/add_comment.svg' bindtap='onTapCommentList'></image>
-    <view class='movie-score'>{{movieDetail.score}}</view>
+    <view class='movie-score' bindtap='onTapMovieDetail'>{{movieDetail.score}}</view>
     <view class='movie-detail'>
       <view class='movie-title {{movieDetail.title.length > 7 ? "text-small" : ""}}'>{{movieDetail.title}}</view>
       <view class='comment-wrapper'>
@@ -20,11 +20,11 @@
   <view class='navigator-bar flex-center'>
     <view class='btn-navigator flex-center' bindtap='onTapNavigator' data-type='hotMovie'>
       <image class='icon-navigator' src='../../image/hot.svg'></image>
-      <view class='text-navigator'>热门</view>
+      <view class='text-navigator'>热门电影</view>
     </view>
     <view class='btn-navigator flex-center' bindtap='onTapNavigator' data-type='me'>
       <image class='icon-navigator' src='../../image/me.svg'></image>
-      <view class='text-navigator'>我的</view>
+      <view class='text-navigator'>我的收藏</view>
     </view>
   </view>
 </view>

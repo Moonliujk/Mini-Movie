@@ -25,7 +25,7 @@ Page({
     isMediaChooseModalShow: false,
     isScroll: true,
     contentHeight: 280,
-    characterNum: 21.5 // 每一行文字数量
+    characterNum: 22 // 每一行文字数量
   },
 
   /**
@@ -113,7 +113,9 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '加载电影失败',
+            image: '../../image/error.svg'
           })
 
           setTimeout(() => {
@@ -127,7 +129,9 @@ Page({
         console.log(res)
 
         wx.showToast({
+          icon: 'none',
           title: '加载电影失败',
+          image: '../../image/error.svg'
         })
 
         setTimeout(() => {

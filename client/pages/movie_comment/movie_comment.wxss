@@ -115,7 +115,7 @@
 
 .comment-wrapper {
   box-sizing: border-box;
-  height: 220rpx;
+  height: 200rpx;
   margin: auto;
   padding: 0 50rpx;
 }
@@ -153,9 +153,10 @@
 }
 
 .user-comment-text {
-  max-height: 80rpx;
+  max-height: 90rpx;
   width: 100%;
   font-size: 30rpx;
+  line-height: 42rpx;
   color: #342158;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -190,7 +191,6 @@
   align-items: center;
   padding: 20rpx 30rpx;
   min-height: 150rpx;
-  width: 550rpx;
   max-height: 250rpx;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
@@ -249,7 +249,6 @@
 }
 
 .barrage-comment-content {
-  width: 100%;
   font-size: 30rpx;
   color: white;
   text-overflow: ellipsis;

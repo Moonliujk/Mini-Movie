@@ -116,10 +116,11 @@
 
 .btn-navigator {
   box-sizing: border-box;
-  height: 70rpx;
-  padding: 0 70rpx;
-  border: 1px solid #342158;
-  border-radius: 75rpx;
+  height: 80rpx;
+  padding: 0 50rpx;
+  border: 3rpx solid #342158;
+  border-radius: 40rpx;
+  color: #342158;
 }
 
 .btn-navigator:first-child {

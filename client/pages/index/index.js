@@ -98,7 +98,9 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '加载失败',
+            image: '../../image/error.svg'
           })
 
           setTimeout(() => {
@@ -114,7 +116,9 @@ Page({
         console.log(res)
 
         wx.showToast({
-          title: '加载失败',
+          icon: 'none',
+          title: '操作失败',
+          image: '../../image/error.svg'
         })
 
         setTimeout(() => {
@@ -154,6 +158,7 @@ Page({
           wx.showToast({
             icon: 'none',
             title: '加载影评失败',
+            image: '../../image/error.svg'
           })
         }
       },
@@ -162,6 +167,7 @@ Page({
         wx.showToast({
           icon: 'none',
           title: '加载影评失败',
+          image: '../../image/error.svg'
         })
       }
     })
@@ -195,6 +201,16 @@ Page({
 
     wx.navigateTo({
       url: `/pages/movie_comment/movie_comment?movieid=${movieId}`,
+    })
+  },
+  /**
+   * 跳转到所展示的电影详情页面
+   */
+  onTapMovieDetail() {
+    let movieId = this.data.movieId
+
+    wx.navigateTo({
+      url: `/pages/detail/detail?id=${movieId}`,
     })
   }
 })

@@ -3,12 +3,15 @@ const qcloud = require('../../vendor/wafer2-client-sdk/index.js')
 const config = require('../../config.js')
 const _ = require('../../utils/util')
 
+let app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    userInfo: null,
     collectedCommentList: [],
     commentId: 0,
     isShowModal: false,
@@ -32,7 +35,22 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    app.checkSession({
+      success: userInfo => {
+        console.log(userInfo)
+        this.setData({
+          userInfo,
+          isLogin: true
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '会话超期',
+          image: '/image/error.svg'
+        })
+      }
+    })
   },
 
   /**
@@ -70,6 +88,16 @@ Page({
   
   },
   /**
+   * 用户登录
+   */
+  userLoginEvent(e) {
+    let userInfo = e.detail
+
+    this.setData({
+      userInfo,
+    })
+  },
+  /**
    * 获得用户搜藏评论列表
    */
   getCollectedCommentList() {
@@ -85,7 +113,7 @@ Page({
 
         if (!data.code) {
           wx.showToast({
-            title: '',
+            title: '加载成功',
           })
           console.log(data.data)
           let collectedCommentList = data.data
@@ -96,7 +124,9 @@ Page({
           })
         } else {
           wx.showToast({
-            title: '收藏失败',
+            icon: 'none',
+            title: '加载失败',
+            image: '../../image/error.svg'
           })
         }
       },
@@ -104,7 +134,9 @@ Page({
         wx.hideLoading()
         console.log(res)
         wx.showToast({
-          title: '网络问题，请重试',
+          icon: 'none',
+          title: '加载出错',
+          image: '../../image/error.svg'
         })
       }
     })
@@ -161,14 +193,18 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '操作失败',
+            image: '../../image/error.svg'
           })
         }
       },
       fail: (res) => {
         console.log(res)
         wx.showToast({
+          icon: 'none',
           title: '操作失败',
+          image: '../../image/error.svg'
         })
       }
     })

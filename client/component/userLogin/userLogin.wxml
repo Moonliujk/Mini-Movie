@@ -1,0 +1,14 @@
+<!--component/userLogin/userLogin.wxml-->
+<view class='unlogin' wx:if="{{!userInfo}}">
+  <view class="unlogin-card">
+    <view class="unlogin-head"></view>
+    <view class="unlogin-info">
+      <view class="unlogin-text">未登录</view>
+      <view class="unlogin-tips">{{description}}</view>
+    </view>
+  </view>
+  <view class='btn-group-login'>
+    <view class='btn-backto btn' bindtap='onTapBackTo'>返 回</view>
+    <button class='btn-login btn' open-type='getUserInfo'  bindgetuserinfo='onTapLogin'>登 录</button>
+  </view>
+</view>

@@ -1,0 +1,79 @@
+/* component/userLogin/userLogin.wxss */
+.unlogin {
+  width: 90%;
+  position: absolute;
+  top: 15%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2rpx 13rpx 5rpx rgba(0, 0, 0, 0.02);
+  border-radius: 13rpx;
+}
+
+.unlogin-card {
+  display: flex;
+  align-items: center;
+  margin: 50rpx 27rpx 0;
+  height: 200rpx;
+  background: #FFFFFF;
+}
+
+.unlogin-head {
+  flex-shrink: 0;
+  margin-left: 53rpx;
+  height: 100rpx;
+  width: 100rpx;
+  background: #F5E069;
+  border-radius: 50%;
+}
+
+.unlogin-info {
+  flex: 1;
+  margin-left: 31rpx;
+}
+
+.unlogin-text {
+  line-height: 48rpx;
+  font-size: 34rpx;
+  color: #342158;
+  font-weight: bold;
+}
+
+.unlogin-tips {
+  margin-top: 6rpx;
+  line-height: 33rpx;
+  font-size: 24rpx;
+  color: rgba(52, 33, 88, 0.5);
+}
+
+.unlogin-btn::after {
+  border: none;
+}
+
+.btn-group-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50rpx;
+}
+
+.btn-group-login .btn {
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 40rpx;
+  text-align: center;
+  color: #342158;
+  width: 250rpx;
+  height: 80rpx;
+  line-height: 74rpx;
+  border: 3rpx solid #342158;
+  border-radius: 40rpx;
+}
+
+.btn-group-login .btn:first-child {
+  margin-right: 50rpx;
+}
+
+.btn-group-login .btn-login {
+  background-color: #342158;
+  color: white;
+  font-weight: bold;
+}

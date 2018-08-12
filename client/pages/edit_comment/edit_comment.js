@@ -27,11 +27,11 @@ var app = getApp()
  * ---在个人收藏影评页面添加语音、弹出框
  * ---编写readme
  * ------------------------
+ * ---修复语音授权的问题
  * ---在录音页面可以添加时间信息
- * ---添加预告片（无法添加视频）以及主题曲
+ * ---添加主题曲
  * ---可以添加收藏评论人数的展示，并进行排序
  * ---评论列表可以添加楼中楼的评论
- * ---评论发表后，页面自动跳转到电影的评论页面
  * ---预览并提交评论的按钮交互逻辑比较模糊，需要更改文字内容使功能更明确
  */
 
@@ -97,6 +97,7 @@ Page({
         wx.showToast({
           icon: 'none',
           title: '会话超期',
+          image: '/image/error.svg'
         })
       }
     })
@@ -138,6 +139,20 @@ Page({
   onShareAppMessage: function () {
   
   },
+  /**
+   * 用户登录
+   */
+  userLoginEvent(e) {
+    let userInfo = e.detail
+
+    this.setData({
+      userInfo,
+      isLogin: true,
+    })
+  },
+  /**
+   * 获得电影信息
+   */
   getMovieInfo(movieId) {
     wx.showLoading({
       title: '加载电影信息...',
@@ -161,7 +176,9 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '加载失败',
+            image: '../../image/error.svg'
           })
 
           setTimeout(() => {
@@ -177,7 +194,9 @@ Page({
         console.log(res)
 
         wx.showToast({
+          icon: 'none',
           title: '加载失败',
+          image: '../../image/error.svg'
         })
 
         setTimeout(() => {
@@ -187,62 +206,6 @@ Page({
         }, 2000)
       }
     })
-  },
-  /**
-   * 未登录状态下，点击登录，获取用户信息
-   */
-  onTapLogin(e) {
-    app.onTapLogin(e)
-    let userInfo = e.detail.userInfo
-    let isLogin = true
-
-    this.setData({
-      userInfo,
-      isLogin,
-    })
-  },
-  /**
-   * 会话检查
-   */
-  checkSession() {
-    // 存在登录信息，直接返回
-    if (userInfo) {
-      this.setData({
-        userInfo: userInfo,
-      })
-      return 
-    }
-    // 首次检查
-    wx.checkSession({
-      // 检查会话信息成功后，获取用户信息
-      success: () => {
-        wx.getUserInfo({
-          success: res => {
-            userInfo = res.userInfo
-
-            this.setData({
-              isLogin: true,
-              userInfo: userInfo,
-            })
-          },
-          fail: res => {
-            console.log(res)
-          }
-        })
-      },
-      fail: res => {
-        wx.showToast({
-          title: '会话超期，请重新登陆',
-        })
-      }
-    })
-  },
-  /**
-   * 返回前一页面
-   */
-  onTapBackTo() {
-    console.log('back to last page')
-    wx.navigateBack()
   },
   /**
    * 
@@ -315,6 +278,7 @@ Page({
         wx.showToast({
           title: '录音时长过短',
           icon: 'none',
+          image: '../../image/error.svg'
         })
 
         this.setData({
@@ -536,6 +500,13 @@ Page({
     this.onTapHiddenModal() 
   },
   /**
+   * 返回前一页面
+   */
+  onTapBackTo() {
+    //console.log('back to last page')
+    wx.navigateBack()
+  },
+  /**
    * 隐藏弹出层
    */
   onTapHiddenModal() {
@@ -614,6 +585,7 @@ Page({
           wx.showToast({
             icon: 'none',
             title: '添加评论失败',
+            image: '../../image/error.svg'
           })
         }
       },
@@ -628,6 +600,7 @@ Page({
         wx.showToast({
           icon: 'none',
           title: '添加评论失败',
+          image: '../../image/error.svg'
         })
       }
     })
@@ -666,6 +639,7 @@ Page({
           wx.showToast({
             icon: 'none',
             title: '上传失败',
+            image: '../../image/error.svg'
           })
         }
       },
@@ -674,6 +648,7 @@ Page({
         wx.showToast({
           icon: 'none',
           title: '上传失败',
+          image: '../../image/error.svg'
         })
         console.log(res)
       }

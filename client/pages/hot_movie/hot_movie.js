@@ -167,13 +167,20 @@ Page({
           })
         } else {
           wx.showToast({
+            icon: 'none',
             title: '电影列表加载失败',
+            image: '../../image/error.svg'
           })
         }
       },
       fail: res => { 
         wx.hideLoading()
-        console.log('加载失败', res)
+        // console.log('加载失败', res)
+        wx.showToast({
+          icon: 'none',
+          title: '电影列表加载失败',
+          image: '../../image/error.svg'
+        })
       }
     })
   },
