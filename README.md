@@ -57,20 +57,6 @@
     </tr>
     <tr>
       <td>
-        <img src="https://github.com/Moonliujk/imageBaseForArticle/raw/master/wmp-mini_movie/my_collected.PNG" width="250px">
-        <br/>
-        <b>收藏影评界面</b>
-      </td>
-      <td>
-        <ul>
-          <li>用户可通过单击收藏按钮，收藏/取消收藏相应的影评</li>
-          <li>用户可通过单击任意影评查看影评详情</li>
-          <li>用户可通过电影名，进入到相关电影的 <b>评论界面</b></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td>
         <img src="https://github.com/Moonliujk/imageBaseForArticle/raw/master/wmp-mini_movie/movie_list.PNG" width="250px">
         <br/>
         <b>电影列表界面</b>
