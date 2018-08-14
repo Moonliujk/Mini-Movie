@@ -75,7 +75,9 @@ CREATE TABLE `movies` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-SET @IMAGE_BASE_URL = "https://movie-1256948132.cos.ap-beijing.myqcloud.com/"; -- FOR EXAMPLE: https://*****.ap-shanghai.myqcloud.com/
+SET @IMAGE_BASE_URL = "https://movie-1256948132.cos.ap-beijing.myqcloud.com/";
+-- FOR EXAMPLE: https://*****.ap-shanghai.myqcloud.com/
+-- 注意！需要将资源添加到存储桶后，修改这里的 url，并在存储桶中添加 video 文件夹，并将视频导入到该文件夹中
 
 INSERT INTO `movies` (`id`, `image`, `thumbnail`, `video`, `title`, `score`, `year`, `category`, `description`) VALUES
 (1, CONCAT(@IMAGE_BASE_URL, 'p1874816818.jpg'), CONCAT(@IMAGE_BASE_URL, 'p1693796023.jpg'), CONCAT(@IMAGE_BASE_URL, 'video/theperks.mp4'), '壁花少年', '7.9', '2012', '青春 / 成长 / 美国 / 爱情', '查理（罗根·勒曼 Logan Lerman 饰）是个害羞和孤独的高中新生，拥有超越年龄的敏感和泪腺，总是默默观察身边的家人和朋友，是个典型的「壁花少年」。他的青春期充满各种挫折，先后经历了阿姨为给他买生日礼物去世、最好朋友自杀、受同侪排挤欺负、单恋没有回应等各种事情。然而查理还不是最惨的，因为和他一样被生活逼入墙角罚站的人实在太多。他幸运的拥有一个开明的老师和两个高年级的好友：叛逆娇俏的少女珊（艾玛·沃森 Emma Watson 饰）和自信满满的同志男生帕特里克（埃兹拉·米勒 Ezra Miller 饰），他们让查理明白了有时候不能永远旁观，必须要参与进来才能拥有属于自己的精彩。 '),
