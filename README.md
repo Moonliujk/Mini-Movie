@@ -1,10 +1,10 @@
 # 微信小程序——Mini Movie
 
 ### 项目概览
-- [What is LaTeX?](#what-is-latex)
+- <a href="#head">点这里从头再读一遍</a>
 - []
 
-### What is LaTeX?
+### 效果概览<a id="head"/>
 
 | 效果图 |
 | :---: |
