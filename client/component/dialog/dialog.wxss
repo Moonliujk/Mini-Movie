@@ -4,6 +4,7 @@
   color: #342158;
   position: absolute;
   left: 50%; top: 45%;
+  z-index: 10;
   transform: translate(-50%, -50%);
   width: 80%;
   border-radius: 50rpx;

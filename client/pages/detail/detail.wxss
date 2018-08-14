@@ -175,6 +175,7 @@
 /*弹窗层*/
 .multimedia-choose-container {
   position: absolute;
+  z-index: 10;
   bottom: 0;
   overflow: hidden;
   width: 100%;

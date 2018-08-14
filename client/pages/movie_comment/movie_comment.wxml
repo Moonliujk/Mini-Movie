@@ -10,7 +10,7 @@
     <view class='page-name'>{{movieDetail.title}}</view>
   </view>
   
-  <view class='stage' wx:if="{{commentList.length > 0}}" >
+  <view class="stage  {{isShowModal ? 'blur' : ''}}" wx:if="{{commentList.length > 0}}" >
       <!--评论列表模式-->
       <view class="card-back {{isRotatingListFull ? 'wrapper-roating' : ''}}" hidden="{{isHiddenImage}}" bindtransitionend="finishAnimation">
         <image src="{{movieDetail.image}}" class="card-back-bg"></image>
@@ -18,7 +18,7 @@
 
       <scroll-view 
         scroll-y="true" 
-        class="comment-list card-front {{isShowModal ? 'blur' : ''}} {{isRotatingListFull ? 'wrapper-roating' : ''}} {{isRotatingListReverse ? 'wrapper-roating-reverse' : ''}}" 
+        class="comment-list card-front {{isRotatingListFull ? 'wrapper-roating' : ''}} {{isRotatingListReverse ? 'wrapper-roating-reverse' : ''}}" 
         wx:if="{{isShowNormalList}}" 
         bindtransitionend="hiddenCommentList"
         bindanimationend="rotateListFinish">
@@ -30,13 +30,17 @@
               class='btn-comment-collection' 
               src='{{comment.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
               bindtap='onTapCollectComment'
-              data-index="{{index}}"
+              data-id="{{comment.id}}"
               wx:if="{{!commentList[index].isSelfComment}}"></image>
           </view>
 
           <view class='user-comment'>
             <!--文字评论显示-->
-            <view class='user-comment-text' wx:if="{{comment.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.content}}</view>
+            <view 
+              class='user-comment-text' 
+              wx:if="{{comment.type === 'text'}}" 
+              bindtap='onTapShowComment' 
+              data-id="{{comment.id}}">{{comment.content}}</view>
             <!--语音评论显示-->
             <audioBar 
               audioSrc="{{comment.content}}"
@@ -58,8 +62,10 @@
           wx:for="{{barrageComment}}"  
           wx:for-item='comment' 
           class="barrage-comment {{comment.isShowComment ? comment.mode : '' }}" 
-          style="top: {{comment.location}}rpx; {{isRotatingBarrage ? 'animation-play-state:paused;' : ''}}" 
+          style="top: {{comment.location}}rpx; {{isRotatingBarrage||isShowModal ? 'animation-play-state:paused;' : ''}}" 
+          data-id="{{comment.id}}"
           data-index="{{index}}"
+          bindtap='onTapShowComment'
           bindanimationend="hiddenBarrageComment">
           <view class='barrage-user-info'>
             <image src="{{comment.useravatar}}" class='barrage-user-avator'></image>
@@ -72,8 +78,8 @@
 
   <view class="no-comment" wx:else>快来抢个沙发吧！</view>
 
-  <view class='btn-write-comment' bindtap='onTapWriteComment' hidden="{{isAnimating}}">发表评论</view>
-  <view class='btn-change-list' wx:if="{{barrageComment.length >= 5}}" bindtap='onTapBarrageComment' hidden="{{isAnimating}}">
+  <view class="btn-write-comment {{isShowModal ? 'blur' : ''}}" bindtap='onTapWriteComment' hidden="{{isAnimating}}">发表评论</view>
+  <view class="btn-change-list {{isShowModal ? 'blur' : ''}}" wx:if="{{barrageComment.length >= 5}}" bindtap='onTapBarrageComment' hidden="{{isAnimating}}">
     <text class='btn-change-list-text'>{{isNormalList ? '弹幕\n列表' : '普通\n列表' }}</text>
   </view>
 </view>
@@ -82,10 +88,9 @@
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
 <dialog
   wx:if='{{isShowModal}}'
-  commentId="{{commentId}}"
-  commentList="{{commentList}}"
-  useravatar="{{commentList[commentId].useravatar}}"
-  username="{{commentList[commentId].username}}"
-  content="{{commentList[commentId].content}}"
+  commentId="{{showComment.id}}"
+  useravatar="{{showComment.useravatar}}"
+  username="{{showComment.username}}"
+  content="{{showComment.content}}"
   bindcommentCollectChange="commentCollectChange"></dialog>
 

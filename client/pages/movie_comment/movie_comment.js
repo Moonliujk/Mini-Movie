@@ -35,7 +35,7 @@ Page({
     collectComment: [],
     barrageComment: [],  // 用于展示弹幕的评论列表
     lastCommentNum: 0,  // 记录评论选取的数字号
-    commentId: 0,
+    showComment: null,
     isShowModal: false,
     isNormalList: true,
     isShowNormalList: true, // 显示普通列表
@@ -53,7 +53,7 @@ Page({
    */
   onLoad: function (options) {
     console.log(options.movieid)
-    let movieid = options.movieid
+    let movieid = options.movieid || 4
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
   },
@@ -194,11 +194,16 @@ Page({
    */
   onTapShowComment(e) {
     let isShowModal = true
-    let commentId = e.currentTarget.dataset.index
+    let commentId = e.currentTarget.dataset.id
+    let showComment = this.data.commentList.find(item =>{
+      return item.id == commentId
+    })
+
+    console.log('showComment:', showComment)
 
     this.setData({
       isShowModal,
-      commentId
+      showComment
     })
   },
   /**
@@ -300,14 +305,22 @@ Page({
       }
     })
   },
-  /**
-   * 收藏评论：post请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
-   */
   onTapCollectComment(e) {
-    let index = e.currentTarget.dataset.index
+    let commentId = e.currentTarget.dataset.id
+
+    this.changeCommentStatus(commentId)
+  },
+  /**
+   * 收藏/删除收藏评论：post/DELETE请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
+   */
+  changeCommentStatus(commentId) {
     let self = this
+    console.log(commentId)
     let commentList = this.data.commentList
-    let comment = commentList[index]
+    let comment = commentList.find(item => {
+      return item.id == commentId
+    })
+    console.log('comment', comment)
     let url,
         method;
     
@@ -325,7 +338,7 @@ Page({
       url,
       method,
       data: {
-        commentId: comment.id
+        commentId
       },
       success: (res) => {
         let data = res.data
@@ -334,7 +347,7 @@ Page({
             title: '操作成功',
           })
 
-          commentList[index].isCollected = !commentList[index].isCollected
+          comment.isCollected = !comment.isCollected
 
           this.setData({
             commentList
@@ -361,12 +374,11 @@ Page({
    * 在对话框中修改收藏影评触发的事件
    */
   commentCollectChange(e) {
+    // console.log(e.detail)
     console.log(e.detail)
-    let commentList = e.detail
+    let commentId = e.detail
 
-    this.setData({
-      commentList
-    })
+    this.changeCommentStatus(e.detail)
   },
   /**
    * 隐藏元素

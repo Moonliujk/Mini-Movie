@@ -19,17 +19,23 @@
       <view class='user-info'>   
         <image src='{{comment.item.comment_avatar}}' class='user-image'></image>
         <view class='user-name'>{{comment.item.comment_username}}</view>
-        <view class='comment-movie'>对 <navigator url="../movie_comment/movie_comment?movieid={{comment.item.movie_id}}" hover-class="navigator-hover" class='navigator-text'>{{comment.item.movie_title}}</navigator> 的评价</view>
+        <view class='comment-movie'>
+          对 <navigator url="../movie_comment/movie_comment?movieid={{comment.item.movie_id}}" hover-class="navigator-hover" class='navigator-text'>{{comment.item.movie_title}}</navigator> 的评价
+        </view>
         <image 
           class='btn-comment-collection' 
           src='{{comment.item.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
           bindtap='onTapCollectComment'
-          data-index="{{index}}"></image>
+          data-id="{{comment.item.id}}"></image>
       </view>
 
       <view class='user-comment'>
         <!--文字评论显示-->
-        <view class='user-comment-text' wx:if="{{comment.item.type === 'text'}}" bindtap='onTapShowComment' data-index="{{index}}">{{comment.item.content}}</view>
+        <view 
+          class='user-comment-text' 
+          wx:if="{{comment.item.type === 'text'}}" 
+          bindtap='onTapShowComment'
+          data-id="{{comment.item.id}}">{{comment.item.content}}</view>
         <!--语音评论显示-->
         <audioBar 
           audioSrc="{{comment.content}}"
@@ -47,10 +53,8 @@
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
 <dialog
   wx:if='{{isShowModal}}'
-  commentId="{{commentId}}"
-  commentList="{{collectedCommentList}}"
-  useravatar="{{collectedCommentList[commentId].item.comment_avatar}}"
-  username="{{collectedCommentList[commentId].item.comment_username}}"
-  content="{{collectedCommentList[commentId].item.content}}"
+  commentId="{{showComment.item.id}}"
+  useravatar="{{showComment.item.comment_avatar}}"
+  username="{{showComment.item.comment_username}}"
+  content="{{showComment.item.content}}"
   bindcommentCollectChange="commentCollectChange"></dialog>
-

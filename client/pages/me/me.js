@@ -15,6 +15,7 @@ Page({
     collectedCommentList: [],
     commentId: 0,
     isShowModal: false,
+    showComment: null
   },
 
   /**
@@ -141,27 +142,24 @@ Page({
       }
     })
   },
-  /**
-   * 在对话框中修改收藏影评触发的事件
-   */
-  commentCollectChange(e) {
-    console.log(e.detail)
-    let commentList = e.detail
+  onTapCollectComment(e) {
+    let commentId = e.currentTarget.dataset.id
 
-    this.setData({
-      commentList
-    })
+    this.changeCommentStatus(commentId)
   },
   /**
-   * 收藏评论：post请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
+   * 收藏/删除收藏评论：post/DELETE请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
    */
-  onTapCollectComment(e) {
-    let index = e.currentTarget.dataset.index
+  changeCommentStatus(commentId) {
     let self = this
+    console.log(commentId)
     let collectedCommentList = this.data.collectedCommentList
-    let comment = collectedCommentList[index]
+    let comment = collectedCommentList.find(item => {
+      return item.item.id == commentId
+    })
+    console.log('comment', comment)
     let url,
-        method;
+      method;
 
     if (!comment.item.isCollected) {
       console.log('收藏评论')
@@ -177,7 +175,7 @@ Page({
       url,
       method,
       data: {
-        commentId: comment.item.id
+        commentId
       },
       success: (res) => {
         let data = res.data
@@ -186,7 +184,7 @@ Page({
             title: '操作成功',
           })
 
-          collectedCommentList[index].item.isCollected = !collectedCommentList[index].item.isCollected
+          comment.item.isCollected = !comment.item.isCollected
 
           this.setData({
             collectedCommentList
@@ -210,15 +208,30 @@ Page({
     })
   },
   /**
+   * 在对话框中修改收藏影评触发的事件
+   */
+  commentCollectChange(e) {
+    // console.log(e.detail)
+    console.log(e.detail)
+    let commentId = e.detail
+
+    this.changeCommentStatus(e.detail)
+  },
+  /**
    * 显示弹出层
    */
   onTapShowComment(e) {
     let isShowModal = true
-    let commentId = e.currentTarget.dataset.index
+    let commentId = e.currentTarget.dataset.id
+    let showComment = this.data.collectedCommentList.find(item => {
+      return item.item.id == commentId
+    })
+
+    console.log('showComment:', showComment)
 
     this.setData({
       isShowModal,
-      commentId
+      showComment
     })
   },
   /**

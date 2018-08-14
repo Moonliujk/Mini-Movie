@@ -20,17 +20,26 @@
           <textarea wx:if="{{!isShowModal}}" class="comment" placeholder-class='comment-placeholder' placeholder='快来写出你的评价吧！' auto-focus maxlength='255' bindinput='onInput' value="{{userComment}}"></textarea>
         </view>
         <!--语音评论-->
-        <view class='audio-comment'wx:else>
+        <view class='audio-comment' wx:elif="{{isAuthorizedRecord}}">
           <view class="play-record-info {{isRecorderOver ? 'showOver' : ''}}">
             {{recordInfo}}
           </view>
-          <view class="animation-bg  {{isRecording ? 'recording' : '' }}"
-           bindtouchstart='onTapStartTaping' bindtouchend='onTapStopTaping' >
+          <view 
+            class="animation-bg  {{isRecording ? 'recording' : '' }}"
+            bindtouchstart='onTapStartTaping' 
+            bindtouchend='onTapStopTaping'>
             <image src='../../image/taping.svg' class='icon-taping'></image>
           </view>
           <view>
             <view class="play-record-text {{recordTxt.length>10 ? 'text-small' : '' }}">{{recordTxt}}</view>
           </view>
+        </view>
+        <!--语音录音未授权-->
+        <view class='record-authorized-wrapper' wx:else>
+          <button 
+            class='btn-record-authorized' 
+            open-type="openSetting" 
+            bindopensetting="recordAuthorized">打开授权设置页</button>
         </view>
       </view>
       <view class='btn-change-edit-way' bindtap='onTapChangeCommentWay'>

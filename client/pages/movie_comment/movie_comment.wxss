@@ -263,7 +263,7 @@
   box-sizing: border-box;
   position: fixed;
   left: 50%; bottom: 80rpx;
-  z-index: 100;
+  z-index: 1;
   transform: translateX(-50%);
   color: #342158;
   width: 300rpx;
@@ -282,7 +282,7 @@
   align-items: center;
   position: fixed;
   right: 10%; bottom: 80rpx;
-  z-index: 200;
+  z-index: 1;
   width: 100rpx;
   height: 100rpx;
   color: #342158;

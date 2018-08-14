@@ -163,6 +163,22 @@
   margin: 40rpx auto;
 }
 
+.record-authorized-wrapper {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-record-authorized {
+  box-sizing: border-box;
+  height: 90rpx;
+  width: 400rpx;
+  line-height: 84rpx;
+  border: 3rpx solid #342158;
+  border-radius: 45rpx;
+  color: #342158;
+}
+
 /*评论编辑区样式---结束*/
 
 /*底部按钮区样式---开始*/
@@ -207,6 +223,7 @@
 
 .modal-wrapper {
   position: absolute;
+  z-index: 10;
   left: 50%;
   top: 45%;
   transform: translate(-50%, -50%);

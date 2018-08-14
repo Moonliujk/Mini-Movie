@@ -50,6 +50,7 @@ Page({
   data: {
     userInfo: null,
     isLogin: false,
+    isAuthorizedRecord: true,  // 是否获取录音权限
     isEnterEdit: false, // 选择文字评论
     isAudioSuccess: false,
     timeFlag: null,
@@ -75,19 +76,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options.movieid)
+    // console.log(options.movieid)
     let movieId = options.movieid ? options.movieid : 2
-    console.log(movieId)
+    // console.log(movieId)
     this.getMovieInfo(movieId)
+    this.getRecordAuthorized() // 检查授权情况
   },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let self = this
     // console.log(app)
     app.checkSession({
       success: userInfo => {
-        console.log(userInfo)
+        console.log(self)
         this.setData({
           userInfo,
           isLogin: true
@@ -101,7 +104,6 @@ Page({
         })
       }
     })
-    // console.log(userInfo)
   },
 
   /**
@@ -149,6 +151,54 @@ Page({
       userInfo,
       isLogin: true,
     })
+  },
+  /**
+   * 检查用户是否进行录音授权
+   */
+  getRecordAuthorized() {
+    let self = this
+
+    wx.getSetting({
+      success(res) {
+        // 未授权
+        if (!res.authSetting['scope.record']) {
+          self.setData({
+            isAuthorizedRecord: false,
+          })
+          // 申请授权
+          wx.authorize({
+            scope: 'scope.record',
+            success() {
+              // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+              self.setData({
+                isAuthorizedRecord: true,
+              })
+            }
+          })
+        } else { // 已授权
+          self.setData({
+            isAuthorizedRecord: true,
+          })
+        }
+      } 
+    })
+  },
+  /**
+   * 请求用户录音授权
+   */
+  recordAuthorized(e) {
+    let isAuthorized = e.detail.authSetting['scope.record']
+    console.log(isAuthorized)
+
+    if (isAuthorized) {
+      this.setData({
+        isAuthorizedRecord: true,
+      })
+    } else {
+      this.setData({
+        isAuthorizedRecord: false,
+      })
+    }
   },
   /**
    * 获得电影信息
