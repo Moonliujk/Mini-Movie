@@ -17,7 +17,7 @@
 
 ## 如何使用<a id="how-to-use"/>
 
-由于项目并未正式上线，故在手机端需打开调试模式。使用者需将项目及配套资源下载到本地，将 [data.sql](https://github.com/Moonliujk/Mini-Movie/blob/master/data.sql) 导入数据库然后进行使用
+由于项目并未正式上线，故在手机端需打开调试模式。使用者需将项目及配套资源下载到本地，将 [data.sql](https://github.com/Moonliujk/Mini-Movie/blob/master/data.sql) 导入数据库然后进行使用。**注意：该小程序暂不支持全面屏**
 
 ## 前端实现<a id="front-end-page"/>
 <table>
