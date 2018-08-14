@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "audioBar": "../../component/audioBar/audioBar",
-    "userLogin": "../../component/userLogin/userLogin"
+    "userLogin": "../../component/userLogin/userLogin",
+    "header": "../../component/header/header"
   }
 }

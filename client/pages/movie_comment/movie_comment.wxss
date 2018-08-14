@@ -140,6 +140,14 @@
   color: #342158;
   font-size: 28rpx;
   line-height: 40rpx;
+  display: flex;
+  align-items: center;
+}
+
+.user-myself {
+  margin-left: 5rpx;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 28rpx;
 }
 
 .btn-comment-collection {
@@ -246,6 +254,12 @@
 .barrage-user-name {
   font-size: 28rpx;
   color: white;
+}
+
+.barrage-user-mycomment {
+  font-size: 28rpx;
+  margin-left: 5rpx;
+  color: rgb(240, 240, 240);
 }
 
 .barrage-comment-content {

@@ -5,12 +5,15 @@
     <view class='comment-detail-user'>
       <image class='comment-detail-image' src='{{useravatar}}'></image>
       <view class='comment-detail-name'>{{username}}</view>
+      <view class='comment-detail-me' wx:if="{{isSelfComment}}">(我)</view>
     </view>
     <scroll-view scroll-y="true" class='comment-detail-text-wrapper'>
       <view class='comment-detail-text'>{{content}}</view>
     </scroll-view>
   </view>
   <view class='modal-btn-group'>
-    <view class='modal-btn' bindtap='onTapCollectComment'>收藏评论</view>
+    <view 
+      class="modal-btn {{isSelfComment=='true' ? 'btn-invaild' : ''}}"    
+      bindtap='onTapCollectComment'>{{commentType=='true' ? '取消收藏' : '收藏评论'}}</view>
   </view>
 </view>

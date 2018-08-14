@@ -2,6 +2,11 @@
 <!--阻止页面滚动-->
 <view style="{{isScroll ? 'height: auto' : 'height: 100%' }}; overflow: hidden ">
   <view class="header-wrapper {{isVideoShow ? 'blur' : ''}}">
+    <header 
+      title='电影详情'
+      textColor='white'
+      bgColor='transparent'
+      position='absolute'></header>
     <!--为了保证使用高斯模糊后边缘依旧清晰，所以多增加了一层嵌套关系-->
     <view class='header-image-wrapper'>
       <image src='{{movieDetail.image}}' class='header-image' mode='aspectFill'></image>

@@ -1,0 +1,12 @@
+<!--component/header/header.wxml-->
+<view 
+  class='header' 
+  style="position: {{position}}; background-color: {{bgColor}}">
+  <image 
+    src="{{isWhiteIcon == 'true' ? '../../image/backto_white.svg' : '../../image/backto_blue.svg'}}"
+    class='icon-back-to' 
+    bindtap='onTapBackto'></image>
+  <view 
+    class='page-name'
+    style="color: {{textColor}};">{{title}}</view>
+</view>

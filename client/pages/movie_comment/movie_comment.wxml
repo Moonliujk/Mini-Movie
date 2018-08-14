@@ -5,11 +5,7 @@
   bindgetUserInfo="userLoginEvent"></userLogin>
 
 <view wx:else>
-  <view class='header bg-color'>
-    <image class='icon-back-to'></image>
-    <view class='page-name'>{{movieDetail.title}}</view>
-  </view>
-  
+  <header title="{{movieDetail.title}}"></header>  
   <view class="stage  {{isShowModal ? 'blur' : ''}}" wx:if="{{commentList.length > 0}}" >
       <!--评论列表模式-->
       <view class="card-back {{isRotatingListFull ? 'wrapper-roating' : ''}}" hidden="{{isHiddenImage}}" bindtransitionend="finishAnimation">
@@ -25,7 +21,10 @@
         <view wx:for='{{commentList}}' wx:for-item='comment' class='comment-wrapper'>
           <view class='user-info'>   
             <image src='{{comment.useravatar}}' class='user-image'></image>  
-            <view class='user-name'>{{comment.username}}</view>
+            <view class='user-name'>
+              {{comment.username}}
+              <view class='user-myself' wx:if="{{comment.isSelfComment}}">（帅气的本人）</view>
+            </view>
             <image 
               class='btn-comment-collection' 
               src='{{comment.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
@@ -70,6 +69,7 @@
           <view class='barrage-user-info'>
             <image src="{{comment.useravatar}}" class='barrage-user-avator'></image>
             <view class='barrage-user-name'>{{comment.username}}</view>
+            <view class='barrage-user-mycomment' wx:if="{{comment.isSelfComment}}">（帅气的本人）</view>
           </view>
           <view class="barrage-comment-content" style="width: {{comment.content.length<20 ? '400' : '550'}}rpx">{{comment.content}}</view>
         </view>
@@ -89,6 +89,8 @@
 <dialog
   wx:if='{{isShowModal}}'
   commentId="{{showComment.id}}"
+  isCollected="{{showComment.isCollected}}"
+  isSelfComment="{{showComment.isSelfComment}}"
   useravatar="{{showComment.useravatar}}"
   username="{{showComment.username}}"
   content="{{showComment.content}}"

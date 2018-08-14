@@ -1,8 +1,4 @@
 /* pages/hot_movie/hot_movie.wxss */
-.header.relative {
-  position: relative;
-}
-
 .movie-list-wrapper {
   width: 750rpx;
   height: 900rpx;

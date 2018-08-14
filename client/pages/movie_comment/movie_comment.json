@@ -7,7 +7,8 @@
   "usingComponents": {
     "audioBar": "../../component/audioBar/audioBar",
     "dialog": "../../component/dialog/dialog",
-    "userLogin": "../../component/userLogin/userLogin"
+    "userLogin": "../../component/userLogin/userLogin",
+    "header": "../../component/header/header"
   }
 
 }

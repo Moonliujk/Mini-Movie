@@ -6,6 +6,11 @@
   bindgetUserInfo="userLoginEvent"></userLogin>
 <!--编辑页面-->
 <view wx:else>
+  <header 
+    title='热门电影'
+    textColor='white'
+    bgColor='transparent'
+    position='absolute'></header>
   <image src="{{movieDetail.image}}" mode='aspectFill' class='movie-image'></image>
   <view class='comment-edit-wrapper'>
     <view class='comment-edit-panel'>

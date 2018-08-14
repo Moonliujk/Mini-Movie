@@ -5,10 +5,7 @@
   bindgetUserInfo="userLoginEvent"></userLogin>
 
 <view wx:else>
-  <view class='header bg-color'>
-    <image class='icon-back-to'></image>
-    <view class='page-name'>我的收藏</view>
-  </view>
+  <header title="我的收藏"></header>
 
   <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{collectedCommentList.length > 0}}">
     <view 
@@ -53,6 +50,7 @@
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
 <dialog
   wx:if='{{isShowModal}}'
+  isCollected="{{showComment.item.isCollected}}"
   commentId="{{showComment.item.id}}"
   useravatar="{{showComment.item.comment_avatar}}"
   username="{{showComment.item.comment_username}}"

@@ -42,6 +42,11 @@
   margin-left: 20rpx;
 }
 
+.comment-detail-me {
+  margin-left: 15rpx;
+  color: rgba(0, 0, 0, 0.3);
+}
+
 .comment-detail-text-wrapper {
   height: 420rpx;
   margin-top: 20rpx;
@@ -83,4 +88,9 @@
   padding: 0rpx 70rpx;
   border: 3rpx solid #342158;
   border-radius: 40rpx;
+}
+
+.modal-btn.btn-invaild {
+  color: gray;
+  border-color: gray;
 }

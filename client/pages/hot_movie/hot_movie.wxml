@@ -1,8 +1,10 @@
 <!--pages/hot_movie/hot_movie.wxml-->
-<view class='header relative'>
-  <image class='icon-back-to'></image>
-  <view class='page-name'>热门电影</view>
-</view>
+<header 
+  title='热门电影'
+  isWhiteIcon='fasle'
+  textColor='#342158'
+  bgColor='white'
+  position='relative'></header>
 
 <view class='movie-list-wrapper'>
   <view x-scroll='false' class="movie-list" style='transform: translateX( {{movieDistance}}rpx)' bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">

@@ -1,13 +1,4 @@
 /* pages/me/me.wxss */
-.bg-color {
-  z-index: 100;
-  background-color: #342158;
-}
-
-.bg-color .page-name {
-  color: #fff;
-}
-
 .no-comment {
   color: gray;
   font-style: italic;

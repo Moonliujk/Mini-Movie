@@ -1,0 +1,25 @@
+/* component/header/header.wxss */
+.header {
+  top: 0; left: 0;
+  width: 750rpx;
+  height: 120rpx;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.icon-back-to {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.page-name {
+  position: absolute;
+  left: 50%; bottom: 25rpx;
+  transform: translateX(-50%);
+  margin: auto;
+  text-align: center;
+  font-size: 30rpx;
+}
