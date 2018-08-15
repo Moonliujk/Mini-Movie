@@ -78,7 +78,7 @@
 
   <view class="no-comment" wx:else>快来抢个沙发吧！</view>
 
-  <view class="btn-write-comment {{isShowModal ? 'blur' : ''}}" bindtap='onTapWriteComment' hidden="{{isAnimating}}">发表评论</view>
+  <view class="btn-write-comment {{isShowModal ? 'blur' : ''}}" bindtap='onTapWriteComment' hidden="{{isAnimating || hasOwnComment}}">发表评论</view>
   <view class="btn-change-list {{isShowModal ? 'blur' : ''}}" wx:if="{{barrageComment.length >= 5}}" bindtap='onTapBarrageComment' hidden="{{isAnimating}}">
     <text class='btn-change-list-text'>{{isNormalList ? '弹幕\n列表' : '普通\n列表' }}</text>
   </view>

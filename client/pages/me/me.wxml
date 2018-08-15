@@ -5,34 +5,35 @@
   bindgetUserInfo="userLoginEvent"></userLogin>
 
 <view wx:else>
-  <header title="我的收藏"></header>
+  <header title="{{isCollectedCommentPage ? '我的收藏' : '我的发布'}}"></header>
 
   <scroll-view y-scroll class='comment-list {{isShowModal ? "blur" : ""}}' wx:if="{{collectedCommentList.length > 0}}">
     <view 
-      wx:for='{{collectedCommentList}}' 
+      wx:for='{{isCollectedCommentPage ? collectedCommentList : myComment}}' 
       wx:for-item='comment' 
       class='comment-wrapper' 
       data-index="{{index}}">
       <view class='user-info'>   
-        <image src='{{comment.item.comment_avatar}}' class='user-image'></image>
-        <view class='user-name'>{{comment.item.comment_username}}</view>
+        <image src='{{comment.avatar}}' class='user-image'></image>
+        <view class='user-name'>{{comment.username}}</view>
         <view class='comment-movie'>
-          对 <navigator url="../movie_comment/movie_comment?movieid={{comment.item.movie_id}}" hover-class="navigator-hover" class='navigator-text'>{{comment.item.movie_title}}</navigator> 的评价
+          对 <navigator url="../movie_comment/movie_comment?movieid={{comment.movie_id}}" hover-class="navigator-hover" class='navigator-text'>{{comment.title}}</navigator> 的评价
         </view>
         <image 
+          hidden="{{!isCollectedCommentPage}}"
           class='btn-comment-collection' 
-          src='{{comment.item.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
+          src='{{comment.isCollected ? "../../image/like.svg" : "../../image/unlike.svg"}}'
           bindtap='onTapCollectComment'
-          data-id="{{comment.item.id}}"></image>
+          data-id="{{comment.id}}"></image>
       </view>
 
       <view class='user-comment'>
         <!--文字评论显示-->
         <view 
           class='user-comment-text' 
-          wx:if="{{comment.item.type === 'text'}}" 
+          wx:if="{{comment.type === 'text'}}" 
           bindtap='onTapShowComment'
-          data-id="{{comment.item.id}}">{{comment.item.content}}</view>
+          data-id="{{comment.id}}">{{comment.content}}</view>
         <!--语音评论显示-->
         <audioBar 
           audioSrc="{{comment.content}}"
@@ -44,15 +45,20 @@
   </scroll-view>
 
   <view class="no-comment" wx:else>还没有添加收藏的评论</view>
+
+  <view class="btn-change-list" bindtap='onTapChangeList'>
+    <text class='btn-change-list-text'>{{isCollectedCommentPage ? '我的\n发布' : '我的\n收藏' }}</text>
+  </view>
 </view>
 
 <!--弹出层；电影评论详情-->
 <view class='overlay' wx:if='{{isShowModal}}' catchtap='onTapHiddenModal'></view>
 <dialog
   wx:if='{{isShowModal}}'
-  isCollected="{{showComment.item.isCollected}}"
-  commentId="{{showComment.item.id}}"
-  useravatar="{{showComment.item.comment_avatar}}"
-  username="{{showComment.item.comment_username}}"
-  content="{{showComment.item.content}}"
+  isCollected="{{isCollectedCommentPage ? showComment.isCollected : 'false'}}"
+  commentId="{{showComment.id}}"
+  useravatar="{{showComment.avatar}}"
+  username="{{showComment.username}}"
+  content="{{showComment.content}}"
+  isSelfComment="{{isCollectedCommentPage ? 'false' : 'true' }}"
   bindcommentCollectChange="commentCollectChange"></dialog>

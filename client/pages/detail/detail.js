@@ -25,69 +25,20 @@ Page({
     isMediaChooseModalShow: false,
     isScroll: true,
     contentHeight: 280,
-    characterNum: 22 // 每一行文字数量
+    characterNum: 22, // 每一行文字数量
+    hasOwnComment: false // 是否已发表过评论
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getCommentList(options.id)
     this.getMovieDetail(options.id)
-    if (options.id) {
+    if (options.id === 4 ) {
       this.setData({
         characterNum: 20.8
       })
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
   },
   // 获取电影详情
   getMovieDetail(id) {
@@ -140,6 +91,65 @@ Page({
       }
     })
   },
+  /**
+ * 获取评论列表
+ */
+  getCommentList(movieId) {
+    console.log('movieId', movieId)
+    wx.showLoading({
+      title: '加载评论列表...',
+    })
+
+    qcloud.request({
+      url: config.service.commentList,
+      data: {
+        movieId
+      },
+      success: res => {
+        wx.hideLoading()
+        console.log('res', res)
+        let data = res.data;
+
+        if (!data.code) {
+          let commentList = data.data
+          console.log("data.data", data.data)
+          console.log('comment', commentList)
+          // 判断用户是否发表过影评：发表过影评，不会出现按钮：反之亦然
+          if (commentList.some(item => item.isSelfComment)) {
+            this.setData({
+              hasOwnComment: true,
+            })
+          } else {
+            this.setData({
+              hasOwnComment: false,
+            })
+          }
+
+          this.setData({
+            commentList
+          })
+        } else {
+          setTimeout(() => {
+            wx.navigateBack()
+          }, 2000)
+          wx.showToast({
+            icon: 'none',
+            title: '加载出错',
+            image: '../../image/error.svg'
+          })
+        }
+      },
+      fail: res => {
+        wx.hideLoading()
+        console.log(res)
+        wx.showToast({
+          icon: 'none',
+          title: '评论加载出错',
+          image: '../../image/error.svg'
+        })
+      }
+    })
+  },
   // 显示/隐藏 更多内容
   onTapDetail() {
     let isShowAll = !this.data.isShowAll
@@ -172,6 +182,13 @@ Page({
       case 'addComment':
         pages += 'edit_comment/edit_comment'
         break
+    }
+
+    if (type === 'addComment' && this.data.hasOwnComment) {
+      return  wx.showModal({
+        title: '提示',
+        content: '您已经发表过评论，无法再次发表评论！',
+      })
     }
 
     wx.navigateTo({

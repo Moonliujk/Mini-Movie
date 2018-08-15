@@ -61,7 +61,8 @@ Component({
        * 收藏评论：post请求，谁（当前登录用户）收藏了哪条评论（获取的comment_id）
        */
     onTapCollectComment() {  
-      if (this.data.isSelfComment == true) return 
+      console.log('isSelfComment in dialog:', this.data.isSelfComment)
+      if (this.data.isSelfComment == 'true') return console.log('5')
 
       let commentId = this.data.commentId
       let commentType = this.data.commentType

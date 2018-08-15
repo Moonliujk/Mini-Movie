@@ -13,9 +13,11 @@ Page({
   data: {
     userInfo: null,
     collectedCommentList: [],
+    myComment: [],
     commentId: 0,
     isShowModal: false,
-    showComment: null
+    showComment: null,
+    isCollectedCommentPage: true,  // “我的收藏”与“我的发布”列表切换
   },
 
   /**
@@ -23,6 +25,7 @@ Page({
    */
   onLoad: function (options) {
     this.getCollectedCommentList() 
+    this.getMyComments()
   },
 
   /**
@@ -53,41 +56,6 @@ Page({
       }
     })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  },
   /**
    * 用户登录
    */
@@ -116,9 +84,9 @@ Page({
           wx.showToast({
             title: '加载成功',
           })
-          console.log(data.data)
+          console.log('collectedCommentList:',data.data)
           let collectedCommentList = data.data
-          console.log(collectedCommentList)
+          // console.log(collectedCommentList)
 
           this.setData({
             collectedCommentList
@@ -142,6 +110,54 @@ Page({
       }
     })
   },
+  /**
+   * 获得我发布的影评
+   */
+  getMyComments() {
+    console.log('加载收藏列表...')
+    wx.showLoading({
+      title: '加载收藏列表...',
+    })
+
+    qcloud.request({
+      url: config.service.myCommentList,
+      success: (res) => {
+        wx.hideLoading()
+        let data = res.data
+        console.log('myComment:', data)
+
+        if (!data.code) {
+          wx.showToast({
+            title: '加载成功',
+          })
+          console.log('myComment:',data.data)
+          let myComment = data.data
+
+          this.setData({
+            myComment
+          })
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '加载失败',
+            image: '../../image/error.svg'
+          })
+        }
+      },
+      fail: (res) => {
+        wx.hideLoading()
+        console.log(res)
+        wx.showToast({
+          icon: 'none',
+          title: '加载出错',
+          image: '../../image/error.svg'
+        })
+      }
+    })
+  },
+  /**
+   * 收藏/取消收藏评论
+   */
   onTapCollectComment(e) {
     let commentId = e.currentTarget.dataset.id
 
@@ -155,13 +171,13 @@ Page({
     console.log(commentId)
     let collectedCommentList = this.data.collectedCommentList
     let comment = collectedCommentList.find(item => {
-      return item.item.id == commentId
+      return item.id == commentId
     })
     console.log('comment', comment)
     let url,
       method;
 
-    if (!comment.item.isCollected) {
+    if (!comment.isCollected) {
       console.log('收藏评论')
       url = config.service.addCollected
       method = 'POST'
@@ -184,7 +200,7 @@ Page({
             title: '操作成功',
           })
 
-          comment.item.isCollected = !comment.item.isCollected
+          comment.isCollected = !comment.isCollected
 
           this.setData({
             collectedCommentList
@@ -215,7 +231,8 @@ Page({
     console.log(e.detail)
     let commentId = e.detail
 
-    this.changeCommentStatus(e.detail)
+
+    this.changeCommentStatus(commentId)
   },
   /**
    * 显示弹出层
@@ -223,8 +240,9 @@ Page({
   onTapShowComment(e) {
     let isShowModal = true
     let commentId = e.currentTarget.dataset.id
-    let showComment = this.data.collectedCommentList.find(item => {
-      return item.item.id == commentId
+    let commentList = this.data.isCollectedCommentPage ? this.data.collectedCommentList : this.data.myComment
+    let showComment = commentList.find(item => {
+      return item.id == commentId
     })
 
     console.log('showComment:', showComment)
@@ -244,4 +262,15 @@ Page({
       isShowModal
     })
   },
+  /**
+   * 切换页面显示
+   */
+  onTapChangeList() {
+    console.log('我的发布')
+    let isCollectedCommentPage = !this.data.isCollectedCommentPage
+
+    this.setData({
+      isCollectedCommentPage
+    })
+  }
 })

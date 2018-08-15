@@ -45,6 +45,17 @@ module.exports = {
     
   },
   /**
+* 获取“我”发布的影评
+*/
+  me: async ctx => {
+    let user = ctx.state.$wxInfo.userinfo.openId
+
+    let myCommentlist = await DB.query('SELECT movie_comment.username AS `username`, movie_comment.useravatar AS `avatar`, movie_comment.content AS `content`, movie_comment.type AS `type`, movies.title AS `title`, movies.id AS `movie_id` FROM movie_comment LEFT JOIN movies ON movies.id = movie_comment.movie_id WHERE movie_comment.user = ? ORDER BY movie_comment.create_time DESC', [user])
+
+    ctx.state.data = myCommentlist
+
+  },
+  /**
    * 用户未登录时，获取的推荐影评
    */
   getOneCommentNotlogin: async ctx => {

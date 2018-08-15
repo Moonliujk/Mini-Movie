@@ -36,6 +36,7 @@ Page({
     barrageComment: [],  // 用于展示弹幕的评论列表
     lastCommentNum: 0,  // 记录评论选取的数字号
     showComment: null,
+    hasOwnComment: true,  // 用户若发表过影评，无法再次发表
     isShowModal: false,
     isNormalList: true,
     isShowNormalList: true, // 显示普通列表
@@ -57,14 +58,6 @@ Page({
     this.getCommentList(movieid)
     this.getMovieInfo(movieid)
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -92,41 +85,6 @@ Page({
         })
       }
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
   },
   /**
    * 用户登录
@@ -161,6 +119,16 @@ Page({
           let commentList = data.data
           console.log("data.data", data.data)
           console.log('comment', commentList)
+          // 判断用户是否发表过影评：发表过影评，不会出现按钮：反之亦然
+          if (commentList.some(item => item.isSelfComment)) {
+            this.setData({
+              hasOwnComment: true,
+            })
+          } else {
+            this.setData({
+              hasOwnComment: false,
+            })
+          }
 
           this.chooseTextComment(commentList)
 
@@ -378,7 +346,8 @@ Page({
     console.log(e.detail)
     let commentId = e.detail
 
-    this.changeCommentStatus(e.detail)
+    this.changeCommentStatus(commentId)
+
   },
   /**
    * 隐藏元素

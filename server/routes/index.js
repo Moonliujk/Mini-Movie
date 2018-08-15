@@ -43,6 +43,9 @@ router.get('/movie/:id', controllers.movie.detail)
 router.post('/comment', validationMiddleware, controllers.comment.add)
 
 // GET 获取评论列表
+router.get('/comment/me', validationMiddleware, controllers.comment.me)
+
+// GET 获取评论列表
 router.get('/comment', validationMiddleware, controllers.comment.list)
 
 // GET 获取评论列表(用户未登录)

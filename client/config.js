@@ -35,6 +35,9 @@ var config = {
         // 获取评论列表
         commentList: `${host}/weapp/comment`,
 
+        // 获取“我”发布的影评
+        myCommentList: `${host}/weapp/comment/me`,
+
         // 获取推荐影评
         recommendCommentUnlogin: `${host}/weapp/comment/unlogin/recommend`,
 

@@ -76,6 +76,23 @@
   height: 40rpx;
 }
 
+.btn-change-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  right: 10%; bottom: 80rpx;
+  z-index: 1;
+  width: 100rpx;
+  height: 100rpx;
+  color: #342158;
+  font-size: 25rpx;
+  background-color: white;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow: 5rpx 8rpx 20rpx 5rpx rgba(0, 0, 0, 0.3);
+}
+
 .user-comment {
   margin-left: 80rpx;
   margin-right: 30rpx;
