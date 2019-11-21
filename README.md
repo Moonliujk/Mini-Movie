@@ -5,7 +5,7 @@
 - <a href="#presentation">成品展示</a>
 - <a href="#how-to-use">如何使用</a>
 - <a href="#front-end-page">前端实现</a>
-- <a href="#back-end-structure">后端实现</a>
+- [后端实现](#backend)
 
 ## 成品展示<a id="presentation"/>
 
@@ -116,7 +116,7 @@
   </tbody>
 </table>
 
-## 后端实现<a id="back-end-structure"/>
+## 后端实现
 
 这一部分主要借助小程序提供的wafer2 SDK 实现对于数据库资源的请求访问，主要的**数据表**结构如下：
 
